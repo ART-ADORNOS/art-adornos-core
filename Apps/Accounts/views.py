@@ -49,15 +49,3 @@ class AuditLogAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
-class CurrentUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user
-        return Response({
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-        })

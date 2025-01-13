@@ -8,10 +8,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
 
   useEffect(() => {
-    console.log('Token actual:', token);
     if (token) {
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
-      getUser();
+      //getUser();
     }
   }, [token]);
 
@@ -39,15 +38,15 @@ export const AuthProvider = ({ children }) => {
     window.location.href = redirectTo;
   };
 
-  const getUser = async () => {
-    try {
-      const response = await api.get('/accounts/api/currentUser/'); // Opcional: Obtén datos del usuario o auditoría
-      setUser(response.data.user);
-    } catch (error) {
-      console.error('Error al obtener el usuario:', error);
-      logout();
-    }
-  };
+  // const getUser = async () => {
+  //   try {
+  //     const response = await api.get('/accounts/register/');
+  //     setUser(response.data.user);
+  //   } catch (error) {
+  //     console.error('Error al obtener el usuario:', error);
+  //     logout();
+  //   }
+  // };
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>
