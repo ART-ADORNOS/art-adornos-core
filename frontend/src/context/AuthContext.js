@@ -1,48 +1,62 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, {createContext, useState, useEffect} from 'react';
 import api from '../utils/axios';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
+export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem('token') || null);
 
-  useEffect(() => {
-    if (token) {
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
-      //getUser();
-    }
-  }, [token]);
+    // Sincronizar el token con Axios al cambiar
+    useEffect(() => {
+        if (token) {
+            api.defaults.headers['Authorization'] = `Bearer ${token}`;
+            getUser();
+        } else {
+            api.defaults.headers['Authorization'] = null;
+            setUser(null);
+        }
+    }, [token]);
 
-  const login = async (username, password) => {
-    try {
-      const response = await api.post('/api/token/', { username, password });
-      const { access } = response.data;
+    const login = async (username, password) => {
+        try {
+            const response = await api.post('/api/token/', {username, password});
+            const {access} = response.data;
+            if (!access) {
+                return false;
+            }
+            localStorage.setItem('token', access);
+            setToken(access);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
 
-      localStorage.setItem('token', access);
-      setToken(access);
-      api.defaults.headers['Authorization'] = `Bearer ${access}`;
-      return true; // Login exitoso
-    } catch (error) {
-      console.error('Error en el inicio de sesión:', error);
-      return false; // Login fallido
-    }
-  };
+    // Obtener el usuario actual
+    const getUser = async () => {
+        try {
+            const response = await api.get('/api/me/');
+            setUser(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                logout();
+            }
+        }
+    };
 
-  const logout = (redirectTo = '/login') => {
-    localStorage.removeItem('token');
-    setToken(null);
-    setUser(null);
-    api.defaults.headers['Authorization'] = null; // Limpia el encabezado
-    // Redirige si es necesario
-    window.location.href = redirectTo;
-  };
+    const logout = (redirectTo = '/login') => {
+        localStorage.removeItem('token');
+        setToken(null);
+        setUser(null);
+        window.location.href = redirectTo;
+    };
 
-  return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{user, token, login, logout}}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export default AuthContext;

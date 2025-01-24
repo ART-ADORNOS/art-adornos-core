@@ -24,7 +24,6 @@ const Login = () => {
     try {
       const success = await login(credentials.username, credentials.password);
       if (success) {
-        alert('Inicio de sesión exitoso');
         Navigate('/dashboard'); // Redirige a la página deseada
       } else {
         setError('Credenciales incorrectas. Inténtalo de nuevo.');
