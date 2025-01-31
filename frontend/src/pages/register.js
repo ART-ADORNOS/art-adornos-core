@@ -1,175 +1,241 @@
-import React, {useState} from "react";
-import axios from "../utils/axios";
-import Navbar from "../components/Navbar";
+import React, { useState, useEffect, useMemo } from "react";
 import InputField from "../components/Fields/InputField";
 import AlertMessage from "../components/Messages/AlertMessage";
+import Navbar from "../components/Navbar";
 import GoBackButton from "../components/Buttons/goBack";
 
-const Register = () => {
-    const [formData, setFormData] = useState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        username: "",
-        password: "",
-        confirm_password: "",
-    });
-
-    const [message, setMessage] = useState(""); // Para manejar el mensaje de error o éxito
-    const [messageType, setMessageType] = useState(""); // Para manejar si es 'error' o 'success'
-    const [showMessage, setShowMessage] = useState(false); // Controlar visibilidad del mensaje
-
-    const [errors, setErrors] = useState({
-        email: false,
-        passwordMatch: false,
-    });
-
-    const [focus, setFocus] = useState({
-        email: false,
-        password: false,
-        confirm_password: false,
-    });
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-
-        if (name === "email") {
-            setErrors({
-                ...errors,
-                email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-            });
-        }
-
-        if (name === "confirm_password") {
-            setErrors({
-                ...errors,
-                passwordMatch: formData.password !== value,
-            });
-        }
+const Register = ({
+  initialData = {},
+  onSubmit = () => {},
+  isUpdateMode = false,
+}) => {
+  const memoizedInitialData = useMemo(() => {
+    return {
+      first_name: initialData.first_name,
+      last_name: initialData.last_name,
+      email: initialData.email,
+      username: initialData.username,
     };
+  }, [
+    initialData.first_name,
+    initialData.last_name,
+    initialData.email,
+    initialData.username,
+  ]);
 
-    const handleFocus = (field) => {
-        setFocus({...focus, [field]: true});
-    };
+  const [formData, setFormData] = useState({
+  first_name: initialData.first_name || "",
+  last_name: initialData.last_name || "",
+  email: initialData.email || "",
+  username: initialData.username || "",
+  password: "",
+  confirm_password: "",
+});
 
-    const handleBlur = (field) => {
-        setFocus({...focus, [field]: false});
-    };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
+  const [errors, setErrors] = useState({
+    email: false,
+    passwordMatch: false,
+  });
 
-        try {
-            const response = await axios.post("/register/", formData);
+  useEffect(() => {
+    if (memoizedInitialData && typeof memoizedInitialData === "object") {
+      const currentData = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        username: formData.username,
+      };
+
+      const newData = {
+        first_name: memoizedInitialData.first_name,
+        last_name: memoizedInitialData.last_name,
+        email: memoizedInitialData.email,
+        username: memoizedInitialData.username,
+      };
+
+      if (JSON.stringify(currentData) !== JSON.stringify(newData)) {
+        setFormData((prev) => ({
+          ...prev,
+          ...memoizedInitialData,
+          password: "",
+          confirm_password: "",
+        }));
+      }
+    }
+  }, [
+    memoizedInitialData,
+    formData.first_name,
+    formData.last_name,
+    formData.email,
+    formData.username,
+  ]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      if (name === "email") {
+        newErrors.email = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      }
+      if (name === "confirm_password") {
+        newErrors.passwordMatch = formData.password !== value;
+      }
+      return newErrors;
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (errors.email || errors.passwordMatch) {
+      setMessage("Corrige los errores antes de enviar");
+      setMessageType("error");
+      setShowMessage(true);
+      return;
+    }
+
+    try {
+      if (typeof onSubmit === "function") {
+        const success = await onSubmit(formData);
+
+        if (success) {
+          setMessage(
+            isUpdateMode
+              ? "Perfil actualizado correctamente."
+              : "Usuario registrado correctamente."
+          );
+          setMessageType("success");
+
+          if (!isUpdateMode) {
             setFormData({
-                first_name: "",
-                last_name: "",
-                email: "",
-                username: "",
-                password: "",
-                confirm_password: "",
+              first_name: "",
+              last_name: "",
+              email: "",
+              username: "",
+              password: "",
+              confirm_password: "",
             });
-            setMessage(response.data.message);
-            setMessageType("success"); // Success message
-            setShowMessage(true);
-            setTimeout(() => setShowMessage(false), 4000);
-        } catch (err) {
-            console.error(err);
-            setMessage(err.response ? err.response.data.message : "Error desconocido");
-
-            setMessage("Error al registrar el usuario.");
-            setMessageType("error"); // Error message
-            setShowMessage(true);
-            setTimeout(() => setShowMessage(false), 4000);
+          }
         }
-    };
+      }
+    } catch (error) {
+      setMessage("Error en la conexión con el servidor");
+      setMessageType("error");
+    } finally {
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 4000);
+    }
+  };
 
-    return (
-        <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-            <Navbar/>
-            <GoBackButton redirectTo="/login"/>
-            <section className="text-center my-16 mx-8 flex-auto">
-                <h1 className="text-5xl font-extrabold">Registro de usuarios</h1>
+  return (
+    <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
+      <Navbar />
+      <GoBackButton redirectTo="/dashboard" />
 
-                {showMessage &&
-                    <AlertMessage message={message} type={messageType} onClose={() => setShowMessage(false)}/>}
+      <section className="text-center my-16 mx-8 flex-auto">
+        <h1 className="text-5xl font-extrabold">
+          {isUpdateMode ? "Actualizar Perfil" : "Registro de usuarios"}
+        </h1>
 
-                <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
-                    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                        <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-                            <InputField
-                                label="Nombre"
-                                name="first_name"
-                                type="text"
-                                placeholder="Nombre"
-                                value={formData.first_name}
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                label="Apellido"
-                                name="last_name"
-                                type="text"
-                                placeholder="Apellido"
-                                value={formData.last_name}
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                label="Correo electrónico"
-                                name="email"
-                                type="email"
-                                placeholder="Correo electrónico"
-                                value={formData.email}
-                                onChange={handleChange}
-                                onFocus={() => handleFocus("email")}
-                                onBlur={() => handleBlur("email")}
-                                error={errors.email}
-                                errorMessage="Por favor, introduce un correo electrónico válido."
-                                className={errors.email && focus.email ? "border-pink-500" : "border-gray-300"}
-                            />
-                            <InputField
-                                label="Nombre de usuario"
-                                name="username"
-                                type="text"
-                                placeholder="Nombre de usuario"
-                                value={formData.username}
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                label="Contraseña"
-                                name="password"
-                                type="password"
-                                placeholder="Contraseña"
-                                value={formData.password}
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                label="Confirmar contraseña"
-                                name="confirm_password"
-                                type="password"
-                                placeholder="Confirmar contraseña"
-                                value={formData.confirm_password}
-                                onChange={handleChange}
-                                error={errors.passwordMatch}
-                                errorMessage="Las contraseñas no coinciden."
-                                className={errors.passwordMatch ? "border-pink-500" : "border-gray-300"}
-                            />
-                            <button
-                                type="submit"
-                                className="w-full bg-orange-500 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                            >
-                                Registrar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </section>
+        {showMessage && (
+          <AlertMessage
+            message={message}
+            type={messageType}
+            onClose={() => setShowMessage(false)}
+          />
+        )}
+
+        <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+              <InputField
+                label="Nombre"
+                name="first_name"
+                type="text"
+                required
+                placeholder="Nombre"
+                value={formData.first_name}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="Apellido"
+                name="last_name"
+                type="text"
+                required
+                placeholder="Apellido"
+                value={formData.last_name}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="Correo electrónico"
+                name="email"
+                type="email"
+                required
+                placeholder="Correo electrónico"
+                value={formData.email}
+                onChange={handleChange}
+                error={errors.email}
+                errorMessage="Correo electrónico inválido"
+              />
+
+              <InputField
+                label="Nombre de usuario"
+                name="username"
+                type="text"
+                required
+                placeholder="Nombre de usuario"
+                value={formData.username}
+                onChange={handleChange}
+              />
+
+              {!isUpdateMode && (
+                <>
+                  <InputField
+                    label="Contraseña"
+                    name="password"
+                    type="password"
+                    required
+                    minLength="6"
+                    placeholder="Contraseña"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+
+                  <InputField
+                    label="Confirmar contraseña"
+                    name="confirm_password"
+                    type="password"
+                    required
+                    placeholder="Confirmar contraseña"
+                    value={formData.confirm_password}
+                    onChange={handleChange}
+                    error={errors.passwordMatch}
+                    errorMessage="Las contraseñas no coinciden"
+                  />
+                </>
+              )}
+
+              <button
+                type="submit"
+                className="w-full bg-orange-500 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-orange-600 disabled:opacity-50"
+                disabled={errors.email || errors.passwordMatch}
+              >
+                {isUpdateMode ? "Actualizar" : "Registrar"}
+              </button>
+            </form>
+          </div>
         </div>
-    );
+      </section>
+    </div>
+  );
 };
 
 export default Register;

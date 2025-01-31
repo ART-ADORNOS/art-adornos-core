@@ -8,6 +8,7 @@ urlpatterns = []
 urlpatterns += [
     # User
     path('register/', RegisterUserView.as_view(), name='register'),
+    path('update/', UpdateUserView.as_view(), name='user_update'),
     path('delete/', UserDeleteView.as_view(), name='delete'),
 
     # Api

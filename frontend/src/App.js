@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import LandingPages from "./pages/landingPages";
 import AboutPage from "./pages/AboutPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import NotFoundPage from "./pages/errors/NotFoundPage";
 import ThemeContext from "./context/ThemeContent";
-import LoginAdmin from "./pages/LoginAdmin";
+import LoginAdmin from "./pages/auth/LoginAdmin";
+import Login from './pages/auth/Login';
 import Register from './pages/register';
-import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import UpdateProfile  from './pages/dashboard/updateProfile';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -50,6 +51,14 @@ function App() {
                   <Dashboard />
                 </ProtectedRoute>
               }
+            />
+            <Route
+                path="/edit-profile"
+                element={
+                  <ProtectedRoute>
+                    <UpdateProfile   />
+                  </ProtectedRoute>
+                }
             />
             <Route path="/admin" element={<LoginAdmin />} />
             <Route path="*" element={<NotFoundPage />} />

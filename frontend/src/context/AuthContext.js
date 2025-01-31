@@ -7,7 +7,6 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
 
-    // Sincronizar el token con Axios al cambiar
     useEffect(() => {
         if (token) {
             api.defaults.headers['Authorization'] = `Bearer ${token}`;
@@ -33,11 +32,11 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    // Obtener el usuario actual
     const getUser = async () => {
         try {
             const response = await api.get('/api/me/');
-            setUser(response.data);
+            const {first_name, last_name, email, username} = response.data;
+            setUser({first_name, last_name, email, username});
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 logout();
@@ -52,8 +51,24 @@ export const AuthProvider = ({children}) => {
         window.location.href = redirectTo;
     };
 
+    const updateUser = async (userData) => {
+
+        if (!userData.password) {
+            delete userData.password;
+            delete userData.confirm_password;
+        }
+        try {
+            const response = await api.put('/update/', userData);
+            setUser(response.data);
+            return true;
+        } catch (error) {
+            console.error('error updating user', error.response?.data || error.message);
+            return false;
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{user, token, login, logout}}>
+        <AuthContext.Provider value={{user, token, login, logout, updateUser}}>
             {children}
         </AuthContext.Provider>
     );
