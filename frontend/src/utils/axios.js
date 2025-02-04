@@ -1,19 +1,25 @@
 import axios from 'axios';
 
-// Configurar Axios
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/accounts',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+    baseURL: 'http://127.0.0.1:8000/accounts',
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
-// Enviar datos al endpoint de registro
-const handleRegister = async (formData) => {
-  try {
-    await api.post('/register/', formData);
-  } catch (error) {
-    console.error('Error en el registro:', error.response.data);
-  }
-};
+// intercetor para agregar token de autorizacion
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+)
+
+
 export default api;
