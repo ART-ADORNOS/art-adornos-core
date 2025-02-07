@@ -15,7 +15,7 @@ class RegisterUserView(APIView):
             return Response({"message": "Usuario registrado con éxito."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class update user
+
 class UpdateUserView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -29,6 +29,7 @@ class UpdateUserView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+
 
 class UserDeleteView(APIView):
     permission_classes = [IsAuthenticated]

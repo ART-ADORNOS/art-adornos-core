@@ -28,7 +28,7 @@ export default function LandingPage() {
               </Link>
 
               <Link
-                  to="#"
+                  to="/admin"
             className="cursor-pointer transition-all 
               bg-white text-gray-900 text-2xl px-28 py-12 rounded-lg
               border-orange-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]

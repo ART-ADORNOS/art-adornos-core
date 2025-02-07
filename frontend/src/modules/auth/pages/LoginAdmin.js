@@ -1,15 +1,31 @@
-import Navbar from "../../components/Navbar"
+import Navbar from "../../../components/Navbar"
+import { useNotification } from "../../../shared/providers/alertProvider";
+
 
 export default function AccountPage() {
+    const { showNotification } = useNotification();  // Accede a la función de notificación
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        if (email && password) {
+        showNotification("Formulario enviado correctamente!", "success");
+    } else {
+        showNotification("Por favor, complete todos los campos.", "error");
+    }
+    };
+
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar />
             <section className="text-center my-16 mx-8 flex-auto">
-                <h1 className="text-5xl font-extrabold ">Bienvenido Administrador</h1>
 
+                <h1 className="text-5xl font-extrabold ">Bienvenido Administrador</h1>
                 <div className="flex min-h-full flex-col justify-center px-6  lg:px-8">
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                        <form className="space-y-6" action="#" method="POST">
+                        <form className="space-y-6" onSubmit={handleSubmit} method="POST">
                             <div>
                                 <label
                                     htmlFor="email"

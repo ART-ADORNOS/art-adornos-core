@@ -3,8 +3,8 @@ import React, {useContext, useState} from "react";
 import ThemeContext from "../context/ThemeContent";
 import AuthContext from "../context/AuthContext";
 import {BsSun, BsMoon} from "react-icons/bs";
-import DeleteUserModal from "../components/modal/delete";
-import api from 'axios';
+import DeleteUserModal from "../components/Modal/delete";
+import api from '../core/api/axios';
 import AlertMessage from "./Messages/AlertMessage";
 
 
