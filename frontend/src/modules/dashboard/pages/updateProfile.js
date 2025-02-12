@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../../shared/providers/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar";
-import GoBackButton from "../../components/Buttons/goBack";
-import AlertMessage from "../../components/Messages/AlertMessage";
-import InputField from "../../components/Fields/InputField";
+import Navbar from "../../../shared/components/layout/header/Navbar";
+import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
+import AlertMessage from "../../../shared/components/ui/Messages/AlertMessage";
+import InputField from "../../../shared/components/ui/Fields/InputField";
 
 const UpdateProfile = () => {
     const { user, updateUser } = useContext(AuthContext);

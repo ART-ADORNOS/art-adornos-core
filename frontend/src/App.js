@@ -1,15 +1,14 @@
 import {useState, useEffect} from "react";
 import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
-import {AuthProvider} from './context/AuthContext';
-import LandingPages from "./pages/landingPages";
-import AboutPage from "./pages/AboutPage";
-import NotFoundPage from "./pages/errors/NotFoundPage";
-import ThemeContext from "./context/ThemeContent";
+import {AuthProvider} from './shared/providers/AuthContext';
+import LandingPages from "./modules/landing/pages/landingPages";
+import NotFoundPage from "./shared/components/errors/NotFoundPage";
+import ThemeContext from "./shared/providers/ThemeContent";
 import LoginAdmin from "./modules/auth/pages/LoginAdmin";
-import Login from './pages/auth/Login';
-import Register from './pages/register';
-import Dashboard from './pages/Dashboard';
-import UpdateProfile from './pages/dashboard/updateProfile';
+import Login from './modules/auth/pages/Login';
+import Register from './modules/auth/pages/register';
+import Dashboard from './modules/dashboard/pages/Dashboard';
+import UpdateProfile from './modules/dashboard/pages/updateProfile';
 import {NotificationProvider} from "./shared/providers/alertProvider";
 
 
@@ -44,7 +43,6 @@ function App() {
                         <Router>
                             <Routes>
                                 <Route path="/" element={<LandingPages/>}/>
-                                <Route path="/about" element={<AboutPage/>}/>
                                 <Route path="/register" element={<Register/>}/>
                                 <Route path="/login" element={<Login/>}/>
                                 <Route

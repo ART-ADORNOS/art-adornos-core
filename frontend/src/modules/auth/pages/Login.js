@@ -1,8 +1,8 @@
 import React, {useState, useContext} from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import AuthContext from '../../context/AuthContext';
-import Navbar from "../../components/Navbar";
-import AlertMessage from "../../components/Messages/AlertMessage";
+import AuthContext from '../../../shared/providers/AuthContext';
+import Navbar from "../../../shared/components/layout/header/Navbar";
+import AlertMessage from "../../../shared/components/ui/Messages/AlertMessage";
 
 const Login = () => {
     const {login} = useContext(AuthContext);

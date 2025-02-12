@@ -1,9 +1,11 @@
-import Navbar from "../../../components/Navbar"
-import { useNotification } from "../../../shared/providers/alertProvider";
+import Navbar from "../../../shared/components/layout/header/Navbar"
+import {useNotification} from "../../../shared/providers/alertProvider";
+import {Link} from "react-router-dom";
+import React from "react";
 
 
 export default function AccountPage() {
-    const { showNotification } = useNotification();  // Accede a la función de notificación
+    const {showNotification} = useNotification();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -11,17 +13,16 @@ export default function AccountPage() {
         const password = event.target.password.value;
 
         if (email && password) {
-        showNotification("Formulario enviado correctamente!", "success");
-    } else {
-        showNotification("Por favor, complete todos los campos.", "error");
-    }
+            showNotification("Formulario enviado correctamente!", "success");
+        } else {
+            showNotification("Por favor, complete todos los campos.", "error");
+        }
     };
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-            <Navbar />
+            <Navbar/>
             <section className="text-center my-16 mx-8 flex-auto">
-
                 <h1 className="text-5xl font-extrabold ">Bienvenido Administrador</h1>
                 <div className="flex min-h-full flex-col justify-center px-6  lg:px-8">
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -73,21 +74,20 @@ export default function AccountPage() {
                             <div>
                                 <button
                                     type="submit"
-                                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                                 >
                                     Sign in
                                 </button>
                             </div>
                         </form>
-
                         <p className="mt-10 text-center text-sm text-gray-500">
-                            Not a member?{" "}
-                            <a
-                                href="#"
+                            No tienes cuenta?{" "}
+                            <Link
+                                to="/register-user-seller"
                                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                             >
-                                Start a 14 day free trial
-                            </a>
+                                Regístrate aquí
+                            </Link>
                         </p>
                     </div>
                 </div>

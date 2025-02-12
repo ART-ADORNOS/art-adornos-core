@@ -1,2 +1,1 @@
 from .User import *
-from .seller_profile import *

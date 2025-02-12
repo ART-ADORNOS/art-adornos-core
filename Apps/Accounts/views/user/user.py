@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from Apps.Accounts.serializers import UserSerializer
+from Apps.Accounts.serializer.user.user import UserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 

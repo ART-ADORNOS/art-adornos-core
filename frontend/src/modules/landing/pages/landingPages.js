@@ -1,5 +1,5 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../../shared/components/layout/header/Navbar";
+import Footer from "../../../shared/components/layout/Footer";
 import { Link } from "react-router-dom";
 import 'boxicons';
 
