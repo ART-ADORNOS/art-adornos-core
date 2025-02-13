@@ -1,35 +1,45 @@
 name: SonarCloud Analysis
 on:
-  push:
-    branches:
-      - main
-      - develop
+  push:  # Se ejecutará en push a cualquier branch
 
 jobs:
-  sonarcloud:
+  sonarcloud-scan:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      # Configuración para Python (Django)
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          python-version: '3.x'  # Ejemplo: 3.10, 3.11, etc.
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+      # Configuración para Node.js (React)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          node-version: '18.x'  # Usa la versión que necesites
 
-      - name: Run SonarCloud Scan
-        run: |
-          mvn verify sonar:sonar \
-            -Dsonar.organization=freddyandreszambrano\
-            -Dsonar.projectKey=freddyandreszambrano_ART_ADORNOS \
-            -Dsonar.host.url=https://sonarcloud.io \
+      # Instalar dependencias de React (si tienes package.json)
+      - name: Install React dependencies
+        run: npm install
+        working-directory: ./frontend  # Ajusta según tu estructura
+
+      # Instalar dependencias de Django (si tienes requirements.txt)
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # Ejecutar SonarCloud Scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=freddyandreszambrano
+            -Dsonar.projectKey=freddyandreszambrano_ART_ADORNOS
+            -Dsonar.python.coverage.reportPaths=coverage.xml  # Si tienes cobertura
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info  # Si usas Jest/Vitest
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
