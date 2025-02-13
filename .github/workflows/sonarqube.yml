@@ -31,12 +31,12 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      # Ejecutar SonarCloud Scan
+      # Ejecutar SonarCloud Scan con la acción recomendada
       - name: Run SonarCloud Scan with detailed logging
-        run: |
-          sonar-scanner \
-            -Dsonar.organization=freddyandreszambrano \
-            -Dsonar.projectKey=freddyandreszambrano_ART_ADORNOS \
-            -Dsonar.python.coverage.reportPaths=coverage.xml \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} -X
-
+        uses: SonarSource/sonarqube-scan-action@v4.1.0
+        with:
+          args: |
+            -Dsonar.organization=freddyandreszambrano
+            -Dsonar.projectKey=freddyandreszambrano_ART_ADORNOS
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
