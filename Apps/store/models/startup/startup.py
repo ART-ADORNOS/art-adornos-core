@@ -37,12 +37,12 @@ class ModelBase(models.Model):
 
 class Startup(ModelBase):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='startups', verbose_name='Propietario')
-    name = models.CharField(max_length=255, verbose_name='Nombre')
+    name = models.TextField(verbose_name='Nombre')
     description = models.TextField(verbose_name='Descripción')
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True, verbose_name='Slug')
     # logo = models.ImageField(upload_to='startups/logos/', blank=True, null=True, verbose_name='Logo')
     is_active = models.BooleanField(default=True, verbose_name='Activo')
-    industry = models.CharField(max_length=255, choices=Industry.choices, verbose_name='Industria')
+    industry = models.TextField(choices=Industry.choices, verbose_name='Industria')
 
     def __str__(self):
         return self.name
