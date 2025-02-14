@@ -2,14 +2,13 @@ import React, {useState, useContext} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import AuthContext from '../../../shared/providers/AuthContext';
 import Navbar from "../../../shared/components/layout/header/Navbar";
-import AlertMessage from "../../../shared/components/ui/Messages/AlertMessage";
+import {useNotification} from "../../../shared/providers/alertProvider";
 
 const Login = () => {
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
-
     const [credentials, setCredentials] = useState({username: '', password: ''});
-    const [alert, setAlert] = useState(null);
+    const {showNotification} = useNotification();
 
     const handleChange = (e) => {
         setCredentials({
@@ -20,17 +19,13 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setAlert(null);
-
         try {
             const success = await login(credentials.username, credentials.password);
-            if (success) {
-                navigate('/dashboard');
-            } else {
-                setAlert({show: true, message: 'Credenciales incorrectas. Inténtalo de nuevo.', type: 'error'});
-            }
+            success
+                ? navigate('/dashboard')
+                : showNotification('Credenciales incorrectas. Inténtalo de nuevo.', 'error');
         } catch {
-            setAlert({show: true, message: 'Error en el inicio de sesión. Por favor, inténtalo más tarde.', type: 'error'});
+            showNotification('Error en el inicio de sesión. Por favor, inténtalo más tarde.', 'error');
         }
     };
 
@@ -39,16 +34,7 @@ const Login = () => {
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>
             <section className="text-center my-16 mx-8 flex-auto">
-                {alert && (
-                    <AlertMessage
-                        message={alert.message}
-                        type={alert.type}
-                        duration={3000}
-                        onClose={() => setAlert(prev => ({...prev, show: false}))}
-                    />
-                )}
                 <h1 className="text-5xl font-extrabold ">BIENVENIDO USUARIO</h1>
-
                 <form onSubmit={handleSubmit} className="max-w-md mx-auto">
                     <div className="mt-5">
                         <label className="font-semibold text-sm text-gray-950 pb-1 block dark:text-gray-300"

@@ -24,11 +24,9 @@ export default function AccountPage() {
 
         try {
             const success = await login(credentials.username, credentials.password);
-            if (success) {
-                navigate('/dashboard-seller');
-            } else {
-                showNotification('Credenciales incorrectas. Inténtalo de nuevo.', 'error');
-            }
+            success
+                ? navigate('/dashboard-seller')
+                : showNotification('Credenciales incorrectas. Inténtalo de nuevo.', 'error');
         }catch {
             showNotification('Error en el inicio de sesión. Por favor, inténtalo más tarde.', 'error');
         }

@@ -22,8 +22,6 @@ export default function Navbar({ dashboardTyype }){
     const closeModal = () => setIsModalOpen(false);
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
-    console.log(dashboardTyype);
-
     const dashboardRedirect = dashboardTyype === "userSeller"
         ? "/admin"
         : "/login";

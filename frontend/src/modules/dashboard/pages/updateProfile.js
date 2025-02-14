@@ -3,46 +3,26 @@ import AuthContext from "../../../shared/providers/AuthContext";
 import {useLocation, useNavigate} from "react-router-dom";
 import Navbar from "../../../shared/components/layout/header/Navbar";
 import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
-import AlertMessage from "../../../shared/components/ui/Messages/AlertMessage";
 import InputField from "../../../shared/components/ui/Fields/InputField";
+import {useNotification} from "../../../shared/providers/alertProvider";
 
 const UpdateProfile = () => {
     const {user, updateUser} = useContext(AuthContext);
-    const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
         first_name: user?.first_name || "",
         last_name: user?.last_name || "",
         email: user?.email || "",
         username: user?.username || "",
     });
-
-    const [showMessage, setShowMessage] = useState(false);
-    const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState("");
+    const navigate = useNavigate();
     const location = useLocation();
+    const {showNotification} = useNotification();
     const dashboardRedirect = location.state?.fromDashboard === "userSeller"
         ? "/dashboard-seller"
-        : location.state?.fromDashboard === "user"
-            ? "/dashboard"
-            : "/";
+        : "/dashboard"
 
-
-    const [errors, setErrors] = useState({
-        email: false,
-    });
-
-    const [focus, setFocus] = useState({
-        email: false,
-    });
-
-    const handleFocus = (field) => {
-        setFocus({...focus, [field]: true});
-    };
-
-    const handleBlur = (field) => {
-        setFocus({...focus, [field]: false});
-    };
+    const [errors, setErrors] = useState(
+        {email: false})
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -61,28 +41,25 @@ const UpdateProfile = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        const noChanges =
+            formData.first_name === user.first_name &&
+            formData.last_name === user.last_name &&
+            formData.email === user.email &&
+            formData.username === user.username;
+        if (noChanges) {
+            showNotification("No se realizaron cambios", "info"); return;
+        }
         try {
             const success = await updateUser(formData);
             if (success) {
-                navigate(dashboardRedirect, {
-                    state: {
-                        updateSuccess: true,
-                        message: "Perfil actualizado con éxito",
-                        messageType: "success",
-                        messageDuration: 3000,
-                    },
-                });
+                showNotification("Perfil actualizado con éxito", "success");
+                navigate(dashboardRedirect, {state: {updateSuccess: true}});
             } else {
-                setMessage("Error al actualizar el perfil");
-                setMessageType("error");
-                setShowMessage(true);
-                setTimeout(() => setShowMessage(false), 4000);
+                showNotification("Error al actualizar el perfil", "error");
             }
         } catch (err) {
-            setMessage(err.response?.data?.message || "Error desconocido");
-            setMessageType("error");
-            setShowMessage(true);
-            setTimeout(() => setShowMessage(false), 4000);
+            showNotification(err.response?.data?.message || "Error desconocido", "error");
+
         }
     };
 
@@ -92,9 +69,6 @@ const UpdateProfile = () => {
             <GoBackButton redirectTo={dashboardRedirect}/>
             <section className="text-center my-16 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Actualizar perfil</h1>
-                {showMessage && (
-                    <AlertMessage message={message} type={messageType} onClose={() => setShowMessage(false)}/>
-                )}
                 <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form onSubmit={handleUpdate} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -121,11 +95,8 @@ const UpdateProfile = () => {
                                 placeholder="Correo electrónico"
                                 value={formData.email}
                                 onChange={handleChange}
-                                onFocus={() => handleFocus("email")}
-                                onBlur={() => handleBlur("email")}
                                 error={errors.email}
                                 errorMessage="Por favor, introduce un correo electrónico válido."
-                                className={errors.email && focus.email ? "border-pink-500" : "border-gray-300"}
                             />
                             <InputField
                                 label="Nombre de usuario"
