@@ -8,6 +8,7 @@ import LoginAdmin from "./modules/auth/pages/LoginAdmin";
 import Login from './modules/auth/pages/Login';
 import Register from './modules/auth/pages/register';
 import Dashboard from './modules/dashboard/pages/Dashboard';
+import DashboardSeller from './modules/dashboard/pages/userSeller/DashboardSeller';
 import UpdateProfile from './modules/dashboard/pages/updateProfile';
 import {NotificationProvider} from "./shared/providers/alertProvider";
 
@@ -58,6 +59,14 @@ function App() {
                                     element={
                                         <ProtectedRoute>
                                             <UpdateProfile/>
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/dashboard-seller"
+                                    element={
+                                        <ProtectedRoute>
+                                            <DashboardSeller/>
                                         </ProtectedRoute>
                                     }
                                 />

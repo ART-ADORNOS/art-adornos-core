@@ -8,7 +8,7 @@ import api from '../../../../core/api/axios';
 import AlertMessage from "../../ui/Messages/AlertMessage";
 
 
-export default function Navbar() {
+export default function Navbar({ dashboardTyype }){
     const {isDarkMode, toggleTheme} = useContext(ThemeContext);
     const {user, logout} = useContext(AuthContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -17,9 +17,14 @@ export default function Navbar() {
     const [message, setMessage] = useState("");     const [messageType, setMessageType] = useState("");
     const navigate = useNavigate()
 
+
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+    const dashboardRedirect = dashboardTyype === "userSeller"
+        ? "/admin"
+        : "/login";
 
     async function deleteAccount() {
         try {
@@ -80,6 +85,7 @@ export default function Navbar() {
                                         <li>
                                             <Link
                                                 to="/edit-profile"
+                                                state = {{fromDashboard: dashboardTyype}}
                                                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                                             >
                                                 Editar Usuario
@@ -88,7 +94,7 @@ export default function Navbar() {
                                         <li>
                                             <button
                                                 className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                                                onClick={() => logout('/login')}
+                                                onClick={() => logout(dashboardRedirect)}
                                             >
                                                 Cerrar Sesión
                                             </button>
@@ -128,7 +134,6 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mensaje de Alerta */}
             {showMessage && (
                 <AlertMessage
                     message={message}
@@ -137,7 +142,6 @@ export default function Navbar() {
                 />
             )}
 
-            {/* Modal */}
             {isModalOpen && (
                 <DeleteUserModal isOpenModal={isModalOpen} onCloseModal={closeModal} onDelete={deleteAccount}/>
             )}
