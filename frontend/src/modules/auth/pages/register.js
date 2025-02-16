@@ -43,7 +43,6 @@ const Register = () => {
                 [name]: type === 'checkbox' ? checked : value,
             };
 
-            // Si el usuario está escribiendo en "confirm_password", actualiza errores correctamente
             if (name === "confirm_password") {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
@@ -73,7 +72,6 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         try {
             const response = await axios.post("/register/", formData);
             setMessage(response.data.message || "Registro exitoso. Redirigiendo al login...");

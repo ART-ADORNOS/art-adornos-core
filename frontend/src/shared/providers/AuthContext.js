@@ -35,8 +35,8 @@ export const AuthProvider = ({children}) => {
     const getUser = async () => {
         try {
             const response = await api.get('/api/me/');
-            const {first_name, last_name, email, username,is_staff,is_seller} = response.data;
-            setUser({first_name, last_name, email, username,is_staff,is_seller});
+            const {id,first_name, last_name, email, username,is_staff,is_seller} = response.data;
+            setUser({id,first_name, last_name, email, username,is_staff,is_seller});
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 logout();
