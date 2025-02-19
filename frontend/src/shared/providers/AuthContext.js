@@ -17,16 +17,20 @@ export const AuthProvider = ({children}) => {
         }
     }, [token]);
 
-    const login = async (username, password) => {
+    const login = async (username, password, typeUser = 'user') => {
         try {
             const response = await api.post('/api/token/', {username, password});
             const {access} = response.data;
-            if (!access) return false;
+            if (!access) {
+                console.error("Error: No se recibió un token de acceso.");
+                return false;
+            }
+            // Crea una nueva instancia de API con el token de acceso
             const temApi = api.create();
             temApi.defaults.headers['Authorization'] = `Bearer ${access}`;
-            const userResponse = await temApi.get('/api/me/');
-            if (!userResponse.data.is_seller) {
-                throw new Error('NOT_SELLER');
+            if (typeUser === 'seller') {
+                const userResponse = await temApi.get('/api/me/');
+                if (!userResponse.data.is_seller) throw new Error('NOT_SELLER');
             }
             localStorage.setItem('token', access);
             setToken(access);
@@ -38,6 +42,7 @@ export const AuthProvider = ({children}) => {
             return false;
         }
     };
+
 
     const getUser = async () => {
         try {

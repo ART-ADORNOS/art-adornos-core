@@ -20,7 +20,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const success = await login(credentials.username, credentials.password);
+            const success = await login(credentials.username, credentials.password, 'user');
             success
                 ? navigate('/dashboard')
                 : showNotification('Credenciales incorrectas. Inténtalo de nuevo.', 'error');
