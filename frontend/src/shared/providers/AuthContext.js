@@ -17,28 +17,26 @@ export const AuthProvider = ({children}) => {
         }
     }, [token]);
 
-    const login = async (username, password, typeUser = 'user') => {
+    const login = async (username, password, typeUser) => {
         try {
             const response = await api.post('/api/token/', {username, password});
             const {access} = response.data;
             if (!access) {
-                console.error("Error: No se recibió un token de acceso.");
+                console.error("Error: No token received");
                 return false;
             }
-            // Crea una nueva instancia de API con el token de acceso
-            const temApi = api.create();
-            temApi.defaults.headers['Authorization'] = `Bearer ${access}`;
-            if (typeUser === 'seller') {
-                const userResponse = await temApi.get('/api/me/');
-                if (!userResponse.data.is_seller) throw new Error('NOT_SELLER');
+            const tempApi = api.create();
+            tempApi.defaults.headers['Authorization'] = `Bearer ${access}`;
+            const userResponse = await tempApi.get('/api/me/');
+            const userData = userResponse.data;
+            if (typeUser === 'seller' && !userData.is_seller) {
+                throw new Error('NOT_SELLER');
             }
             localStorage.setItem('token', access);
             setToken(access);
             return true;
         } catch (error) {
-            if (error.message === 'NOT_SELLER') {
-                throw error;
-            }
+            if (error.message === 'NOT_SELLER') throw error;
             return false;
         }
     };
@@ -48,10 +46,6 @@ export const AuthProvider = ({children}) => {
         try {
             const response = await api.get('/api/me/');
             const userData = response.data;
-            if (!userData.is_seller) {
-                logout();
-                return;
-            }
             setUser({...userData});
         } catch (error) {
             if (error.response && error.response.status === 401) {

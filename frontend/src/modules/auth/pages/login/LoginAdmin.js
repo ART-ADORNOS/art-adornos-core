@@ -22,7 +22,7 @@ export default function AccountPage() {
         event.preventDefault();
 
         try {
-            const success = await login(credentials.username, credentials.password);
+            const success = await login(credentials.username, credentials.password, 'seller');
             success
                 ? navigate('/dashboard-seller')
                 : showNotification('Credenciales incorrectas. Inténtalo de nuevo.', 'error');
