@@ -1,35 +1,6 @@
-#-------------------------------------------------------------------------------#
-#               Qodana analysis is configured by qodana.yaml file               #
-#               Optimized for Django (Python) and React (JS/TS)                 #
-#-------------------------------------------------------------------------------#
 version: "1.0"
-# Especifica el perfil de inspección (puedes cambiarlo según necesidades)
+linter: jetbrains/qodana-js:2024.3
 profile:
-  name: qodana.recommended # Usa un perfil más estricto que el 'starter'
-# Inspecciones adicionales que queremos habilitar
+  name: qodana.recommended
 include:
-  - name: DjangoUnresolvedReference # Detecta referencias no resueltas en Django
-  - name: PyUnresolvedReferences # Detecta imports incorrectos en Python
-  - name: JavascriptUnresolvedVariable # Detecta variables no definidas en JS
-  - name: TypescriptUnresolvedVariable # Detecta errores en TS
-# Excluir carpetas que no queremos analizar
-exclude:
-  - name: All
-    paths:
-      - "backend/migrations/" # Django migrations
-      - "backend/__pycache__/" # Caché de Python
-      - "frontend/node_modules/" # Dependencias de React
-      - "frontend/build/" # Carpeta de salida de React
-      - ".venv/" # Virtualenv de Python
-# Instalar plugins útiles antes del análisis
-plugins:
-  - id: Pythonid # Plugin para mejorar el análisis en Python
-  - id: JavaScriptLanguage # Plugin para mejorar el análisis en JS/TS
-  - id: Django # Plugin específico para Django
-# Usar linters específicos para cada lenguaje
-linter: jetbrains/qodana-python:latest # Analizador de código Python
-bootstrap: |
-  echo "Instalando dependencias de Python..."
-  pip install -r backend/requirements.txt
-  echo "Instalando dependencias de React..."
-  cd frontend && npm install
+  - name: CheckDependencyLicenses
