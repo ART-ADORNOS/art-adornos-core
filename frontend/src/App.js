@@ -7,9 +7,9 @@ import ThemeContext from "./shared/providers/ThemeContent";
 import LoginAdmin from "./modules/auth/pages/login/LoginAdmin";
 import Login from './modules/auth/pages/login/Login';
 import Register from './modules/auth/pages/register/register';
-import Dashboard from './modules/dashboard/pages/Dashboard';
+import Dashboard from './modules/dashboard/pages/dashboard/Dashboard';
 import DashboardSeller from './modules/dashboard/pages/userSeller/DashboardSeller';
-import UpdateProfile from './modules/dashboard/pages/updateProfile';
+import UpdateProfile from './modules/dashboard/pages/dashboard/updateProfile';
 import {NotificationProvider} from "./shared/providers/alertProvider";
 import RegisterStartup from "./modules/dashboard/pages/startup/registerStartup";
 

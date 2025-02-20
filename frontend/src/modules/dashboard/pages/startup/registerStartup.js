@@ -54,9 +54,9 @@ const RegisterStartup = () => {
             <section className="text-center my-2 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Registro de Emprendimiento</h1>
             </section>
-            <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
+            <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 pd-20">
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mb-20">
                         <InputField
                             label="Nombre del emprendimiento"
                             name="name"

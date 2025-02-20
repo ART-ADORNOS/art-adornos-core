@@ -13,7 +13,7 @@ const InputField = ({
                         onBlur,
                         className, options,
                     }) => (
-    <div className="mb-4">
+    <div className="mb-4 ">
         <label htmlFor={name} className="block mb-2 text-sm font-medium text-gray-900">
             {label}
         </label>
@@ -22,7 +22,7 @@ const InputField = ({
                 name={name}
                 value={value}
                 onChange={onChange}
-                className="mt-1 p-2 w-full border rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="mt-1 p-2 w-full border rounded-md bg-white text-gray-900 "
             >
                 <option value="">Seleccione una opción</option>
                 {options.map(([key, val]) => (
