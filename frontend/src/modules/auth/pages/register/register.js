@@ -1,10 +1,11 @@
 import React, {useState} from "react";
-import axios from "../../../core/api/axios";
-import Navbar from "../../../shared/components/layout/header/Navbar";
-import InputField from "../../../shared/components/ui/Fields/InputField";
-import AlertMessage from "../../../shared/components/ui/Messages/AlertMessage";
-import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
+import Navbar from "../../../../shared/components/layout/header/Navbar";
+import InputField from "../../../../shared/components/ui/Fields/InputField";
+import GoBackButton from "../../../../shared/components/ui/Buttons/goBack";
 import {useNavigate} from "react-router-dom";
+import registerUser from "../../services/register/registerService";
+import {useNotification} from "../../../../shared/providers/alertProvider";
+
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -20,9 +21,7 @@ const Register = () => {
         password: "",
         confirm_password: "",
     });
-    const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState("");
-    const [showMessage, setShowMessage] = useState(false);
+    const {showNotification} = useNotification();
     const [errors, setErrors] = useState({
         email: false,
         passwordMatch: false,
@@ -43,14 +42,12 @@ const Register = () => {
                 [name]: type === 'checkbox' ? checked : value,
             };
 
-            // Si el usuario está escribiendo en "confirm_password", actualiza errores correctamente
             if (name === "confirm_password") {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    passwordMatch: newData.password !== value, // ✅ Ahora se compara con la versión actualizada
+                    passwordMatch: newData.password !== value,
                 }));
             }
-
             return newData;
         });
 
@@ -73,13 +70,14 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+        if (Object.values(formData).every(v => !v)) {
+            showNotification('Por favor, rellena todos los campos', 'error');
+            return;
+        }
         try {
-            const response = await axios.post("/register/", formData);
-            setMessage(response.data.message || "Registro exitoso. Redirigiendo al login...");
-            setMessageType("success");
-            setShowMessage(true);
-
+            formData.is_seller ||= false;
+            await registerUser(formData);
+            showNotification('Registro exitoso. Redirigiendo al login...', 'success');
             setFormData({
                 first_name: "",
                 last_name: "",
@@ -108,12 +106,7 @@ const Register = () => {
                     errorMessage = `Contraseña: ${err.response.data.password[0]}`;
                 }
             }
-
-            setMessage(errorMessage);
-            setMessageType("error");
-            setShowMessage(true);
-
-            setTimeout(() => setShowMessage(false), 4000);
+            showNotification(errorMessage, 'error');
         }
     };
 
@@ -123,9 +116,6 @@ const Register = () => {
             <GoBackButton redirectTo="/login"/>
             <section className="text-center my-16 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Registro de usuarios</h1>
-                {showMessage && (
-                    <AlertMessage message={message} type={messageType} onClose={() => setShowMessage(false)}/>
-                )}
                 <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">

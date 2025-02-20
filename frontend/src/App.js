@@ -4,13 +4,14 @@ import {AuthProvider} from './shared/providers/AuthContext';
 import LandingPages from "./modules/landing/pages/landingPages";
 import NotFoundPage from "./shared/components/errors/NotFoundPage";
 import ThemeContext from "./shared/providers/ThemeContent";
-import LoginAdmin from "./modules/auth/pages/LoginAdmin";
-import Login from './modules/auth/pages/Login';
-import Register from './modules/auth/pages/register';
-import Dashboard from './modules/dashboard/pages/Dashboard';
+import LoginAdmin from "./modules/auth/pages/login/LoginAdmin";
+import Login from './modules/auth/pages/login/Login';
+import Register from './modules/auth/pages/register/register';
+import Dashboard from './modules/dashboard/pages/dashboard/Dashboard';
 import DashboardSeller from './modules/dashboard/pages/userSeller/DashboardSeller';
-import UpdateProfile from './modules/dashboard/pages/updateProfile';
+import UpdateProfile from './modules/dashboard/pages/dashboard/updateProfile';
 import {NotificationProvider} from "./shared/providers/alertProvider";
+import RegisterStartup from "./modules/dashboard/pages/startup/registerStartup";
 
 
 const ProtectedRoute = ({children}) => {
@@ -67,6 +68,14 @@ function App() {
                                     element={
                                         <ProtectedRoute>
                                             <DashboardSeller/>
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/register-startup"
+                                    element={
+                                        <ProtectedRoute>
+                                            <RegisterStartup/>
                                         </ProtectedRoute>
                                     }
                                 />

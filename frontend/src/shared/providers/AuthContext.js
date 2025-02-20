@@ -17,26 +17,36 @@ export const AuthProvider = ({children}) => {
         }
     }, [token]);
 
-    const login = async (username, password) => {
+    const login = async (username, password, typeUser) => {
         try {
             const response = await api.post('/api/token/', {username, password});
             const {access} = response.data;
             if (!access) {
+                console.error("Error: No token received");
                 return false;
+            }
+            const tempApi = api.create();
+            tempApi.defaults.headers['Authorization'] = `Bearer ${access}`;
+            const userResponse = await tempApi.get('/api/me/');
+            const userData = userResponse.data;
+            if (typeUser === 'seller' && !userData.is_seller) {
+                throw new Error('NOT_SELLER');
             }
             localStorage.setItem('token', access);
             setToken(access);
             return true;
         } catch (error) {
+            if (error.message === 'NOT_SELLER') throw error;
             return false;
         }
     };
 
+
     const getUser = async () => {
         try {
             const response = await api.get('/api/me/');
-            const {first_name, last_name, email, username,is_staff,is_seller} = response.data;
-            setUser({first_name, last_name, email, username,is_staff,is_seller});
+            const userData = response.data;
+            setUser({...userData});
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 logout();

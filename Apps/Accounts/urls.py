@@ -1,5 +1,5 @@
 from django.urls import path
-from Apps.Accounts.views import *
+from Apps.Accounts.views import RegisterUserView, UpdateUserView, UserDeleteView, GetUserView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 app_name = 'accounts'

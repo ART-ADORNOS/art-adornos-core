@@ -1,8 +1,8 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import AuthContext from '../../../shared/providers/AuthContext';
-import Navbar from '../../../shared/components/layout/header/Navbar';
-import AlertMessage from '../../../shared/components/ui/Messages/AlertMessage';
+import AuthContext from '../../../../shared/providers/AuthContext';
+import Navbar from '../../../../shared/components/layout/header/Navbar';
+import AlertMessage from '../../../../shared/components/ui/Messages/AlertMessage';
 
 const Dashboard = () => {
     const {user} = useContext(AuthContext);
