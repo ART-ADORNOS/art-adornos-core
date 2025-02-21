@@ -19,6 +19,13 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
+      
+      # Agregar la acción para configurar Python 3.13
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.13'
+
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.3
         with:
