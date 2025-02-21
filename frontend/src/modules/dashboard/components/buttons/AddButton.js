@@ -9,7 +9,6 @@ const AddButton = ({ redirectTo, title }) => (
             hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
             active:border-b-[2px] active:brightness-90 active:translate-y-[2px]
             hover:shadow-xl hover:shadow-orange-300 active:shadow-none ml-auto mr-10 mt-6">
-
             <IoAddOutline size={24} className="stroke-white" />
             <span className="text-sm">{title}</span>
         </button>
