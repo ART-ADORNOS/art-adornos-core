@@ -1,5 +1,5 @@
-import apiStartups from "../../../../core/api/startup";
-import {BASE_URLS_STARTUP} from "../../../../core/constants/startup/urlsStartup";
+import apiStartups from "../../../core/api/startup";
+import {BASE_URLS_STARTUP} from "../../../core/constants/startup/urlsStartup";
 
 const registerStartup = async (formData) => {
     try {
