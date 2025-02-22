@@ -4,7 +4,7 @@ import AuthContext from '../../../../shared/providers/AuthContext';
 import Navbar from '../../../../shared/components/layout/header/Navbar';
 import { useNotification } from "../../../../shared/providers/alertProvider";
 import AddButton from "../../components/buttons/AddButton";
-import { getStartup } from "../../services/startup/startupGet";
+import { getStartup } from "../../../startup/services/startupGet";
 import CardStartup from "../../components/card/CardStartup";
 
 const DashboardSeller = () => {
@@ -44,7 +44,6 @@ const DashboardSeller = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
                     {startupData.map((startup, index) => (
                         <div key={index}>
-                            {/*<p>{startup.name}</p>*/}
                             <CardStartup startup={startup}/>
                         </div>
                     ))}

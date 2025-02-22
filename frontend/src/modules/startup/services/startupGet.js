@@ -1,5 +1,5 @@
-import {BASE_URLS_STARTUP} from "../../../../core/constants/startup/urlsStartup";
-import apiStartups from "../../../../core/api/startup";
+import {BASE_URLS_STARTUP} from "../../../core/constants/startup/urlsStartup";
+import apiStartups from "../../../core/api/startup";
 
 export const getStartup = async () => {
     const response = await apiStartups.get(BASE_URLS_STARTUP.GET_STARTUP);
