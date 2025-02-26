@@ -9,7 +9,8 @@ const RegisterStartup = () => {
     const {formData, handleChange, handleSubmit, industryOptions} = useRegisterStartup();
 
 
-    return (<div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
+    return (
+        <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
         <Navbar/>
         <GoBackButton redirectTo="/dashboard-seller"/>
         <section className="text-center my-2 mx-8 flex-auto">

@@ -14,7 +14,8 @@ import {NotificationProvider} from "./shared/providers/alertProvider";
 import RegisterStartup from "./modules/startup/pages/registerStartup";
 import ProductList from "./modules/products/pages/ProductList";
 import StartupProvider from "./modules/startup/context/StartupProvider";
-import CardStartup from "./modules/startup/components/card/CardStartup";
+import ProductForm from "./modules/products/pages/ProductForm";
+import CategoryForm from "./modules/category/pages/CategoryForm";
 
 const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
@@ -74,6 +75,17 @@ function App() {
                                 </StartupProvider>}
                             />
 
+                             <Route
+                                 path="/register-product"
+                                 element={<StartupProvider>
+                                 <ProtectedRoute>
+                                     <ProductForm/>
+                                 </ProtectedRoute>
+                                </StartupProvider>}
+                             />
+                            <Route path="/register-category"
+                                   element={<ProtectedRoute><CategoryForm/></ProtectedRoute>}
+                            />
                         </Routes>
                     </Router>
                 </AuthProvider>

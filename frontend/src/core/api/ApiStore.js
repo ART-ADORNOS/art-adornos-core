@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {BASE_URL_STORE} from "../constants/urls";
 
-const apiStartups  = axios.create({
+const apiStore  = axios.create({
     baseURL: BASE_URL_STORE,
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
-apiStartups.interceptors.request.use(
+apiStore.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -20,4 +20,4 @@ apiStartups.interceptors.request.use(
         return Promise.reject(error);
     }
 )
-export default apiStartups ;
+export default apiStore ;

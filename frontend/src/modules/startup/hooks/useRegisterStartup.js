@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import AuthContext from "../../../shared/providers/AuthContext";
 import useIndustryOptions from "../hooks/useIndustryOptions";
-import registerStartup from "../services/startupService";
+import registerStartupService  from "../services/startupService";
 
 const useRegisterStartup = () => {
     const { user } = useContext(AuthContext);
@@ -28,7 +28,7 @@ const useRegisterStartup = () => {
             if (formData.owner === "") {
                 formData.owner = user?.id;
             }
-            await registerStartup(formData);
+            await registerStartupService(formData);
             setFormData({
                 owner: "",
                 name: "",
