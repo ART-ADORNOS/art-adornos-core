@@ -1,6 +1,12 @@
 name: SonarCloud Analysis
+
 on:
-  push:  # Se ejecutará en push a cualquier branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   sonarcloud-scan:
@@ -14,27 +20,30 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Ejemplo: 3.10, 3.11, etc.
+          python-version: '3.x'  # Ajusta según tu versión
 
       # Configuración para Node.js (React)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'  # Usa la versión que necesites
+          node-version: '18.x'  # Ajusta según tu versión
 
-      # Instalar dependencias de React (si tienes package.json)
+      # Instalar dependencias de React
       - name: Install React dependencies
         run: npm install
         working-directory: ./frontend  # Ajusta según tu estructura
 
-      # Instalar dependencias de Django (si tienes requirements.txt)
+      # Instalar dependencias de Django
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      # Ejecutar SonarCloud Scan usando la acción oficial
+      # Ejecutar SonarCloud Scan
       - name: Run SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v4.1.0
+        uses: SonarSource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "https://sonarcloud.io"
         with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-          sonar-project-key: freddyandreszambrano_ART_ADORNOS
-          sonar-organization: freddyandreszambrano
+          args: >
+            -Dsonar.projectKey=freddyandreszambrano_ART_ADORNOS
+            -Dsonar.organization=freddyandreszambrano

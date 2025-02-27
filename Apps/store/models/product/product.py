@@ -3,6 +3,7 @@ from ..startup.startup import ModelBase
 
 
 class Product(ModelBase):
+    start_up = models.ForeignKey('Startup', on_delete=models.CASCADE, verbose_name='Startup')
     name = models.CharField(max_length=255, verbose_name='Nombre')
     description = models.TextField(verbose_name='Descripción')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Categoría')

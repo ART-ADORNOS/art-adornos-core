@@ -1,7 +1,8 @@
 import axios from 'axios';
+import {BASE_URL_ACCOUNTS} from "../constants/urls";
 
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/accounts',
+    baseURL: BASE_URL_ACCOUNTS,
     headers: {
         'Content-Type': 'application/json',
     },

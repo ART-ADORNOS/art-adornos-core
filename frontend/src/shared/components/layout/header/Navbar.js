@@ -56,7 +56,7 @@ export default function Navbar({ dashboardTyype }){
         <>
             <nav className="flex items-center justify-between px-8 py-4 bg-gray-200 dark:bg-gray-800 shadow-md">
                 <div className="text-2xl font-bold">
-                    <a href="/" className="text-orange-600 dark:text-orange-400">Logo</a>
+                    <a href="" className="text-orange-600 dark:text-orange-400">Logo</a>
                 </div>
                 <div className="space-x-4">
                     <ul className="flex items-center space-x-6">

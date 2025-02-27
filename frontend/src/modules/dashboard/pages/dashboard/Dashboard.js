@@ -18,9 +18,7 @@ const Dashboard = () => {
                 message: location.state?.message,
                 type: location.state?.messageType
             });
-
             navigate('', {replace: true, state: {}});
-
             setTimeout(() => setAlert(prev => ({...prev, show: false})), location.state?.messageDuration || 3000);
         }
     }, [location.state, navigate]);

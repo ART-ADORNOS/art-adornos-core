@@ -1,5 +1,5 @@
-import {useState, useEffect} from "react";
-import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import {AuthProvider} from './shared/providers/AuthContext';
 import LandingPages from "./modules/landing/pages/landingPages";
 import NotFoundPage from "./shared/components/errors/NotFoundPage";
@@ -11,13 +11,17 @@ import Dashboard from './modules/dashboard/pages/dashboard/Dashboard';
 import DashboardSeller from './modules/dashboard/pages/userSeller/DashboardSeller';
 import UpdateProfile from './modules/dashboard/pages/dashboard/updateProfile';
 import {NotificationProvider} from "./shared/providers/alertProvider";
-import RegisterStartup from "./modules/dashboard/pages/startup/registerStartup";
+import RegisterStartup from "./modules/startup/pages/registerStartup";
+import ProductList from "./modules/products/pages/ProductList";
+import StartupProvider from "./modules/startup/context/StartupProvider";
+import ProductForm from "./modules/products/pages/ProductForm";
+import CategoryForm from "./modules/category/pages/CategoryForm";
 
-
-const ProtectedRoute = ({children}) => {
+const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
     return token ? children : <Navigate to="/login"/>;
 };
+
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -30,64 +34,64 @@ function App() {
     }, []);
 
     function toggleTheme() {
-        setIsDarkMode(prevMode => {
+        setIsDarkMode((prevMode) => {
             const newMode = !prevMode;
             localStorage.setItem("isDarkMode", newMode.toString());
             return newMode;
         });
     }
 
-    return (
-        <ThemeContext.Provider value={{isDarkMode, toggleTheme}}>
-            <div className={`${isDarkMode ? "dark" : "light"} min-h-screen flex flex-col`}>
-                <NotificationProvider>
-                    <AuthProvider>
-                        <Router>
-                            <Routes>
-                                <Route path="/" element={<LandingPages/>}/>
-                                <Route path="/register" element={<Register/>}/>
-                                <Route path="/login" element={<Login/>}/>
-                                <Route
-                                    path="/dashboard"
-                                    element={
-                                        <ProtectedRoute>
-                                            <Dashboard/>
-                                        </ProtectedRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/edit-profile"
-                                    element={
-                                        <ProtectedRoute>
-                                            <UpdateProfile/>
-                                        </ProtectedRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/dashboard-seller"
-                                    element={
-                                        <ProtectedRoute>
-                                            <DashboardSeller/>
-                                        </ProtectedRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/register-startup"
-                                    element={
-                                        <ProtectedRoute>
-                                            <RegisterStartup/>
-                                        </ProtectedRoute>
-                                    }
-                                />
-                                <Route path="/admin" element={<LoginAdmin/>}/>
-                                <Route path="*" element={<NotFoundPage/>}/>
-                            </Routes>
-                        </Router>
-                    </AuthProvider>
-                </NotificationProvider>
-            </div>
-        </ThemeContext.Provider>
-    );
+    return (<ThemeContext.Provider value={{isDarkMode, toggleTheme}}>
+        <div className={`${isDarkMode ? "dark" : "light"} min-h-screen flex flex-col`}>
+            <NotificationProvider>
+                <AuthProvider>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<LandingPages/>}/>
+                            <Route path="/register" element={<Register/>}/>
+                            <Route path="/login" element={<Login/>}/>
+                            <Route path="/admin" element={<LoginAdmin/>}/>
+                            <Route path="*" element={<NotFoundPage/>}/>
+                            <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
+                            <Route path="/edit-profile"
+                                   element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
+                            <Route path="/register-startup"
+                                   element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
+
+                            <Route
+                                path="/dashboard-seller"
+                                element={<StartupProvider>
+                                    <ProtectedRoute>
+                                        <DashboardSeller/>
+                                    </ProtectedRoute>
+                                </StartupProvider>}
+                            />
+                            <Route
+                                path="/product-list"
+                                element={<StartupProvider>
+                                    <ProtectedRoute>
+                                        <ProductList/>
+                                    </ProtectedRoute>
+                                </StartupProvider>}
+                            />
+
+                             <Route
+                                 path="/register-product"
+                                 element={<StartupProvider>
+                                 <ProtectedRoute>
+                                     <ProductForm/>
+                                 </ProtectedRoute>
+                                </StartupProvider>}
+                             />
+                            <Route path="/register-category"
+                                   element={<ProtectedRoute><CategoryForm/></ProtectedRoute>}
+                            />
+                        </Routes>
+                    </Router>
+                </AuthProvider>
+            </NotificationProvider>
+        </div>
+    </ThemeContext.Provider>);
 }
 
 export default App;

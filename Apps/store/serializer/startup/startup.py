@@ -5,4 +5,4 @@ from Apps.store.models import Startup
 class StartupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Startup
-        fields = ['owner', 'name', 'description', 'industry']
+        fields = ['id', 'owner', 'name', 'description', 'industry']

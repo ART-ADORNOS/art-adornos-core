@@ -13,6 +13,15 @@ class IndustryChoicesView(APIView):
         return Response(Industry.choices)
 
 
+class GetStartupView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        startup = request.user.startups.all()
+        serializer = StartupSerializer(startup, many=True)
+        return Response(serializer.data)
+
+
 class RegisterStartupView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -22,3 +31,4 @@ class RegisterStartupView(APIView):
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
