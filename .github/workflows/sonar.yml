@@ -23,10 +23,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 📌 Instalar SonarScanner desde el repositorio oficial
+      - name: 🚀 Ejecutar SonarScanner con Docker
         run: |
-          sudo apt update
-          sudo apt install -y sonar-scanner
+          docker run --rm \
+            -e SONAR_HOST_URL="http://localhost:9000" \
+            -e SONAR_LOGIN="${{ secrets.SONARQUBE_USER }}" \
+            -e SONAR_PASSWORD="${{ secrets.SONARQUBE_PASS }}" \
+            -v ${{ github.workspace }}:/usr/src \
+            sonarsource/sonar-scanner-cli \
+            -Dsonar.projectKey=ART_ADORNOS \
+            -Dsonar.sources=Apps,frontend/src
+      
 
       - name: 🚀 Ejecutar SonarQube Scanner
         run: |
