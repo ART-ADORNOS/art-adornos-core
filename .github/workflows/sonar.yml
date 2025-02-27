@@ -26,11 +26,7 @@ jobs:
       - name: 📌 Instalar SonarScanner desde el repositorio oficial
         run: |
           sudo apt update
-          sudo apt install -y unzip curl
-          curl -fsSL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -o sonar-scanner.zip
-          unzip sonar-scanner.zip
-          echo "export PATH=$PWD/sonar-scanner-5.0.1.3006-linux/bin:$PATH" >> $GITHUB_ENV
-      
+          sudo apt install -y sonar-scanner
 
       - name: 🚀 Ejecutar SonarQube Scanner
         run: |
