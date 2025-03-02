@@ -4,13 +4,13 @@ import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
 import {StartupContext} from "../../startup/context/StartupProvider";
 import {Link} from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import {useGetProducts} from "../hooks/useGetProducts";
 
 const ProductList = () => {
     const {selectedStartup} = useContext(StartupContext);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
-    // const {products} = useGetProducts();
-
+    const {products} = useGetProducts(selectedStartup?.id);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -62,11 +62,32 @@ const ProductList = () => {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-8 lg:px-16 py-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
-                    <ProductCard/>
+            {products.length > 0 ? (
+                <>
+                    <div className="container mx-auto px-4 sm:px-8 lg:px-16 py-10">
+                        <div
+                            className="flex flex-wrap gap-4" >
+                            {products.map((product, index) => (
+                                <ProductCard
+                                    key={index}
+                                    productnName={product.name}
+                                    productDescription={product.description}
+                                    productPrice={product.price}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <div
+                    className="flex flex-col items-center justify-center h-64 text-center text-gray-700 dark:text-gray-300">
+                    <span className="text-6xl mb-3">📭</span>
+                    <p className="text-lg font-semibold">No se encontraron productos.</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        ¡Anímate a crear tu catalogo para tu emprendimiento!
+                    </p>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

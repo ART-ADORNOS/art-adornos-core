@@ -1,5 +1,5 @@
 import {useContext, useState} from "react";
-import registerProductService from "../services/productService";
+import registerProductService from "../services/registerProductService";
 import {StartupContext} from "../../startup/context/StartupProvider";
 import {useNotification} from "../../../shared/providers/alertProvider";
 import {useGetCategories} from "../../category/hooks/useGetCategory";
