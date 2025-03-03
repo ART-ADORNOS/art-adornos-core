@@ -4,7 +4,7 @@ export default function DeleteUserModal({ isOpenModal, onCloseModal, onDelete })
     if (!isOpenModal) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[999]">
             <div className="bg-gray-800 rounded-2xl p-8 max-w-sm w-full">
                 <div className="text-center p-3 flex-auto justify-center">
                     <svg
