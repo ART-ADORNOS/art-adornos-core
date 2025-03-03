@@ -7,7 +7,7 @@ import InputField from "../../../shared/components/ui/Fields/InputField";
 
 const ProductForm = () => {
     const navigate = useNavigate();
-    const {formData, handleChange, handleSubmit} = useRegisterProduct();
+    const {formData, handleChange, handleSubmit, categories} = useRegisterProduct();
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -43,6 +43,7 @@ const ProductForm = () => {
                             placeholder="Categoría"
                             value={formData.category}
                             onChange={handleChange}
+                            options={categories.map(category => [category.id, category.name])}
                         />
                         <InputField
                             label="Precio"
