@@ -3,7 +3,6 @@ from Apps.store.models import Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'state']
+        fields = ['id', 'name', 'description', 'state', 'start_up']

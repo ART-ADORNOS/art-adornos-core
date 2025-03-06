@@ -8,7 +8,6 @@ const RegisterStartup = () => {
     const navigate = useNavigate();
     const {formData, handleChange, handleSubmit, industryOptions} = useRegisterStartup();
 
-
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
         <Navbar/>

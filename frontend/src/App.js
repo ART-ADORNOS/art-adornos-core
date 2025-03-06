@@ -19,7 +19,7 @@ import CategoryForm from "./modules/category/pages/CategoryForm";
 
 const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
-    return token ? children : <Navigate to="/login"/>;
+    return token ? children : <Navigate to="/"/>;
 };
 
 
@@ -75,16 +75,21 @@ function App() {
                                 </StartupProvider>}
                             />
 
-                             <Route
-                                 path="/register-product"
-                                 element={<StartupProvider>
-                                 <ProtectedRoute>
-                                     <ProductForm/>
-                                 </ProtectedRoute>
+                            <Route
+                                path="/register-product"
+                                element={<StartupProvider>
+                                    <ProtectedRoute>
+                                        <ProductForm/>
+                                    </ProtectedRoute>
                                 </StartupProvider>}
-                             />
-                            <Route path="/register-category"
-                                   element={<ProtectedRoute><CategoryForm/></ProtectedRoute>}
+                            />
+                            <Route
+                                path="/register-category"
+                                element={<StartupProvider>
+                                    <ProtectedRoute>
+                                        <CategoryForm/>
+                                    </ProtectedRoute>
+                                </StartupProvider>}
                             />
                         </Routes>
                     </Router>

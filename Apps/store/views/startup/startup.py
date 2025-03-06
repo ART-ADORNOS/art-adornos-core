@@ -6,14 +6,14 @@ from Apps.store.serializer.startup.startup import StartupSerializer
 from Apps.store.utilities.enums.industry import Industry
 
 
-class IndustryChoicesView(APIView):
+class IndustryListView (APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
         return Response(Industry.choices)
 
 
-class GetStartupView(APIView):
+class UserStartupsListView (APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
