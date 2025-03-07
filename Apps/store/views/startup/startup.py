@@ -1,16 +1,27 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from Apps.store.models import Startup
 from Apps.store.serializer.startup.startup import StartupSerializer
 from Apps.store.utilities.enums.industry import Industry
 
 
 class IndustryListView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         return Response(Industry.choices)
+
+
+class UserIndustryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        industries = Startup.objects.filter(owner=request.user).values_list('industry', flat=True).distinct()
+        unique_industries = set(industries)
+        return Response({"industries": list(unique_industries)})
 
 
 class UserStartupsListView(APIView):

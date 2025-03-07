@@ -2,7 +2,7 @@ from django.urls import path
 
 from Apps.store.views import (RegisterStartupView, IndustryListView,
                               UserStartupsListView, RegisterProductView, RegisterCategoryView, CategoryListView,
-                              ProductListView, ProductDeleteView, ProductUpdateView)
+                              ProductListView, ProductDeleteView, ProductUpdateView, UserIndustryView)
 from Apps.store.views import StartupUpdateView, \
     StartupDeleteView
 
@@ -10,8 +10,9 @@ app_name = 'store'
 urlpatterns = []
 
 urlpatterns += [
-    #Api
+    # Api
     path('api/industry-choices/', IndustryListView.as_view(), name='industry-choices'),
+    path('api/user-industry/', UserIndustryView.as_view(), name='user-industry'),
 
     # Startup
     path('startups/register/', RegisterStartupView.as_view(), name='register_startup'),
