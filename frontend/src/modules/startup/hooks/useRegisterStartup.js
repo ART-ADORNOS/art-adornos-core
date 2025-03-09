@@ -28,6 +28,7 @@ const useRegisterStartup = (startupId = null) => {
         if (startupId) {
             try {
                 formData.owner = formData.owner || user?.id;
+                formData.industry = formData.industry[0]
                 await updateStartupService(startupId, formData);
                 showNotification("Emprendimiento actualizado exitosamente", "success");
                 navigate('/dashboard-seller');
