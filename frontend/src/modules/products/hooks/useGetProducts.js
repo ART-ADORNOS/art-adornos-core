@@ -9,6 +9,7 @@ const useGetProducts = (startupId) => {
 
     useEffect(() => {
         const fetchProducts = async () => {
+            const startupId = localStorage.getItem("selectedStartupId");
             if (!startupId) return;
 
             try {
@@ -20,7 +21,7 @@ const useGetProducts = (startupId) => {
 
         };
 
-        fetchProducts().catch((error) => {
+        fetchProducts().catch(() => {
             showNotification("Error en el servidor", "error");
         });
 
