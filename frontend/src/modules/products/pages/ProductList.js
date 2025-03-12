@@ -4,14 +4,15 @@ import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
 import {Link} from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import {useGetProducts} from "../hooks/useGetProducts";
+import {useGetCategories} from "../../category/hooks/useGetCategory";
+import CategorySidebar from "../components/CategorySidebar";
 
 const ProductList = () => {
-    // const {selectedStartup} = useContext(StartupContext);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const selectedStartup = JSON.parse(localStorage.getItem("selectedStartupData"));
     const {products} = useGetProducts(selectedStartup?.id);
-
+    const { categories } = useGetCategories(selectedStartup?.id);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -61,6 +62,10 @@ const ProductList = () => {
                         </p>
                     </div>
                 </div>
+            </div>
+
+            <div className="w-full px-8 py-4 ">
+                <CategorySidebar categories={categories}/>
             </div>
 
             {
