@@ -1,13 +1,13 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import registerCategoryService from "../services/registerCategoryService";
 import {useNotification} from "../../../shared/providers/alertProvider";
-import {StartupContext} from "../../startup/context/StartupProvider";
 import updateCategoryService from "../services/updateCategoryService";
 
 
 const useRegisterCategory = (categoryId = null) => {
-    const {selectedStartup} = useContext(StartupContext);
     const {showNotification} = useNotification();
+    const startupId = localStorage.getItem("selectedStartupId");
+
 
     const [formData, setFormData] = useState({
         start_up: "",
@@ -28,7 +28,7 @@ const useRegisterCategory = (categoryId = null) => {
 
         if (categoryId) {
             try {
-                formData.start_up = formData.start_up || selectedStartup?.id;
+                formData.start_up = formData.start_up || startupId;
                 await updateCategoryService(categoryId, formData);
                 showNotification("Categoría actualizada con éxito", "success");
                 navigate('/product-list');
@@ -37,7 +37,7 @@ const useRegisterCategory = (categoryId = null) => {
             }
         } else {
             try {
-                formData.start_up = formData.start_up || selectedStartup?.id;
+                formData.start_up = formData.start_up || startupId;
                 await registerCategoryService(formData);
                 setFormData({
                     start_up: "",

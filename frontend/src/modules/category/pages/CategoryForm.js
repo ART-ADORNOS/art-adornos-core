@@ -20,7 +20,7 @@ const CategoryForm = () => {
                 description: categoryDescription || '',
             }));
         }
-    },[state, setFormData]);
+    }, [state, setFormData]);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -56,7 +56,7 @@ const CategoryForm = () => {
                 </div>
             </div>
         </div>
-)
+    )
 }
 
 export default CategoryForm;

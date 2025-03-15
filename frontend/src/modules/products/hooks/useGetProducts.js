@@ -13,7 +13,6 @@ const useGetProducts = (startupId) => {
         const fetchProducts = async () => {
             const startupId = localStorage.getItem("selectedStartupId");
             if (!startupId) return;
-
             try {
                 const data = await getProducts(startupId);
                 setProducts(data);
@@ -28,7 +27,7 @@ const useGetProducts = (startupId) => {
             showNotification("Error en el servidor", "error");
         });
 
-    }, [startupId, showNotification]);
+    }, [startupId]);
 
     return {products, loading};
 };

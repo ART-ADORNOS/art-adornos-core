@@ -7,7 +7,6 @@ const getProducts = async (startupId) => {
         const response = await apiStore.get(`${BASE_URLS_PRODUCT.GET_PRODUCT}${startupId}`);
         return response.data;
     } catch (error) {
-        console.error("Error al obtener los productos", error);
         throw error;
     }
 }

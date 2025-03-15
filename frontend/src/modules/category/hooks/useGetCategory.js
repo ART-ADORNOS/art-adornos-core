@@ -1,34 +1,36 @@
-import { useEffect, useState } from "react";
-import { getCategory } from "../services/getCategory";
-import { useNotification } from "../../../shared/providers/alertProvider";
+import {useEffect, useRef, useState} from "react";
+import {getCategory} from "../services/getCategory";
+import {useNotification} from "../../../shared/providers/alertProvider";
 
 const useGetCategories = (startupId) => {
-    const { showNotification } = useNotification();
+    const {showNotification} = useNotification();
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
+    const startupIdRef = useRef(startupId);
+    const idST = localStorage.getItem("selectedStartupId");
+
 
     useEffect(() => {
         setLoading(true);
         const fetchCategories = async () => {
-            if (!startupId) return;
-
             try {
+                startupIdRef.current = startupId || idST;
                 const data = await getCategory(startupId);
                 setCategories(data);
             } catch (error) {
                 showNotification("Error al cargar la información de las categorías", "error");
-            }finally{
+            } finally {
                 setLoading(false);
             }
         };
 
-        fetchCategories().catch((error) => {
+        fetchCategories().catch(() => {
             showNotification("Error en el servidor", "error");
         });
 
     }, [startupId, showNotification]);
 
-    return { categories, loading };
+    return {categories, loading};
 };
 
-export { useGetCategories };
+export {useGetCategories};
