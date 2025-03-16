@@ -66,7 +66,7 @@ function App() {
                                    element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
                             <Route path="/register-startup"
                                    element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
-                            <Route path="/product-detail"
+                            <Route path="/product-detail/:id"
                                    element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
 
                             <Route

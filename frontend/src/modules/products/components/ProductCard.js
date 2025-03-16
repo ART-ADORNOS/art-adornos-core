@@ -41,8 +41,7 @@ const ProductCard = ({product}) => {
             </div>
             <div className="p-6 pt-0 flex justify-between items-center relative">
                 <Link
-                    to="/product-detail"
-                    state={{id, name, description, category, price, stock}}
+                    to={`/product-detail/${id}`}
                     onClick={handleDetailsClick}
                 >
                     <button data-ripple-light="true" type="button"

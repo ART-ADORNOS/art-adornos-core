@@ -1,20 +1,36 @@
-import {useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {useNotification} from "../../../shared/providers/alertProvider";
+import getProductDetailService from "../services/getProductDetailService";
 
 
-const useProductDetail = () => {
-    const location = useLocation();
-    const [product, setProduct] = useState(() => {
-        return location.state || JSON.parse(localStorage.getItem("selectedProduct")) || {};
-    });
+const useProductDetail = (productId) => {
+    const [product, setProduct] = useState(null);
+    const {showNotification} = useNotification();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (location.state) {
-            localStorage.setItem("selectedProduct", JSON.stringify(location.state));
+        setLoading(true);
+        if (!productId){
+            showNotification("Producto no disponible", "error");
+            return;
         }
-    }, [location.state]);
+        const fetchProduct = async () => {
+            try {
+                const data = await getProductDetailService(productId);
+                setProduct(data);
+            } catch (error) {
+                showNotification("Error al cargar el producto", "error");
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchProduct().catch(() => {
+            showNotification("Error en el servidor", "error");
+        });
 
-    return product;
+    }, [productId, showNotification]);
+
+    return {product, loading};
 }
 
 export default useProductDetail;
