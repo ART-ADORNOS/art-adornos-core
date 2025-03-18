@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { useGetCategories } from "../../category/hooks/useGetCategory";
-import CategorySidebar from "../components/CategorySidebar";
+import CategorySidebar from "../../category/components/CategorySidebar";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
 
 const ProductList = () => {
