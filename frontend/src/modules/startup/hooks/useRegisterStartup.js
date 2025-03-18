@@ -1,15 +1,12 @@
 import {useContext, useState} from "react";
 import AuthContext from "../../../shared/providers/AuthContext";
-import useIndustryOptions from "../hooks/useIndustryOptions";
 import registerStartupService from "../services/startupService";
 import {useNotification} from "../../../shared/providers/alertProvider";
 import updateStartupService from "../services/updateStartupService";
 
 const useRegisterStartup = (startupId = null) => {
     const {user} = useContext(AuthContext);
-    const {industryOptions} = useIndustryOptions();
     const {showNotification} = useNotification();
-
 
     const [formData, setFormData] = useState({
         owner: "",
@@ -31,6 +28,7 @@ const useRegisterStartup = (startupId = null) => {
         if (startupId) {
             try {
                 formData.owner = formData.owner || user?.id;
+                formData.industry = formData.industry[0]
                 await updateStartupService(startupId, formData);
                 showNotification("Emprendimiento actualizado exitosamente", "success");
                 navigate('/dashboard-seller');
@@ -62,7 +60,6 @@ const useRegisterStartup = (startupId = null) => {
         setFormData,
         handleChange,
         handleSubmit,
-        industryOptions,
     };
 };
 

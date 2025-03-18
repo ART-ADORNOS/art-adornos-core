@@ -1,39 +1,12 @@
-import React, {useState,useContext} from 'react';
+import React from 'react';
 import Navbar from "../../../../shared/components/layout/header/Navbar"
-import {useNotification} from "../../../../shared/providers/alertProvider";
-import {Link, useNavigate} from "react-router-dom";
-import AuthContext from '../../../../shared/providers/AuthContext';
+import {Link} from "react-router-dom";
+import {useSellerLogin} from "../../hooks/useSellerLogin";
 
 
 export default function AccountPage() {
-    const {showNotification} = useNotification();
-    const {login} = useContext(AuthContext);
-    const navigate = useNavigate();
-    const [credentials, setCredentials] = useState({username: '', password: ''});
+  const { credentials, handleChange, handleSubmit } = useSellerLogin();
 
-    const handleChange = (event) => {
-        setCredentials({
-            ...credentials,
-            [event.target.name]: event.target.value,
-        });
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        try {
-            const success = await login(credentials.username, credentials.password, 'seller');
-            success
-                ? navigate('/dashboard-seller')
-                : showNotification('Credenciales incorrectas. Inténtalo de nuevo.', 'error');
-        }catch(error) {
-            if (error.message === 'NOT_SELLER'){
-                showNotification('Acceso denegado. Solo los vendedores pueden acceder a esta página.', 'error');
-            }else{
-                showNotification('Error en el inicio de sesión. Por favor, inténtalo más tarde.', 'error');
-            }
-        }
-    };
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">

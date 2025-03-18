@@ -7,7 +7,8 @@ import updateProductService from "../services/updateProductService";
 
 const useRegisterProduct = (productId = null) => {
     const {selectedStartup} = useContext(StartupContext);
-    const { categories } = useGetCategories(selectedStartup?.id);
+    const idST = localStorage.getItem("selectedStartupId");
+    const { categories } = useGetCategories(selectedStartup?.id || idST);
     const {showNotification} = useNotification();
 
     const [formData, setFormData] = useState({
@@ -29,10 +30,10 @@ const useRegisterProduct = (productId = null) => {
 
     const handleSubmit = async (e, navigate) => {
         e.preventDefault();
+        formData.start_up = formData.start_up || idST;
 
         if (productId) {
             try {
-                formData.start_up = formData.start_up || selectedStartup?.id;
                 await updateProductService(productId, formData);
                 showNotification("Producto actualizado exitosamente", "success");
                 navigate("/product-list");
@@ -41,7 +42,6 @@ const useRegisterProduct = (productId = null) => {
             }
         } else {
             try {
-                formData.start_up = formData.start_up || selectedStartup?.id;
                 await registerProductService(formData);
                 setFormData({
                     start_up: "",

@@ -1,27 +1,16 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import AuthContext from '../../../../shared/providers/AuthContext';
 import Navbar from '../../../../shared/components/layout/header/Navbar';
 import AlertMessage from '../../../../shared/components/ui/Messages/AlertMessage';
+import useAlert from "../../hooks/user/useAlert";
+import useDashboard from "../../hooks/user/useDashboard";
 
 const Dashboard = () => {
-    const {user} = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useDashboard();
+    const { alert, setAlert } = useAlert(location, navigate);
 
-    const [alert, setAlert] = useState({show: false, message: '', type: ''});
-
-    useEffect(() => {
-        if (location.state?.updateSuccess) {
-            setAlert({
-                show: true,
-                message: location.state?.message,
-                type: location.state?.messageType
-            });
-            navigate('', {replace: true, state: {}});
-            setTimeout(() => setAlert(prev => ({...prev, show: false})), location.state?.messageDuration || 3000);
-        }
-    }, [location.state, navigate]);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">

@@ -22,7 +22,6 @@ export const AuthProvider = ({children}) => {
             const response = await api.post('/api/token/', {username, password});
             const {access} = response.data;
             if (!access) {
-                console.error("Error: No token received");
                 return false;
             }
             const tempApi = api.create();
@@ -72,7 +71,6 @@ export const AuthProvider = ({children}) => {
             setUser(response.data);
             return true;
         } catch (error) {
-            console.error('error updating user', error.response?.data || error.message);
             return false;
         }
     }

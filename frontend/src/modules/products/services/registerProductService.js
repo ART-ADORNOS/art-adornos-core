@@ -6,7 +6,6 @@ const registerProductService = async (formData) => {
     try{
         await apiStore.post(BASE_URLS_PRODUCT.REGISTER_PRODUCT, formData);
     }catch(err){
-        console.error("Error registrando el producto", err);
         throw err;
     }
 }

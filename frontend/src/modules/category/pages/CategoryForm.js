@@ -1,13 +1,26 @@
 import Navbar from "../../../shared/components/layout/header/Navbar";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import useRegisterCategory from "../hooks/useRegisterCategory";
 import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
 import InputField from "../../../shared/components/ui/Fields/InputField";
+import {useEffect} from "react";
 
 
 const CategoryForm = () => {
     const navigate = useNavigate();
-    const {formData, handleChange, handleSubmit} = useRegisterCategory();
+    const {state} = useLocation();
+    const {formData, handleChange, handleSubmit, setFormData} = useRegisterCategory(state?.categoryId);
+
+    useEffect(() => {
+        if (state) {
+            const {categoryName, categoryDescription} = state;
+            setFormData(prevData => ({
+                ...prevData,
+                name: categoryName || '',
+                description: categoryDescription || '',
+            }));
+        }
+    }, [state, setFormData]);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -43,7 +56,7 @@ const CategoryForm = () => {
                 </div>
             </div>
         </div>
-)
+    )
 }
 
 export default CategoryForm;

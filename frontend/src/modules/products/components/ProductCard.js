@@ -12,6 +12,10 @@ const ProductCard = ({product}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteProduct, isDeleting} = useDeleteProduct(id);
 
+    const handleDetailsClick = () => {
+        const product = {id, name, description, category, price, stock};
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+    }
 
     const handleDeleteRequest = () => {
         setIsModalOpen(true);
@@ -36,10 +40,15 @@ const ProductCard = ({product}) => {
                 </h5>
             </div>
             <div className="p-6 pt-0 flex justify-between items-center relative">
-                <button data-ripple-light="true" type="button"
-                        className="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                    Mas detalles
-                </button>
+                <Link
+                    to={`/product-detail/${id}`}
+                    onClick={handleDetailsClick}
+                >
+                    <button data-ripple-light="true" type="button"
+                            className="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                        Mas detalles
+                    </button>
+                </Link>
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="absolute right-4 bottom-6 p-2 rounded-full hover:bg-gray-100"

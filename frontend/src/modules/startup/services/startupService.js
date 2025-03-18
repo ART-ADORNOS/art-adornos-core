@@ -5,7 +5,6 @@ const registerStartupService  = async (formData) => {
     try {
         await apiStore.post(BASE_URLS_STARTUP.REGISTER_STARTUP, formData);
     } catch (err) {
-        console.error("Error registrando la startup", err);
         throw err;
     }
 };

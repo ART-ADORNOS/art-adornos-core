@@ -16,6 +16,7 @@ import ProductList from "./modules/products/pages/ProductList";
 import StartupProvider from "./modules/startup/context/StartupProvider";
 import ProductForm from "./modules/products/pages/ProductForm";
 import CategoryForm from "./modules/category/pages/CategoryForm";
+import ProductDetail from "./modules/products/pages/ProductDetail";
 
 const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
@@ -65,6 +66,8 @@ function App() {
                                    element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
                             <Route path="/register-startup"
                                    element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
+                            <Route path="/product-detail/:id"
+                                   element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
 
                             <Route
                                 path="/dashboard-seller"

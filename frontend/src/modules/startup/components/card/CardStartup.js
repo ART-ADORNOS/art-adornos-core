@@ -15,6 +15,8 @@ const CardStartup = ({startup}) => {
 
 
     const handleClick = () => {
+        localStorage.setItem("selectedStartupId", startup.id);
+        localStorage.setItem("selectedStartupData", JSON.stringify(startup));
         setSelectedStartup(startup);
     };
     const handleDeleteRequest = () => {

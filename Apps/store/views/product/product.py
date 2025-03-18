@@ -26,6 +26,21 @@ class ProductListView(APIView):
         return Response(serializer.data)
 
 
+class ProductUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+            serializer = ProductSerializer(product, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ProductDeleteView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -38,16 +53,13 @@ class ProductDeleteView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductUpdateView(APIView):
+class ProductDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def put(self, request, product_id):
+    def get(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
-            serializer = ProductSerializer(product, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer = ProductSerializer(product, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

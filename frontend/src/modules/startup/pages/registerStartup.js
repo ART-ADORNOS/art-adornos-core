@@ -4,11 +4,13 @@ import {useLocation, useNavigate} from "react-router-dom";
 import InputField from "../../../shared/components/ui/Fields/InputField";
 import useRegisterStartup from "../hooks/useRegisterStartup";
 import {useEffect} from "react";
+import useGetIndustry from "../hooks/useGetIndustry";
 
 const RegisterStartup = () => {
     const navigate = useNavigate();
     const {state} = useLocation();
-    const {formData, handleChange, handleSubmit, industryOptions, setFormData} = useRegisterStartup(state?.startupId);
+    const {industryOptions} = useGetIndustry();
+    const {formData, handleChange, handleSubmit, setFormData} = useRegisterStartup(state?.startupId);
 
     useEffect(() => {
         if (state) {
