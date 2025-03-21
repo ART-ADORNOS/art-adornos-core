@@ -6,7 +6,7 @@ import {INDUSTRY_COLORS} from '../../../core/constants/industry/industryColors';
 const FilterSidebar = ({industry = [], activeFilters = [], toggleFilter}) => {
 
     return (
-        <div className="w-full max-w-full overflow-x-auto scrollbar-hide">
+        <div className="w-full max-w-full overflow-x-auto no-scrollbar">
             <div className="flex items-center gap-4 p-4 bg-zinc-100 rounded-lg dark:bg-gray-900">
                 {industry.map((ind) => {
                     const Icon = INDUSTRY_ICONS[ind] || INDUSTRY_ICONS.GENERAL;

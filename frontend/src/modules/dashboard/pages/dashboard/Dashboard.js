@@ -15,23 +15,15 @@ const Dashboard = () => {
     const {startups, loading} = useGetStartup();
     const {industry} = useGetIndustryAll();
 
-    const industryMap = React.useMemo(() =>
-        new Map(industry.map(([code, name]) => [code, name])),
-        [industry]
-    );
-
-    const industryNames = React.useMemo(() =>
-        industry.map(([_, name]) => name),
+    const industryKeys = React.useMemo(() =>
+        (industry?.industries || []),
         [industry]
     );
 
     const filteredStartups = activeFilters.length > 0
         ? startups.filter(startup =>
             Array.isArray(startup.industry) &&
-            startup.industry.some(code => {
-                const industryName = industryMap.get(code);
-                return industryName && activeFilters.includes(industryName);
-            })
+            startup.industry.some(ind => activeFilters.includes(ind))
         )
         : startups;
 
@@ -42,7 +34,7 @@ const Dashboard = () => {
             <WelcomeHeader username={user?.username}/>
             <div className="w-full px-8 py-4 ">
                 <FilterSidebar
-                    industry={industryNames}
+                    industry={industryKeys}
                     activeFilters={activeFilters}
                     toggleFilter={toggleFilter}
                 />

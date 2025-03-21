@@ -9,4 +9,5 @@ class IndustryListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response(Industry.choices)
+        industries = [code for code, _ in Industry.choices]
+        return Response({"industries": industries})
