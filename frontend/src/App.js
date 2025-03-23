@@ -61,21 +61,13 @@ function App() {
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/admin" element={<LoginAdmin/>}/>
                             <Route path="*" element={<NotFoundPage/>}/>
+                            <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                             <Route path="/edit-profile"
                                    element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
                             <Route path="/register-startup"
                                    element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
                             <Route path="/product-detail/:id"
                                    element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
-
-                            <Route
-                                path="/dashboard"
-                                element={<StartupProvider>
-                                    <ProtectedRoute>
-                                        <Dashboard/>
-                                    </ProtectedRoute>
-                                </StartupProvider>}
-                            />
 
                             <Route
                                 path="/dashboard-seller"

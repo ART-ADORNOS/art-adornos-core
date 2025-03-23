@@ -13,6 +13,7 @@ class Industry(models.TextChoices):
     TECHNOLOGY = 'TECHNOLOGY', 'Tecnología'
     WELDING = 'WELDING', 'Soldadura'
     HAIRDRESSING = 'HAIRDRESSING', 'Peluquería'
+    CLOTHING_SALES = 'CLOTHING_SALES', 'Venta de ropa'
     GENERAL = 'GENERAL', 'Otros'
 
 

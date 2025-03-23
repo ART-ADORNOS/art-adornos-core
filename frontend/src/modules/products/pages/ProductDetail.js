@@ -8,6 +8,7 @@ import Loader from "../../../shared/components/ui/Loaders/Loader";
 const ProductDetail = () => {
     const {id} = useParams();
     const {product, loading} = useProductDetail(id);
+    console.log(loading);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">

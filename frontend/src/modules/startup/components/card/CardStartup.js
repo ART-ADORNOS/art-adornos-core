@@ -7,11 +7,12 @@ import useOutsideClick from "../../../products/hooks/useOutsideClick";
 import DeleteModal from "../../../../shared/components/ui/Modals/DeleteModal";
 import {useDeleteStartups} from "../../hooks/useDeleteStartups";
 
-const CardStartup = ({startup, usertype}) => {
+const CardStartup = ({startup}) => {
     const {setSelectedStartup} = useContext(StartupContext);
     const {isMenuOpen, setIsMenuOpen, menuRef} = useOutsideClick();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteStartup, isDeleting} = useDeleteStartups(startup.id);
+
 
     const handleClick = () => {
         localStorage.setItem("selectedStartupId", startup.id);
@@ -36,11 +37,8 @@ const CardStartup = ({startup, usertype}) => {
                     <FaRocket className="stroke-orange-400 dark:stroke-orange-300" size={40}/>
                 </div>
                 <div>
-                    <Link
-                        to="/product-list"
-                        state={{usertype: usertype}}
-                        onClick={handleClick}
-                        className="text-lg font-semibold text-neutral-800 dark:text-white hover:underline">
+                    <Link to="/product-list" onClick={handleClick}
+                          className="text-lg font-semibold text-neutral-800 dark:text-white hover:underline">
                         {startup.name}
                     </Link>
                 </div>
