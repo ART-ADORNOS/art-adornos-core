@@ -16,10 +16,8 @@ const useGetIndustryAll = () => {
                 setIndustry(data);
             } catch (error) {
                 showNotification("Error al cargar la información de las industrias", "error");
-
             } finally {
                 setLoading(false);
-
             }
         };
         fetchUserIndustry();

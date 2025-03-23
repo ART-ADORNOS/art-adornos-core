@@ -8,6 +8,10 @@ import {useGetCategories} from "../../category/hooks/useGetCategory";
 import CategorySidebar from "../../category/components/CategorySidebar";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
 import USER_TYPE from "../../../core/constants/user/userType";
+import Lottie from 'lottie-react';
+// import boxOfCardsAnimation from '../../../core/lotties/BoxOfCardsAnimation.json';
+import BoxOfCardsAnimation  from '../../dashboard/components/animations/BoxOfCardsAnimation';
+
 
 const ProductList = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -94,16 +98,20 @@ const ProductList = () => {
                         ) : (
                             <div
                                 className="flex flex-col items-center justify-center h-64 text-center text-gray-700 dark:text-gray-300">
-                                <span className="text-6xl mb-3">📭</span>
-                                <p className="text-lg font-semibold">No se encontraron productos.</p>
                                 {usertype === USER_TYPE.SELLER ? (
                                     <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        <span className="text-6xl mb-3">📭</span>
+                                        <p className="text-lg font-semibold">No se encontraron productos.</p>
                                         ¡Anímate a crear tu catálogo para tu emprendimiento!
                                     </p>
                                 ) : (
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        Lo sentimos, el vendedor no ha publicado productos aún.
-                                    </p>
+                                    <div
+                                        className="flex flex-col items-center pb-20 justify-center h-64 text-center text-gray-700 dark:text-gray-300">
+                                        <BoxOfCardsAnimation />
+                                        <p className="text-xl font-bold mt-4 tracking-wide text-gray-800 dark:text-gray-200 shadow-md">
+                                            Aun no hay productos publicados.
+                                        </p>
+                                    </div>
                                 )}
                             </div>
                         )}
@@ -111,8 +119,7 @@ const ProductList = () => {
                 )
             }
         </div>
-    )
-        ;
+    );
 };
 
 export default ProductList;
