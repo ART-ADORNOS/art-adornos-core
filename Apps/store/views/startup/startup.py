@@ -5,6 +5,14 @@ from rest_framework.views import APIView
 
 from Apps.store.models import Startup
 from Apps.store.serializer.startup.startup import StartupSerializer
+from Apps.store.utilities.enums.industry import Industry
+
+
+class IndustryListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(Industry.choices)
 
 
 class UserIndustryView(APIView):
@@ -61,13 +69,3 @@ class StartupDeleteView(APIView):
             return Response({"result": "startup delete successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# API
-class AllStartupsListView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        startups = Startup.objects.all()
-        serializer = StartupSerializer(startups, many=True)
-        return Response(serializer.data)

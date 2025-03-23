@@ -2,21 +2,22 @@ import React, {useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import AuthContext from '../../../../shared/providers/AuthContext';
 import Navbar from '../../../../shared/components/layout/header/Navbar';
+import AddButton from "../../../../shared/components/buttons/AddButton";
 import CardStartup from "../../../startup/components/card/CardStartup";
 import FilterSidebar from "../../components/FilterSidebar";
 import useFilter from "../../hooks/useFilter";
 import Loader from "../../components/Loader";
 import useFetchStartups from "../../hooks/userSeller/useFetchStartups";
 import useGetUserIndustry from "../../../startup/hooks/useGetUserIndustry";
-import WelcomeHeader from "../../components/WelcomeHeader";
-import USER_TYPE from "../../../../core/constants/user/userType";
 
 const DashboardSeller = () => {
     const {user} = useContext(AuthContext);
     const navigate = useNavigate();
     const {activeFilters, toggleFilter} = useFilter();
-    const {startupData, loading} = useFetchStartups();
+    const { startupData, loading } = useFetchStartups();
     const {industry} = useGetUserIndustry();
+
+   
 
     const filteredStartups = activeFilters.length > 0
         ? startupData.filter(startup =>
@@ -27,12 +28,12 @@ const DashboardSeller = () => {
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar dashboardTyype="userSeller"/>
-            <WelcomeHeader
-                username={user?.username}
-                redirectTo="/register-startup"
-                title="Emprendimiento"
-            />
-
+            <div className="flex flex-col sm:flex-row justify-between items-center px-8 py-4">
+                <div className="text-3xl sm:text-4xl font-extrabold text-gray-800 dark:text-white mb-4 sm:mb-0">
+                    ¡Bienvenido, <span className="text-blue-600">{user?.username}</span>! 👋
+                </div>
+                <AddButton redirectTo="/register-startup" title="Emprendimiento"/>
+            </div>
             <div className="w-full px-8 py-4 ">
                 <FilterSidebar
                     industry={industry}
@@ -51,7 +52,7 @@ const DashboardSeller = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-8 mt-10">
                         {filteredStartups.map((startup, index) => (
                             <div key={index}>
-                                <CardStartup startup={startup} usertype={USER_TYPE.SELLER}/>
+                                <CardStartup startup={startup}/>
                             </div>
                         ))}
                     </div>

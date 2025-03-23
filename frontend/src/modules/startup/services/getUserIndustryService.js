@@ -1,9 +1,9 @@
 import apiStore from "../../../core/api/ApiStore";
-import {BASE_URLS_INDUSTRY} from "../../../core/constants/industry/urlsIndustry";
+import {BASE_URLS_STARTUP} from "../../../core/constants/startup/urlsStartup";
 
 
 export const getUserIndustry = async () => {
-    const response = await apiStore.get(BASE_URLS_INDUSTRY.GET_USER_INDUSTRY);
+    const response = await apiStore.get(BASE_URLS_STARTUP.GET_USER_INDUSTRY);
     if (response.status === 200) {
         return response.data;
     } else {
