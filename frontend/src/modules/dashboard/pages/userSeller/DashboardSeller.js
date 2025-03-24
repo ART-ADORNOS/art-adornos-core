@@ -71,7 +71,7 @@ const DashboardSeller = () => {
                         </button>
                     </div>
                 )
-            )};
+            )}
         </div>
     );
 };

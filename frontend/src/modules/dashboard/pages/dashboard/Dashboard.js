@@ -53,7 +53,7 @@ const Dashboard = () => {
                         <p className="text-lg font-semibold">No se encontraron startups.</p>
                     </div>
                 )
-            )};
+            )}
         </div>
     );
 };
