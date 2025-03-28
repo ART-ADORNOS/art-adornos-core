@@ -4,8 +4,7 @@ import {BASE_URLS_PRODUCT} from "../../../core/constants/product/urlsProduct";
 
 const updateProductService = async (ProductId, formData) => {
     try {
-        const response = await apiStore.put(`${BASE_URLS_PRODUCT.UPDATE_PRODUCT}${ProductId}`, formData);
-        return response.data;
+        return (await apiStore.put(`${BASE_URLS_PRODUCT.UPDATE_PRODUCT}${ProductId}`, formData)).data;
     } catch (error) {
         throw error;
     }

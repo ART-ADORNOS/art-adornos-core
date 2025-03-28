@@ -4,7 +4,7 @@ import {BASE_URLS_PRODUCT} from "../../../core/constants/product/urlsProduct";
 
 const registerProductService = async (formData) => {
     try{
-        await apiStore.post(BASE_URLS_PRODUCT.REGISTER_PRODUCT, formData);
+        return (await apiStore.post(`${BASE_URLS_PRODUCT.REGISTER_PRODUCT}`, formData)).data;
     }catch(err){
         throw err;
     }

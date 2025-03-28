@@ -31,7 +31,7 @@ const useRegisterProduct = (productId = null) => {
     const handleSubmit = async (e, navigate) => {
         e.preventDefault();
         formData.start_up = formData.start_up || idST;
-
+        formData.category = categories.find((category) => category.name === formData.category)?.id;
         if (productId) {
             try {
                 await updateProductService(productId, formData);
