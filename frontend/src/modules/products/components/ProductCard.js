@@ -6,9 +6,10 @@ import {useDeleteProduct} from "../hooks/useDeleteProduct";
 import {Link} from "react-router-dom";
 import USER_TYPE from "../../../core/constants/user/userType";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
+import {FaShoppingCart} from "react-icons/fa";
 
 
-const ProductCard = ({product,usertype}) => {
+const ProductCard = ({product, usertype}) => {
     const {id, name, description, category, price, stock} = product;
     const {isMenuOpen, setIsMenuOpen, menuRef} = useOutsideClick();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,12 +55,16 @@ const ProductCard = ({product,usertype}) => {
                         Mas detalles
                     </button>
                 </Link>
-                {usertype === USER_TYPE.SELLER && (
+                {usertype === USER_TYPE.SELLER ? (
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="absolute right-4 bottom-6 p-2 rounded-full hover:bg-gray-100"
                     >
                         <IoEllipsisVertical size={20}/>
+                    </button>
+                ) : (
+                    <button className="p-3 bg-orange-500 text-white rounded-full shadow-md hover:bg-orange-600 transition">
+                        <FaShoppingCart size={20}/>
                     </button>
                 )}
             </div>

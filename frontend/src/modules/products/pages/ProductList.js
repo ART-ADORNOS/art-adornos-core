@@ -8,7 +8,6 @@ import {useGetCategories} from "../../category/hooks/useGetCategory";
 import CategorySidebar from "../../category/components/CategorySidebar";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
 import USER_TYPE from "../../../core/constants/user/userType";
-import Lottie from 'lottie-react';
 import BoxOfCardsAnimation from '../../dashboard/components/animations/BoxOfCardsAnimation';
 
 
@@ -24,78 +23,96 @@ const ProductList = () => {
     const redirect = usertype === USER_TYPE.SELLER ? "/dashboard-seller" : "/dashboard";
 
 
-    return (<div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-        <Navbar/>
-        <div className="flex items-center justify-between w-full px-4 py-2">
-            <GoBackButton redirectTo={redirect}/>
+    return (
+        <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
+            <Navbar/>
+            <div className="flex items-center justify-between w-full px-4 py-2">
+                <GoBackButton redirectTo={redirect}/>
 
-            {usertype === USER_TYPE.SELLER && (<div className="relative mr-4" ref={dropdownRef}>
-                <button
-                    className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-purple-500 hover:from-orange-600 hover:to-purple-600 text-white px-5 py-2.5 rounded-full shadow-lg transition-all duration-300"
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                    Crear
-                </button>
+                {usertype === USER_TYPE.SELLER && (<div className="relative mr-4" ref={dropdownRef}>
+                        <button
+                            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-purple-500 hover:from-orange-600 hover:to-purple-600 text-white px-5 py-2.5 rounded-full shadow-lg transition-all duration-300"
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        >
+                            Crear
+                        </button>
 
-                {isDropdownOpen && (<div
-                    id="dropdown-menu"
-                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50"
-                >
-                    <Link
-                        to="/register-category"
-                        className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-                    >
-                        Nueva Categoría
-                    </Link>
-                    <Link
-                        to="/register-product"
-                        className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-                    >
-                        Nuevo Producto
-                    </Link>
-                </div>)}
-            </div>)}
-        </div>
-        {loading || loadingTwo ? (<div className="flex items-center justify-center h-96 w-full">
-            <Loader/>
-        </div>) : (<>
-            <div className="container mx-auto px-6 sm:px-12 py-12">
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                    <div className="text-center sm:text-left">
-                        <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-orange-400 to-purple-500 bg-clip-text text-transparent">
-                            {selectedStartup?.name}
-                        </h1>
-                        <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-                            {selectedStartup?.description}
-                        </p>
+                        {isDropdownOpen && (
+                            <div
+                                id="dropdown-menu"
+                                className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50"
+                            >
+                                <Link
+                                    to="/register-category"
+                                    className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                                >
+                                    Nueva Categoría
+                                </Link>
+                                <Link
+                                    to="/register-product"
+                                    className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                                >
+                                    Nuevo Producto
+                                </Link>
+                            </div>
+                        )}
                     </div>
-                </div>
+                )}
             </div>
-
-            {usertype === USER_TYPE.SELLER && (<div className="w-full px-8 py-4 ">
-                <CategorySidebar categories={categories}/>
-            </div>)}
-
-            {products.length > 0 ? (<div className="container mx-auto px-4 sm:px-8 lg:px-16 py-10">
-                <div className="flex flex-wrap gap-4">
-                    {products.map((product) => (<ProductCard key={product.id} product={product} usertype={usertype}/>))}
+            {loading || loadingTwo ? (
+                <div className="flex items-center justify-center h-96 w-full">
+                    <Loader/>
                 </div>
-            </div>) : (<div
-                className="flex flex-col items-center justify-center h-64 text-center text-gray-700 dark:text-gray-300">
-                {usertype === USER_TYPE.SELLER ? (<p className="text-sm text-gray-500 dark:text-gray-400">
-                    <span className="text-6xl mb-3">📭</span>
-                    <p className="text-lg font-semibold">No se encontraron productos.</p>
-                    ¡Anímate a crear tu catálogo para tu emprendimiento!
-                </p>) : (<div
-                    className="flex flex-col items-center pb-20 justify-center h-64 text-center text-gray-700 dark:text-gray-300">
-                    <BoxOfCardsAnimation/>
-                    <p className="text-xl font-bold mt-4 tracking-wide text-gray-800 dark:text-gray-200 shadow-md">
-                        Aun no hay productos publicados.
-                    </p>
-                </div>)}
-            </div>)}
-        </>)}
-    </div>);
+            ) : (
+                <>
+                    <div className="container mx-auto px-6 sm:px-12 py-12">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                            <div className="text-center sm:text-left">
+                                <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-orange-400 to-purple-500 bg-clip-text text-transparent">
+                                    {selectedStartup?.name}
+                                </h1>
+                                <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
+                                    {selectedStartup?.description}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {usertype === USER_TYPE.SELLER && categories.length > 0 && (
+                        <div className="w-full px-8 py-4 ">
+                            <CategorySidebar categories={categories}/>
+                        </div>)
+                    }
+
+                    {products.length > 0 ? (
+                        <div className="container mx-auto px-4 sm:px-8 lg:px-16 py-10">
+                            <div className="flex flex-wrap gap-4">
+                                {products.map((product) => (
+                                    <ProductCard key={product.id} product={product} usertype={usertype}/>))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div
+                            className="flex flex-col items-center justify-center h-64 text-center text-gray-700 dark:text-gray-300">
+                            {usertype === USER_TYPE.SELLER ? (<p className="text-sm text-gray-500 dark:text-gray-400">
+                                    <span className="text-6xl mb-3">📭</span>
+                                    <p className="text-lg font-semibold">No se encontraron productos.</p>
+                                    ¡Anímate a crear tu catálogo para tu emprendimiento!
+                                </p>
+                            ) : (
+                                <div
+                                    className="flex flex-col items-center pb-20 justify-center h-64 text-center text-gray-700 dark:text-gray-300">
+                                    <BoxOfCardsAnimation/>
+                                    <p className="text-xl font-bold mt-4 tracking-wide text-gray-800 dark:text-gray-200 shadow-md">
+                                        Aun no hay productos publicados.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </>
+            )}
+        </div>);
 };
 
 export default ProductList;
