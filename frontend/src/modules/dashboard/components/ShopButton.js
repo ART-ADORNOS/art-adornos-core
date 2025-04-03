@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 const ShopButton = ({redirectTo}) => (
     <Link to={redirectTo}>
         <button
-            className="w-44 h-10 bg-gradient-to-b from-orange-200 to-orange-500 border-none rounded-full text-white font-semibold flex items-center justify-center gap-1 cursor-pointer shadow-md shadow-orange-500 active:translate-x-0.5 active:translate-y-0.5 active:shadow-sm transition duration-300">
+            className="w-44 h-10 bg-orange-500 border-none rounded-full text-white font-semibold flex items-center justify-center gap-1 cursor-pointer shadow-md shadow-orange-500 active:translate-x-0.5 active:translate-y-0.5 active:shadow-sm transition duration-300">
             Carro de compras
             <svg className="w-3.5 h-auto" viewBox="0 0 576 512" fill="white">
                 <path

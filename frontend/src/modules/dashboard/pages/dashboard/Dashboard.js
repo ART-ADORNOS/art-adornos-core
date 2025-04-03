@@ -25,7 +25,10 @@ const Dashboard = () => {
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar dashboardTyype="user"/>
-            <WelcomeHeader username={user?.username}/>
+            <WelcomeHeader
+                username={user?.username}
+                redirectTo={"/cart-orders-list"}
+            />
             <div className="w-full px-8 py-4 ">
                 <FilterSidebar
                     industry={industryKeys}
