@@ -6,6 +6,7 @@ class Product(ModelBase):
     start_up = models.ForeignKey('Startup', on_delete=models.CASCADE, verbose_name='Startup')
     name = models.CharField(max_length=255, verbose_name='Nombre')
     description = models.TextField(verbose_name='Descripción')
+    image = models.ImageField(upload_to='products/', verbose_name='Imagen', blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Categoría')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Precio')
     stock = models.IntegerField(verbose_name='Stock')
