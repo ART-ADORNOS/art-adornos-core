@@ -28,7 +28,7 @@ const useGetCategories = (startupId) => {
             showNotification("Error en el servidor", "error");
         });
 
-    }, [startupId, showNotification]);
+    }, [startupId, showNotification, idST]);
 
     return {categories, loading};
 };

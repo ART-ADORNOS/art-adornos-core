@@ -20,6 +20,22 @@ class Product(ModelBase):
             self.image.delete()
         super().delete(*args, **kwargs)
 
+    def to_json_api(self, request=None):
+        image_url = self.image.url if self.image else None
+        if image_url and request:
+            image_url = request.build_absolute_uri(image_url)
+
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'image': image_url,
+            'category': self.category.name,
+            'price': self.price,
+            'stock': self.stock,
+            'state': self.state
+        }
+
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
