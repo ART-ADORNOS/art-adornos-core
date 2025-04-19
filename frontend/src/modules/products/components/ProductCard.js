@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import USER_TYPE from "../../../core/constants/user/userType";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
 import {FaShoppingCart} from "react-icons/fa";
+import ROUTES from "../../../core/constants/routes/routes";
 
 
 const ProductCard = ({product, usertype}) => {
@@ -35,8 +36,8 @@ const ProductCard = ({product, usertype}) => {
 
     return (
         <div className="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-            <div
-                className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
+            <div className="relative flex h-56 w-full items-center justify-center overflow-hidden rounded-t-xl bg-gradient-to-tr from-orange-500 to-purple-500">
+                <img src={image} alt="producto" className="w-full h-full object-cover rounded-md shadow-md"/>
             </div>
             <div className="p-6">
                 <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
@@ -45,7 +46,7 @@ const ProductCard = ({product, usertype}) => {
             </div>
             <div className="p-6 pt-0 flex justify-between items-center relative">
                 <Link
-                    to={`/product-detail/${id}`}
+                    to={`${ROUTES.PRODUCT_DETAIL}/${id}`}
                 >
                     <button data-ripple-light="true" type="button"
                             className="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
@@ -60,7 +61,8 @@ const ProductCard = ({product, usertype}) => {
                         <IoEllipsisVertical size={20}/>
                     </button>
                 ) : (
-                    <button className="p-3 bg-orange-500 text-white rounded-full shadow-md hover:bg-orange-600 transition">
+                    <button
+                        className="p-3 bg-orange-500 text-white rounded-full shadow-md hover:bg-orange-600 transition">
                         <FaShoppingCart size={20}/>
                     </button>
                 )}
@@ -70,7 +72,7 @@ const ProductCard = ({product, usertype}) => {
                      className="absolute bottom-14 right-4 bg-gray-800 text-white rounded-md shadow-lg w-35">
                     <ul className="p-2 space-y-1">
                         <Link
-                            to="/register-product"
+                            to= {`${ROUTES.REGISTER_PRODUCT}`}
                             state={{
                                 productId: id,
                                 productName: name,

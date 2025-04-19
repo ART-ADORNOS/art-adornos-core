@@ -43,7 +43,7 @@ const useRegisterProduct = (productId = null) => {
     const handleSubmit = async (e, navigate) => {
         e.preventDefault();
         if (!formData.image) {
-            setShowAlert(true); // Mostrar alerta
+            setShowAlert(true);
             return;
         }
 

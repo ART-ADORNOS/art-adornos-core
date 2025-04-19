@@ -24,7 +24,6 @@ const ProductForm = () => {
                 category: productCategory || '',
                 image: productImage || ''
             }));
-            console.log ('state', formData);
         }
     }, [state, setFormData]);
 

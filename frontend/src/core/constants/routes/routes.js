@@ -1,0 +1,22 @@
+const ROUTES = {
+    HOME: '/',
+    DASHBOARD: '/dashboard',
+    DASHBOARD_SELLER: '/dashboard-seller',
+    PRODUCT_LIST: '/product-list',
+    PRODUCT_DETAIL: '/product-detail',
+    PRODUCT_FORM: '/product-form',
+    REGISTER_PRODUCT: '/register-product',
+    REGISTER_CATEGORY: '/register-category',
+    CATEGORY_LIST: '/category-list',
+    CATEGORY_DETAIL: '/category-detail',
+    STARTUP_LIST: '/startup-list',
+    STARTUP_DETAIL: '/startup-detail',
+    STARTUP_FORM: '/startup-form',
+    REGISTER_STARTUP: '/register-startup',
+    USER_LIST: '/user-list',
+    USER_DETAIL: '/user-detail',
+    USER_FORM: '/user-form',
+    REGISTER_USER: '/register-user',
+};
+
+export default ROUTES;

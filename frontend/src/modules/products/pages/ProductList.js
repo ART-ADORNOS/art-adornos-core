@@ -9,6 +9,7 @@ import CategorySidebar from "../../category/components/CategorySidebar";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
 import USER_TYPE from "../../../core/constants/user/userType";
 import BoxOfCardsAnimation from '../../dashboard/components/animations/BoxOfCardsAnimation';
+import ROUTES from "../../../core/constants/routes/routes";
 
 
 const ProductList = () => {
@@ -20,7 +21,7 @@ const ProductList = () => {
     const location = useLocation();
     let {usertype} = location.state || {};
     usertype = usertype || localStorage.getItem('usertype') || '';
-    const redirect = usertype === USER_TYPE.SELLER ? "/dashboard-seller" : "/dashboard";
+    const redirect = usertype === USER_TYPE.SELLER ? ROUTES.DASHBOARD_SELLER : ROUTES.DASHBOARD;
 
 
     return (
@@ -94,11 +95,12 @@ const ProductList = () => {
                     ) : (
                         <div
                             className="flex flex-col items-center justify-center h-64 text-center text-gray-700 dark:text-gray-300">
-                            {usertype === USER_TYPE.SELLER ? (<p className="text-sm text-gray-500 dark:text-gray-400">
+                            {usertype === USER_TYPE.SELLER ? (
+                                <div className="text-sm text-gray-500 dark:text-gray-400">
                                     <span className="text-6xl mb-3">📭</span>
                                     <p className="text-lg font-semibold">No se encontraron productos.</p>
-                                    ¡Anímate a crear tu catálogo para tu emprendimiento!
-                                </p>
+                                    <p>¡Anímate a crear tu catálogo para tu emprendimiento!</p>
+                                </div>
                             ) : (
                                 <div
                                     className="flex flex-col items-center pb-20 justify-center h-64 text-center text-gray-700 dark:text-gray-300">

@@ -25,9 +25,14 @@ const ProductDetail = () => {
                 <div className="flex-grow flex items-center justify-center p-4">
                     <div
                         className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 min-h-[500px]">
-                        <div className="bg-gray-200 dark:bg-gray-700 flex items-center justify-center p-8">
-                            <span className="text-gray-500 dark:text-gray-400 text-6xl">📷</span>
-                        </div>
+                        {product?.image ? (
+                            <img src={product?.image} alt="producto"
+                                 className="w-full h-full object-cover rounded-md shadow-md"/>
+                        ) : (
+                            <div className="bg-gray-200 dark:bg-gray-700 flex items-center justify-center p-8">
+                                <span className="text-gray-500 dark:text-gray-400 text-6xl">📷</span>
+                            </div>
+                        )}
 
                         <div className="p-8 flex flex-col justify-center">
                             <div
