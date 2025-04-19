@@ -10,19 +10,11 @@ import Alert from "../components/Alert";
 const ProductForm = () => {
     const navigate = useNavigate();
     const {state} = useLocation();
-    const {
-        formData,
-        handleChange,
-        handleSubmit,
-        categories,
-        setFormData,
-        showAlert,
-        closeAlert
-    } = useRegisterProduct(state?.productId);
+    const {formData, handleChange, handleSubmit, categories, setFormData, showAlert, closeAlert} = useRegisterProduct(state?.productId);
 
     useEffect(() => {
         if (state) {
-            const {productName, productDescription, productPrice, productCategory, productStock} = state;
+            const {productName, productDescription, productPrice, productCategory, productStock, productImage} = state;
             setFormData(prevData => ({
                 ...prevData,
                 name: productName || '',
@@ -30,8 +22,9 @@ const ProductForm = () => {
                 price: productPrice || '',
                 stock: productStock || '',
                 category: productCategory || '',
-                image: state.image || ''
+                image: productImage || ''
             }));
+            console.log ('state', formData);
         }
     }, [state, setFormData]);
 

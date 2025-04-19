@@ -3,6 +3,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from Apps.store.models import Product
 from Apps.store.serializer.product.Product import ProductSerializer
 
@@ -24,7 +25,7 @@ class ProductListView(APIView):
 
     def get(self, request, startup_id):
         products = Product.objects.filter(start_up_id=startup_id)
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=True, context={'request': request})
         return Response(serializer.data)
 
 

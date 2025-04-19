@@ -15,6 +15,11 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
 
+    def delete(self, *args, **kwargs):
+        if self.image:
+            self.image.delete()
+        super().delete(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
