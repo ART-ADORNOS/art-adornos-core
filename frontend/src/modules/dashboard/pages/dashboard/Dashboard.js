@@ -11,6 +11,7 @@ import useGetIndustryAll from "../../hooks/user/useGetIndustryAll";
 import {getFilteredStartups, useIndustryKeys} from "../../utils/filterUtils";
 import USER_TYPE from "../../../../core/constants/user/userType";
 import useUsertype from "../../../products/hooks/useUsertype";
+import ROUTES from "../../../../core/constants/routes/routes";
 
 const Dashboard = () => {
     const {user} = useContext(AuthContext);
@@ -27,7 +28,7 @@ const Dashboard = () => {
             <Navbar dashboardTyype="user"/>
             <WelcomeHeader
                 username={user?.username}
-                redirectTo={"/cart-orders-list"}
+                redirectTo={ROUTES.CART_ORDERS_LIST}
             />
             <div className="w-full px-8 py-4 ">
                 <FilterSidebar

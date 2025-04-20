@@ -17,6 +17,7 @@ const ROUTES = {
     USER_DETAIL: '/user-detail',
     USER_FORM: '/user-form',
     REGISTER_USER: '/register-user',
+    CART_ORDERS_LIST: '/cart-orders-list',
 };
 
 export default ROUTES;
