@@ -2,30 +2,27 @@ import Navbar from "../../../shared/components/layout/header/Navbar";
 import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
 import {useLocation, useNavigate} from "react-router-dom";
 import useRegisterProduct from "../hooks/useRegisterProduct";
-import {useEffect} from "react";
 import ProductInput from "../components/ProductInput";
 import Alert from "../components/Alert";
+import useInitializeProductForm from "../hooks/useInitializeProductForm";
+import ROUTES from "../../../core/constants/routes/routes";
+import SubmitButton from "../../../shared/components/buttons/SubmitButton";
+import CancelButton from "../../../shared/components/buttons/CancelButton";
 
 
 const ProductForm = () => {
     const navigate = useNavigate();
     const {state} = useLocation();
-    const {formData, handleChange, handleSubmit, categories, setFormData, showAlert, closeAlert} = useRegisterProduct(state?.productId);
-
-    useEffect(() => {
-        if (state) {
-            const {productName, productDescription, productPrice, productCategory, productStock, productImage} = state;
-            setFormData(prevData => ({
-                ...prevData,
-                name: productName || '',
-                description: productDescription || '',
-                price: productPrice || '',
-                stock: productStock || '',
-                category: productCategory || '',
-                image: productImage || ''
-            }));
-        }
-    }, [state, setFormData]);
+    const {
+        formData,
+        handleChange,
+        handleSubmit,
+        categories,
+        setFormData,
+        showAlert,
+        closeAlert
+    } = useRegisterProduct(state?.productId);
+    useInitializeProductForm(state, setFormData);
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -45,16 +42,15 @@ const ProductForm = () => {
                             handleChange={handleChange}
                             categories={categories}
                         />
-                        <div className="mt-6">
-                            <button type="submit"
-                                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                                {state ? 'Actualizar' : 'Registrar'}
-                            </button>
+                        <div className="mt-6 flex gap-x-6">
+                            <SubmitButton text={state ? 'Actualizar' : 'Registrar'}/>
+                            <CancelButton route={ROUTES.PRODUCT_LIST}/>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>);
+        </div>)
+        ;
 };
 
 export default ProductForm;

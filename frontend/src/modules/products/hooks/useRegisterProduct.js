@@ -56,12 +56,9 @@ const useRegisterProduct = (productId = null) => {
         form.append("category", categoryId || "");
         form.append("price", formData.price);
         form.append("stock", formData.stock);
-
-
         if (formData.image instanceof File) {
             form.append("image", formData.image);
         }
-
 
         if (productId) {
             try {

@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {FiFile, FiTrash2, FiUploadCloud} from "react-icons/fi";
 
 const ProductInput = ({formData, handleChange, categories}) => {
     const [previewImage, setPreviewImage] = useState(null);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (formData.image) {
@@ -34,6 +35,10 @@ const ProductInput = ({formData, handleChange, categories}) => {
             },
         });
     };
+
+    const openFileSelector = () => {
+        fileInputRef.current.click();
+    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -71,7 +76,7 @@ const ProductInput = ({formData, handleChange, categories}) => {
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-800">Precio</label>
                         <input
-                            type="text"
+                            type="number"
                             name="price"
                             value={formData.price}
                             onChange={handleChange}
@@ -83,7 +88,7 @@ const ProductInput = ({formData, handleChange, categories}) => {
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-800">Stock</label>
                         <input
-                            type="text"
+                            type="number"
                             name="stock"
                             value={formData.stock}
                             onChange={handleChange}
@@ -119,6 +124,7 @@ const ProductInput = ({formData, handleChange, categories}) => {
                         accept="image/*"
                         onChange={handleImageChange}
                         className="hidden"
+                        ref={fileInputRef}
                         id="imageUpload"
                     />
                     {!previewImage ? (
@@ -145,7 +151,14 @@ const ProductInput = ({formData, handleChange, categories}) => {
                 <div
                     className="mt-2 w-full flex items-center justify-between border border-gray-200 rounded-md bg-white px-4 py-2 shadow-sm">
                     <div className="flex items-center space-x-2 text-gray-600">
-                        <FiFile className="w-8 h-8"/>
+                        <button
+                            type="button"
+                            onClick={openFileSelector}
+                            className="text-blue-500 hover:text-blue-700 transition"
+                            title="Subir archivo"
+                        >
+                            <FiFile className="w-8 h-8"/>
+                        </button>
                     </div>
                     <button
                         type="button"

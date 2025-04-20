@@ -1,5 +1,3 @@
-// src/shared/hooks/useRegister.js
-
 import { useState } from "react";
 import { useNotification } from "../../../shared/providers/alertProvider";
 import registerUser from "../services/register/registerService";
