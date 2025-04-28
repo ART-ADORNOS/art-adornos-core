@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from Apps.store.models import CartProduct, Product
+from Apps.store.models import Product
 
 
 class CartSerializer(serializers.ModelSerializer):

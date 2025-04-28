@@ -7,6 +7,19 @@ from Apps.store.models import CartProduct, Cart, Product
 from Apps.store.serializer.cart.cart import CartSerializer
 
 
+class CartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            cart = Cart.objects.get(user=request.user)
+            cart_products = CartProduct.objects.filter(cart=cart)
+            serializer = CartSerializer(cart_products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Cart.DoesNotExist:
+            return Response({"message": "El carrito está vacío."}, status=status.HTTP_404_NOT_FOUND)
+
+
 class RegisterCartView(APIView):
     permission_classes = [IsAuthenticated]
 

@@ -1,15 +1,13 @@
 import {useNotification} from "../../../shared/providers/alertProvider";
 import {useState} from "react";
-import registerCartService from "../service/registerCartService";
 
 
 const useRegisterCart = () => {
     const {showNotification} = useNotification();
 
     const [formData, setFormData] = useState({
-        user: "",
-        products: [],
-        quantity: 0
+        product_id: "",
+        quantity: 1
     });
 
     const handleChange = (e) => {
@@ -24,10 +22,10 @@ const useRegisterCart = () => {
         e.preventDefault();
 
         try {
-            await registerCartService(formData);
+            console.log(formData);
+            // await registerCartService(formData);
             setFormData({
-                user: "",
-                products: [],
+                product_id: 0,
                 quantity: 0
             });
             showNotification("Carrito creado con éxito", "success");

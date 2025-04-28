@@ -4,7 +4,7 @@ from Apps.store.views import (RegisterStartupView, IndustryListView,
                               UserStartupsListView, RegisterProductView, RegisterCategoryView, CategoryListView,
                               ProductListView, ProductDeleteView, ProductUpdateView, UserIndustryView,
                               CategoryDeleteView, CategoryUpdateView, ProductDetailView, AllStartupsListView,
-                              StartupUpdateView, StartupDeleteView, RegisterCartView)
+                              StartupUpdateView, StartupDeleteView, RegisterCartView, CartView)
 
 app_name = 'store'
 urlpatterns = []
@@ -35,5 +35,6 @@ urlpatterns += [
     path('api/category/delete/<int:category_id>', CategoryDeleteView.as_view(), name='delete_category'),
 
     # Cart
+    path('api/cart/', CartView.as_view(), name='get_cart'),
     path('api/cart/register/', RegisterCartView.as_view(), name='register_cart'),
 ]

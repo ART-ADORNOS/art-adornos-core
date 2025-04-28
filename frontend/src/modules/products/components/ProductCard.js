@@ -8,6 +8,7 @@ import USER_TYPE from "../../../core/constants/user/userType";
 import Loader from "../../../shared/components/ui/Loaders/Loader";
 import {FaShoppingCart} from "react-icons/fa";
 import ROUTES from "../../../core/constants/routes/routes";
+import useRegisterCart from "../../cart/hooks/useRegisterCart";
 
 
 const ProductCard = ({product, usertype}) => {
@@ -16,6 +17,9 @@ const ProductCard = ({product, usertype}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteProduct, isDeleting} = useDeleteProduct(id);
     usertype = usertype || localStorage.getItem('usertype') || '';
+    const {handleSubmit, setFormData} = useRegisterCart();
+
+
 
     const handleDeleteRequest = () => {
         setIsModalOpen(true);
@@ -25,6 +29,14 @@ const ProductCard = ({product, usertype}) => {
         await deleteProduct();
         setIsModalOpen(false);
     };
+
+    const  handleAddToCart = () => {
+        setFormData({
+            product_id: id,
+            quantity: 1
+        });
+        handleSubmit(new Event('submit')).then(r => {});
+    }
 
     if (!product) {
         return <div className="p-4 border rounded-lg shadow-md">Producto no disponible</div>;
@@ -62,6 +74,7 @@ const ProductCard = ({product, usertype}) => {
                     </button>
                 ) : (
                     <button
+                        onClick={handleAddToCart}
                         className="p-3 bg-orange-500 text-white rounded-full shadow-md hover:bg-orange-600 transition">
                         <FaShoppingCart size={20}/>
                     </button>
