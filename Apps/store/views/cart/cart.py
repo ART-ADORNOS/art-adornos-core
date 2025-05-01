@@ -7,7 +7,7 @@ from Apps.store.models import CartProduct, Cart
 from Apps.store.serializer.cart.cart import CartSerializer
 
 
-class CartView(APIView):
+class CartListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
