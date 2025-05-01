@@ -12,5 +12,5 @@ export const RESOURCES = {
     INDUSTRY: 'industry-choices/',
     USER_INDUSTRY: 'user-industry/',
     CATEGORY: 'category/',
-
+    CART: 'cart/',
 };

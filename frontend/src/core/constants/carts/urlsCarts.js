@@ -1,0 +1,7 @@
+import {ACTIONS, BASE_API_URL, RESOURCES} from "../baseUrls";
+
+
+export const BASE_URLS_CART = {
+    GET_CART: `${BASE_API_URL}${RESOURCES.CART}`,
+    REGISTER_CART: `${BASE_API_URL}${RESOURCES.CART}${ACTIONS.REGISTER}`,
+};

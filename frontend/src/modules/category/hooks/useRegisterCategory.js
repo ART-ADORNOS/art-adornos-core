@@ -5,7 +5,7 @@ import updateCategoryService from "../services/updateCategoryService";
 
 
 const useRegisterCategory = (categoryId = null) => {
-    const {showNotification} = useNotification();
+const {showNotification} = useNotification();
     const startupId = localStorage.getItem("selectedStartupId");
 
 
