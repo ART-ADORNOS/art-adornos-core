@@ -3,6 +3,7 @@ import AuthContext from "../../../shared/providers/AuthContext";
 import registerStartupService from "../services/startupService";
 import {useNotification} from "../../../shared/providers/alertProvider";
 import updateStartupService from "../services/updateStartupService";
+import ROUTES from "../../../core/constants/routes/routes";
 
 const useRegisterStartup = (startupId = null) => {
     const {user} = useContext(AuthContext);
@@ -28,10 +29,10 @@ const useRegisterStartup = (startupId = null) => {
         if (startupId) {
             try {
                 formData.owner = formData.owner || user?.id;
-                formData.industry = formData.industry[0]
+                formData.industry = Array.isArray(formData.industry) ? formData.industry[0] : formData.industry;
                 await updateStartupService(startupId, formData);
                 showNotification("Emprendimiento actualizado exitosamente", "success");
-                navigate('/dashboard-seller');
+                navigate(ROUTES.DASHBOARD_SELLER);
             } catch (err) {
                 showNotification("Error al actualizar el emprendimiento", "error");
             }
@@ -48,7 +49,7 @@ const useRegisterStartup = (startupId = null) => {
                     industry: "",
                 });
                 showNotification("Emprendimiento registrado exitosamente", "success");
-                navigate('/dashboard-seller');
+                navigate(ROUTES.DASHBOARD_SELLER);
             } catch (err) {
                 showNotification("Error al registrar el emprendimiento", "error");
             }
