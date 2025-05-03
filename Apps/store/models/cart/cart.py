@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import model_to_dict
 
 from Apps.store.models import ModelBase
 
@@ -10,6 +11,14 @@ class Cart(ModelBase):
 
     def __str__(self):
         return f"Carrito de {self.user.username}"
+
+    def to_json(self, request=None):
+        item = model_to_dict(self)
+        item['product'] = self.products.name
+        # item["image_product"] = self.products.to_json_api(request=request)
+        item["quantity"] = self.cartproduct_set.quantity
+        item["price"] = self.products.price
+        return item
 
     class Meta:
         verbose_name = 'Carrito'
@@ -23,7 +32,15 @@ class CartProduct(models.Model):
     quantity = models.IntegerField(default=1, verbose_name='Cantidad')
 
     def __str__(self):
-        return f"{self.product} x {self.quantity}"
+        return f"{self.product} - {self.quantity}"
+
+    def to_json(self, request=None):
+        item = model_to_dict(self)
+        item['product'] = self.product.name
+        item["image_product"] = self.product.get_image_url(request=request)
+        item["quantity"] = self.quantity
+        item["price"] = float(self.product.price)
+        return item
 
     class Meta:
         verbose_name = 'Producto en Carrito'
@@ -53,4 +70,4 @@ class OrderProduct(models.Model):
     price_at_purchase = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.product.name} x {self.quantity} (Precio: {self.price_at_purchase})"
+        return f"{self.product.name} - {self.quantity} (Precio: {self.price_at_purchase})"

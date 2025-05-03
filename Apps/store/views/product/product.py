@@ -62,7 +62,7 @@ class ProductDetailView(APIView):
     def get(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
-            data = product.to_json_api(request=request)
+            data = product.to_json(request=request)
             return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

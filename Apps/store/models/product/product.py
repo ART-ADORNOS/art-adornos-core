@@ -20,11 +20,14 @@ class Product(ModelBase):
             self.image.delete()
         super().delete(*args, **kwargs)
 
-    def to_json_api(self, request=None):
+    def get_image_url(self, request=None):
         image_url = self.image.url if self.image else None
         if image_url and request:
             image_url = request.build_absolute_uri(image_url)
+        return image_url
 
+    def to_json(self, request=None):
+        image_url = self.get_image_url(request=request)
         return {
             'id': self.id,
             'name': self.name,

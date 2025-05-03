@@ -12,6 +12,7 @@ const UpdateProfile = () => {
     const {formData, errors, handleChange} = useFormData(user);
     const {handleUpdate} = useProfileUpdate(formData, user);
 
+
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>

@@ -14,10 +14,10 @@ class CartListView(APIView):
         try:
             cart = Cart.objects.get(user=request.user)
             cart_products = CartProduct.objects.filter(cart=cart)
-            serializer = CartSerializer(cart_products, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            data = [product.to_json(request=request) for product in cart_products]
+            return Response(data, status=status.HTTP_200_OK)
         except Cart.DoesNotExist:
-            return Response({"message": "El carrito está vacío."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegisterCartView(APIView):
