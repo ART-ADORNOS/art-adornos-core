@@ -14,3 +14,7 @@ export const RESOURCES = {
     CATEGORY: 'category/',
     CART: 'cart/',
 };
+
+export const ADDITIONAL = {
+    DELETE_CART_PRODUCT: 'delete-product/'
+}

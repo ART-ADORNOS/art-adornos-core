@@ -37,6 +37,7 @@ class CartProduct(models.Model):
     def to_json(self, request=None):
         item = model_to_dict(self)
         item['product'] = self.product.name
+        item['product_id'] = self.product.id
         item["image_product"] = self.product.get_image_url(request=request)
         item["quantity"] = self.quantity
         item["price"] = float(self.product.price)

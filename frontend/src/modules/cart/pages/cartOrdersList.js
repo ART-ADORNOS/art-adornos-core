@@ -6,9 +6,16 @@ import Loader from "../../../shared/components/ui/Loaders/Loader";
 import {IoMdCart} from "react-icons/io";
 import WhatsAppButton from "../components/WhatsAppButton";
 import {RiDeleteBin5Fill} from "react-icons/ri";
+import useDeleteProductCart from "../hooks/useDeleteProductCart";
 
 const CartOrdersList = () => {
     const {carts, loading} = useGetCart();
+    const {deleteProductCart, isDeleting} = useDeleteProductCart();
+
+
+    const handleDeleteRequest = (productCartId) => {
+        deleteProductCart(productCartId);
+    };
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
@@ -26,7 +33,7 @@ const CartOrdersList = () => {
                 </div>
             </div>
 
-            {loading ? (
+            {loading || isDeleting ? (
                 <div className="flex items-center justify-center h-96 w-full">
                     <Loader/>
                 </div>
@@ -64,7 +71,7 @@ const CartOrdersList = () => {
                                                     />
                                                     <div>
                                                         <p className="font-semibold text-gray-800 dark:text-gray-200">
-                                                            {cart.product}
+                                                            {cart.product_id}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -86,7 +93,10 @@ const CartOrdersList = () => {
                                                 ${cart.price}
                                             </td>
                                             <td className="px-4 py-4 text-right">
-                                                <button className="text-red-500 hover:text-red-700" title="Remove item">
+                                                <button
+                                                    className="text-red-500 hover:text-red-700"
+                                                    onClick={() => handleDeleteRequest(cart.id)}
+                                                    title="Remove item">
                                                     <RiDeleteBin5Fill className="w-6 h-6"/>
                                                 </button>
                                             </td>
@@ -94,7 +104,7 @@ const CartOrdersList = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td className="px-4 py-4">
+                                        <td className="px-4 py-4 text-center">
                                             <div className="flex flex-col items-center justify-center">
                                                 <IoMdCart className="text-6xl mb-3 text-gray-400"/>
                                                 <p className="font-semibold text-gray-800 dark:text-gray-200 text-lg">
