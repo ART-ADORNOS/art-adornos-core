@@ -2,10 +2,11 @@ import React from 'react';
 import Navbar from "../../../../shared/components/layout/header/Navbar"
 import {Link} from "react-router-dom";
 import {useSellerLogin} from "../../hooks/useSellerLogin";
+import ROUTES from "../../../../core/constants/routes/routes";
 
 
 export default function AccountPage() {
-  const { credentials, handleChange, handleSubmit } = useSellerLogin();
+    const {credentials, handleChange, handleSubmit} = useSellerLogin();
 
 
     return (
@@ -28,7 +29,7 @@ export default function AccountPage() {
                                         type="text"
                                         id="username"
                                         name="username"
-                                        value = {credentials.username}
+                                        value={credentials.username}
                                         onChange={handleChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         placeholder="usuario"
@@ -61,7 +62,7 @@ export default function AccountPage() {
                                         name="password"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         placeholder="••••••••"
-                                        value = {credentials.password}
+                                        value={credentials.password}
                                         onChange={handleChange}
                                         required
                                     />
@@ -80,7 +81,7 @@ export default function AccountPage() {
                         <p className="mt-10 text-center text-sm text-gray-500">
                             No tienes cuenta?{" "}
                             <Link
-                                to="#"
+                                to={`${ROUTES.REGISTER_USER}`}
                                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                             >
                                 Regístrate aquí
