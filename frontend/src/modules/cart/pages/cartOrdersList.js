@@ -7,6 +7,7 @@ import {IoMdCart} from "react-icons/io";
 import WhatsAppButton from "../components/WhatsAppButton";
 import {RiDeleteBin5Fill} from "react-icons/ri";
 import useDeleteProductCart from "../hooks/useDeleteProductCart";
+import HorizontalNavBar from "../components/HorizontalNavBar";
 
 const CartOrdersList = () => {
     const {carts, loading} = useGetCart();
@@ -23,6 +24,7 @@ const CartOrdersList = () => {
             <div className="flex items-center justify-between w-full px-4 py-2">
                 <GoBackButton redirectTo={"/dashboard"}/>
             </div>
+
             <div className="container mx-auto px-6 sm:px-12 py-12">
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div className="text-center sm:text-left">
@@ -31,6 +33,10 @@ const CartOrdersList = () => {
                         </h1>
                     </div>
                 </div>
+            </div>
+
+            <div className="flex justify-start mb-14 ml-20">
+                <HorizontalNavBar items={carts.map((cart) => cart.name_startup)}/>
             </div>
 
             {loading || isDeleting ? (
@@ -104,8 +110,8 @@ const CartOrdersList = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td className="px-4 py-4 text-center">
-                                            <div className="flex flex-col items-center justify-center">
+                                        <td colSpan={4} className="p-10">
+                                            <div className="flex flex-col items-center justify-center text-center">
                                                 <IoMdCart className="text-6xl mb-3 text-gray-400"/>
                                                 <p className="font-semibold text-gray-800 dark:text-gray-200 text-lg">
                                                     Tu carrito está vacío

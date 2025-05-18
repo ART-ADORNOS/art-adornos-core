@@ -16,7 +16,6 @@ const ROUTES = {
     USER_LIST: '/user-list',
     USER_DETAIL: '/user-detail',
     USER_FORM: '/user-form',
-    REGISTER_USER: '/register-user',
     REGISTER: "/register",
     CART_ORDERS_LIST: '/cart-orders-list',
     LOGIN: '/login',

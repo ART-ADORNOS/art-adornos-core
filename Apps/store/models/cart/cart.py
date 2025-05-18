@@ -15,7 +15,6 @@ class Cart(ModelBase):
     def to_json(self, request=None):
         item = model_to_dict(self)
         item['product'] = self.products.name
-        # item["image_product"] = self.products.to_json_api(request=request)
         item["quantity"] = self.cartproduct_set.quantity
         item["price"] = self.products.price
         return item
@@ -38,6 +37,8 @@ class CartProduct(models.Model):
         item = model_to_dict(self)
         item['product'] = self.product.name
         item['product_id'] = self.product.id
+        item["name_startup"] = self.product.start_up.name
+        item["phone_owner"] = self.product.start_up.owner.phone
         item["image_product"] = self.product.get_image_url(request=request)
         item["quantity"] = self.quantity
         item["price"] = float(self.product.price)
