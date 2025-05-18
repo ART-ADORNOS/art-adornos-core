@@ -3,6 +3,7 @@ import Navbar from "../../../../shared/components/layout/header/Navbar";
 import InputField from "../../../../shared/components/ui/Fields/InputField";
 import GoBackButton from "../../../../shared/components/ui/Buttons/goBack";
 import {useRegister} from "../../hooks/useRegister";
+import ROUTES from "../../../../core/constants/routes/routes";
 
 
 const Register = () => {
@@ -20,7 +21,7 @@ const Register = () => {
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>
-            <GoBackButton redirectTo="/login"/>
+            <GoBackButton redirectTo={ROUTES.LOGIN}/>
             <section className="text-center my-16 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Registro de usuarios</h1>
                 <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">

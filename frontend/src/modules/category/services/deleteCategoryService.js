@@ -9,7 +9,7 @@ const deleteCategoryService = async (categoryId) => {
             return response.data;
         }
     } catch (err) {
-        throw err;
+        throw new Error("Failed to delete category. Please try again later.");
     }
 }
 

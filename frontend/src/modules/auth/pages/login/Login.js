@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import Navbar from "../../../../shared/components/layout/header/Navbar";
 import {useLogin} from "../../hooks/userLogin";
+import ROUTES from "../../../../core/constants/routes/routes";
 
 const Login = () => {
     const {credentials, handleChange, handleSubmit} = useLogin();
@@ -47,7 +48,7 @@ const Login = () => {
                 <div className="flex items-center justify-between mt-4">
                     <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
                     <Link
-                        to="/register"
+                        to={`${ROUTES.REGISTER}`}
                         className="text-xs text-blue-500 uppercase dark:text-blue-400 hover:underline"
                     >
                         REGISTRESE SI AUN NO LO HA HECHO
