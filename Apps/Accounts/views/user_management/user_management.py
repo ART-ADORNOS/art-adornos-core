@@ -12,6 +12,7 @@ class GetUserView(APIView):
             'id': user.id,
             'username': user.username,
             'email': user.email,
+            'phone': user.phone,
             'first_name': user.first_name,
             'last_name': user.last_name,
             "is_staff": user.is_staff,

@@ -49,6 +49,16 @@ const UpdateProfile = () => {
                                 errorMessage="Por favor, introduce un correo electrónico válido."
                             />
                             <InputField
+                                label = "Telefono"
+                                name = "phone"
+                                type = "number"
+                                placeholder = "Telefono"
+                                value = {formData.phone}
+                                onChange = {handleChange}
+                                error = {errors.phone}
+                                errorMessage = "Por favor, introduce un número de teléfono válido."
+                            />
+                            <InputField
                                 label="Nombre de usuario"
                                 name="username"
                                 type="text"
