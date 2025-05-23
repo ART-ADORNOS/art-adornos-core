@@ -51,7 +51,7 @@ const UpdateProfile = () => {
                             <InputField
                                 label = "Telefono"
                                 name = "phone"
-                                type = "number"
+                                type = "text"
                                 placeholder = "Telefono"
                                 value = {formData.phone}
                                 onChange = {handleChange}
