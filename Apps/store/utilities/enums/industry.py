@@ -1,7 +1,7 @@
-from django.db import models
+from Apps.store.utilities.enums.enums import TextChoicesCustom
 
 
-class Industry(models.TextChoices):
+class Industry(TextChoicesCustom):
     AGRICULTURE = 'AGRICULTURE', 'Agricultura'
     AUTOMOTIVE = 'AUTOMOTIVE', 'Automotriz'
     BIOTECHNOLOGY = 'BIOTECHNOLOGY', 'Biotecnología'
@@ -15,5 +15,3 @@ class Industry(models.TextChoices):
     HAIRDRESSING = 'HAIRDRESSING', 'Peluquería'
     CLOTHING_SALES = 'CLOTHING_SALES', 'Venta de ropa'
     GENERAL = 'GENERAL', 'Otros'
-
-

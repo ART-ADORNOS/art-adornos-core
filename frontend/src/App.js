@@ -17,6 +17,7 @@ import StartupProvider from "./modules/startup/context/StartupProvider";
 import ProductForm from "./modules/products/pages/ProductForm";
 import CategoryForm from "./modules/category/pages/CategoryForm";
 import ProductDetail from "./modules/products/pages/ProductDetail";
+import CartOrdersList from "./modules/cart/pages/cartOrdersList";
 
 const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
@@ -67,6 +68,8 @@ function App() {
                                    element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
                             <Route path="/product-detail/:id"
                                    element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
+                            <Route path="/cart-orders-list"
+                                   element={<ProtectedRoute><CartOrdersList/></ProtectedRoute>}/>
 
                             <Route
                                 path="/dashboard"

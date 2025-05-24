@@ -11,6 +11,7 @@ import useGetUserIndustry from "../../../startup/hooks/useGetUserIndustry";
 import WelcomeHeader from "../../components/WelcomeHeader";
 import USER_TYPE from "../../../../core/constants/user/userType";
 import useUsertype from "../../../products/hooks/useUsertype";
+import ROUTES from "../../../../core/constants/routes/routes";
 
 const DashboardSeller = () => {
     const {user} = useContext(AuthContext);
@@ -34,7 +35,7 @@ const DashboardSeller = () => {
             <Navbar dashboardTyype="userSeller"/>
             <WelcomeHeader
                 username={user?.username}
-                redirectTo="/register-startup"
+                redirectTo={ROUTES.REGISTER_STARTUP}
                 title="Emprendimiento"
             />
 
@@ -69,7 +70,7 @@ const DashboardSeller = () => {
                             ¡Anímate a crear tu catalogo para tu emprendimiento!
                         </p>
                         <button
-                            onClick={() => navigate('/register-startup')}
+                            onClick={() => navigate(`${ROUTES.REGISTER_STARTUP}`)}
                             className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-all"
                         >
                             Crear Startup 🚀

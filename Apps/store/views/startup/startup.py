@@ -14,7 +14,13 @@ class UserIndustryView(APIView):
     def get(self, request):
         industries = Startup.objects.filter(owner=request.user).values_list('industry', flat=True).distinct()
         unique_industries = set(industries)
-        return Response({"industries": list(unique_industries)})
+        industries_with_labels = []
+        for ind_value in unique_industries:
+            industries_with_labels.append({
+                'value': ind_value,
+                'label': Industry(ind_value).label
+            })
+        return Response({"industries": industries_with_labels})
 
 
 class UserStartupsListView(APIView):
@@ -30,6 +36,7 @@ class RegisterStartupView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        print(request.data)
         serializer = StartupSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)

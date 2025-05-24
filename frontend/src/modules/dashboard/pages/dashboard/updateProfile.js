@@ -5,17 +5,18 @@ import GoBackButton from "../../../../shared/components/ui/Buttons/goBack";
 import InputField from "../../../../shared/components/ui/Fields/InputField";
 import useFormData from "../../hooks/useFormData";
 import useProfileUpdate from "../../hooks/useProfileUpdate";
+import $ROUTES from "../../../../core/constants/routes/routes";
 
 const UpdateProfile = () => {
     const {user} = useContext(AuthContext);
     const {formData, errors, handleChange} = useFormData(user);
     const {handleUpdate} = useProfileUpdate(formData, user);
-    const dashboardRedirect = "/dashboard"; //
+
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>
-            <GoBackButton redirectTo={dashboardRedirect}/>
+            <GoBackButton redirectTo={$ROUTES.DASHBOARD}/>
             <section className="text-center my-16 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Actualizar perfil</h1>
                 <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
@@ -46,6 +47,16 @@ const UpdateProfile = () => {
                                 onChange={handleChange}
                                 error={errors.email}
                                 errorMessage="Por favor, introduce un correo electrónico válido."
+                            />
+                            <InputField
+                                label = "Telefono"
+                                name = "phone"
+                                type = "text"
+                                placeholder = "Telefono"
+                                value = {formData.phone}
+                                onChange = {handleChange}
+                                error = {errors.phone}
+                                errorMessage = "Por favor, introduce un número de teléfono válido."
                             />
                             <InputField
                                 label="Nombre de usuario"

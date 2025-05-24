@@ -8,8 +8,12 @@ import updateProductService from "../services/updateProductService";
 const useRegisterProduct = (productId = null) => {
     const {selectedStartup} = useContext(StartupContext);
     const idST = localStorage.getItem("selectedStartupId");
-    const { categories } = useGetCategories(selectedStartup?.id || idST);
+    const {categories} = useGetCategories(selectedStartup?.id || idST);
     const {showNotification} = useNotification();
+    const [showAlert, setShowAlert] = useState(false);
+    const closeAlert = () => {
+        setShowAlert(false);
+    };
 
     const [formData, setFormData] = useState({
         start_up: "",
@@ -18,23 +22,47 @@ const useRegisterProduct = (productId = null) => {
         category: "",
         price: "",
         stock: "",
+        image: null,
     });
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        const {name, value, files} = e.target;
+        if (name === "image") {
+            setFormData((prevData) => ({
+                ...prevData,
+                image: files[0],
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
     };
 
     const handleSubmit = async (e, navigate) => {
         e.preventDefault();
-        formData.start_up = formData.start_up || idST;
-        formData.category = categories.find((category) => category.name === formData.category)?.id;
+        if (!formData.image) {
+            setShowAlert(true);
+            return;
+        }
+
+        const categoryId = categories.find((cat) => cat.name === formData.category)?.id;
+
+        const form = new FormData();
+        form.append("start_up", idST);
+        form.append("name", formData.name);
+        form.append("description", formData.description);
+        form.append("category", categoryId || "");
+        form.append("price", formData.price);
+        form.append("stock", formData.stock);
+        if (formData.image instanceof File) {
+            form.append("image", formData.image);
+        }
+
         if (productId) {
             try {
-                await updateProductService(productId, formData);
+                await updateProductService(productId, form);
                 showNotification("Producto actualizado exitosamente", "success");
                 navigate("/product-list");
             } catch (err) {
@@ -42,7 +70,7 @@ const useRegisterProduct = (productId = null) => {
             }
         } else {
             try {
-                await registerProductService(formData);
+                await registerProductService(form);
                 setFormData({
                     start_up: "",
                     name: "",
@@ -50,6 +78,7 @@ const useRegisterProduct = (productId = null) => {
                     category: "",
                     price: "",
                     stock: "",
+                    image: null,
                 });
                 showNotification("Producto registrado exitosamente", "success");
                 navigate("/product-list");
@@ -65,6 +94,8 @@ const useRegisterProduct = (productId = null) => {
         handleChange,
         handleSubmit,
         categories,
+        showAlert,
+        closeAlert
     };
 }
 

@@ -28,7 +28,7 @@ const CardStartup = ({startup, usertype}) => {
         setIsModalOpen(false);
     };
 
-    if(isDeleting) {
+    if (isDeleting) {
         return <Loader/>
     }
 
@@ -50,15 +50,20 @@ const CardStartup = ({startup, usertype}) => {
                         {startup.name}
                     </Link>
                 </div>
-                <div className="absolute top-4 right-4 flex space-x-2">
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="p-2 rounded-full">
-                        <IoEllipsisVertical size={20}/>
-                    </button>
-                </div>
+
+                {usertype !== "user" && (
+                    <div className="absolute top-4 right-4 flex space-x-2">
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="p-2 rounded-full">
+                            <IoEllipsisVertical size={20}/>
+                        </button>
+                    </div>
+                )}
+
                 <div
-                    className="absolute top-0 left-0 bottom-0 w-1 bg-orange-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    className="absolute top-0 left-0 bottom-0 w-1 bg-orange-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                </div>
             </div>
             {isMenuOpen && (
                 <div ref={menuRef}

@@ -1,18 +1,20 @@
 // hooks/useProfileUpdate.js
-import { useNavigate, useLocation } from "react-router-dom";
-import { useNotification } from "../../../shared/providers/alertProvider";
-import { useContext } from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useNotification} from "../../../shared/providers/alertProvider";
+import {useContext} from "react";
 import AuthContext from "../../../shared/providers/AuthContext";
+import ROUTES from "../../../core/constants/routes/routes";
+import USER_TYPE from "../../../core/constants/user/userType";
 
 const useProfileUpdate = (formData, user) => {
-    const { updateUser } = useContext(AuthContext);
+    const {updateUser} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const { showNotification } = useNotification();
+    const {showNotification} = useNotification();
 
-    const dashboardRedirect = location.state?.fromDashboard === "userSeller"
-        ? "/dashboard-seller"
-        : "/dashboard";
+    const dashboardRedirect = location.state?.fromDashboard === USER_TYPE.SELLER
+        ? ROUTES.DASHBOARD_SELLER
+        : ROUTES.DASHBOARD;
 
     const handleUpdate = async (e) => {
         e.preventDefault();
@@ -20,6 +22,7 @@ const useProfileUpdate = (formData, user) => {
             formData.first_name === user.first_name &&
             formData.last_name === user.last_name &&
             formData.email === user.email &&
+            formData.phone === user.phone &&
             formData.username === user.username;
         if (noChanges) {
             showNotification("No se realizaron cambios", "info");
@@ -29,7 +32,7 @@ const useProfileUpdate = (formData, user) => {
             const success = await updateUser(formData);
             if (success) {
                 showNotification("Perfil actualizado con éxito", "success");
-                navigate(dashboardRedirect, { state: { updateSuccess: true } });
+                navigate(dashboardRedirect, {state: {updateSuccess: true}});
             } else {
                 showNotification("Error al actualizar el perfil", "error");
             }
@@ -38,7 +41,7 @@ const useProfileUpdate = (formData, user) => {
         }
     };
 
-    return { handleUpdate };
+    return {handleUpdate};
 };
 
 export default useProfileUpdate;

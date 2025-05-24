@@ -1,9 +1,8 @@
-// src/shared/hooks/useRegister.js
-
 import { useState } from "react";
 import { useNotification } from "../../../shared/providers/alertProvider";
 import registerUser from "../services/register/registerService";
 import { useNavigate } from "react-router-dom";
+import ROUTES from "../../../core/constants/routes/routes";
 
 export function useRegister() {
     const [formData, setFormData] = useState({
@@ -92,7 +91,7 @@ export function useRegister() {
                 password: "",
                 confirm_password: "",
             });
-            navigate("/login");
+            navigate(ROUTES.LOGIN);
         } catch (err) {
             let errorMessage = "Error desconocido";
             if (err.response && err.response.data) {
