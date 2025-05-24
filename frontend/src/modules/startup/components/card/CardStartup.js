@@ -7,6 +7,7 @@ import useOutsideClick from "../../../products/hooks/useOutsideClick";
 import DeleteModal from "../../../../shared/components/ui/Modals/DeleteModal";
 import {useDeleteStartups} from "../../hooks/useDeleteStartups";
 import Loader from "../../../dashboard/components/Loader";
+import ROUTES from "../../../../core/constants/routes/routes";
 
 const CardStartup = ({startup, usertype}) => {
     const {setSelectedStartup} = useContext(StartupContext);
@@ -69,26 +70,33 @@ const CardStartup = ({startup, usertype}) => {
                 <div ref={menuRef}
                      className="absolute bottom-14 right-4 bg-gray-800 text-white rounded-md shadow-lg w-35">
                     <ul className="p-2 space-y-1">
-                        <Link
-                            to="/register-startup"
-                            state={{
-                                startupId: startup.id,
-                                startupName: startup.name,
-                                startupDescription: startup.description,
-                                startupIndustry: startup.industry,
-                            }}
-                            className="flex items-center gap-2 p-2 hover:bg-blue-500 cursor-pointer rounded-md">
-                            <IoPencil size={18}/>
-                            Editar
-                        </Link>
-                        <li
-                            onClick={handleDeleteRequest}
-                            className="flex items-center gap-2 p-2 hover:bg-red-500 cursor-pointer rounded-md">
-                            <IoTrash size={18}/>
-                            Eliminar
+                        <li>
+                            <Link
+                                to={`${ROUTES.REGISTER_STARTUP}`}
+                                state={{
+                                    startupId: startup.id,
+                                    startupName: startup.name,
+                                    startupDescription: startup.description,
+                                    startupIndustry: startup.industry,
+                                }}
+                                className="flex items-center gap-2 p-2 hover:bg-blue-500 cursor-pointer rounded-md"
+                            >
+                                <IoPencil size={18}/>
+                                Editar
+                            </Link>
+                        </li>
+                        <li>
+                            <button
+                                onClick={handleDeleteRequest}
+                                className="flex items-center gap-2 p-2 hover:bg-red-500 cursor-pointer rounded-md"
+                            >
+                                <IoTrash size={18}/>
+                                Eliminar
+                            </button>
                         </li>
                     </ul>
                 </div>
+
             )}
             <DeleteModal
                 isOpen={isModalOpen}
