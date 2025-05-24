@@ -1,4 +1,5 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
+import isEmail from "validator/lib/isEmail";
 
 const useFormData = (user) => {
     const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const useFormData = (user) => {
         if (name === "email") {
             setErrors({
                 ...errors,
-                email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+                email: !isEmail(value),
             });
         }
     };

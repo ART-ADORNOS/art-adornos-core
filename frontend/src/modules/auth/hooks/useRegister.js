@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useNotification } from "../../../shared/providers/alertProvider";
+import {useState} from "react";
+import {useNotification} from "../../../shared/providers/alertProvider";
 import registerUser from "../services/register/registerService";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import ROUTES from "../../../core/constants/routes/routes";
+import isEmail from 'validator/lib/isEmail';
 
 export function useRegister() {
     const [formData, setFormData] = useState({
@@ -30,11 +31,11 @@ export function useRegister() {
         confirm_password: false,
     });
 
-    const { showNotification } = useNotification();
+    const {showNotification} = useNotification();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, type, checked, value } = e.target;
+        const {name, type, checked, value} = e.target;
 
         setFormData((prevData) => {
             const newData = {
@@ -54,17 +55,17 @@ export function useRegister() {
         if (name === "email") {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+                email: !isEmail(value),
             }));
         }
     };
 
     const handleFocus = (field) => {
-        setFocus({ ...focus, [field]: true });
+        setFocus({...focus, [field]: true});
     };
 
     const handleBlur = (field) => {
-        setFocus({ ...focus, [field]: false });
+        setFocus({...focus, [field]: false});
     };
 
     const handleSubmit = async (e) => {
