@@ -46,7 +46,7 @@ const ProductCard = ({product, usertype}) => {
     }
 
     return (
-        <div className="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+        <div className="relative w-full max-w-xs flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
             <div
                 className="relative flex h-56 w-full items-center justify-center overflow-hidden rounded-t-xl bg-gradient-to-tr from-orange-500 to-purple-500">
                 <img src={image} alt="producto" className="w-full h-full object-cover rounded-md shadow-md"/>

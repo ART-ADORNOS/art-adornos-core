@@ -21,83 +21,102 @@ const CardStartup = ({startup, usertype}) => {
         localStorage.setItem("selectedStartupData", JSON.stringify(startup));
         setSelectedStartup(startup);
     };
+
     const handleDeleteRequest = () => {
         setIsModalOpen(true);
     };
+
     const handleDelete = async () => {
         await deleteStartup();
         setIsModalOpen(false);
     };
 
     if (isDeleting) {
-        return <Loader/>
+        return <Loader/>;
     }
 
     return (
-        <div className="group relative w-80 h-32 mb-6 transition-all duration-300 hover:-translate-y-1">
+        <div
+            className="group relative w-full sm:w-80 h-32 mb-6 transition-all duration-300 hover:-translate-y-1 mx-auto">
             <div
                 className="absolute inset-0 bg-gradient-to-r from-orange-100 to-purple-100 rounded-lg blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+
             <div
                 className="relative h-full cursor-pointer bg-white dark:bg-neutral-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center p-4 gap-4 border border-gray-100 dark:border-neutral-700">
-                <div className="p-2 rounded-full flex items-center justify-center">
-                    <FaRocket className="stroke-orange-400 dark:stroke-orange-300" size={40}/>
-                </div>
-                <div>
-                    <Link
-                        to="/product-list"
-                        state={{usertype: usertype}}
-                        onClick={handleClick}
-                        className="text-lg font-semibold text-neutral-800 dark:text-white hover:underline">
-                        {startup.name}
-                    </Link>
+                <div className="flex items-center flex-1 min-w-0">
+                    <div className="p-2 rounded-full flex-shrink-0">
+                        <FaRocket className="stroke-orange-400 dark:stroke-orange-300" size={40}/>
+                    </div>
+
+                    <div className="ml-3 overflow-hidden">
+                        <Link
+                            to={`${ROUTES.PRODUCT_LIST}`}
+                            state={{usertype: usertype}}
+                            onClick={handleClick}
+                            className="text-lg font-semibold text-neutral-800 dark:text-white hover:underline truncate block"
+                            title={startup.name}
+                        >
+                            {startup.name}
+                        </Link>
+                    </div>
                 </div>
 
                 {usertype !== "user" && (
-                    <div className="absolute top-4 right-4 flex space-x-2">
+                    <div className="flex-shrink-0 relative">
                         <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2 rounded-full">
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsMenuOpen(!isMenuOpen);
+                            }}
+                            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
+                            aria-label="Opciones"
+                        >
                             <IoEllipsisVertical size={20}/>
                         </button>
+
+                        {isMenuOpen && (
+                            <div
+                                ref={menuRef}
+                                className="absolute right-0 bottom-full mb-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-md shadow-lg w-40 z-10 border border-gray-200 dark:border-neutral-700"
+                            >
+                                <ul className="py-1">
+                                    <li>
+                                        <Link
+                                            to={`${ROUTES.REGISTER_STARTUP}`}
+                                            state={{
+                                                startupId: startup.id,
+                                                startupName: startup.name,
+                                                startupDescription: startup.description,
+                                                startupIndustry: startup.industry,
+                                            }}
+                                            className="flex items-center gap-2 px-4 py-2 hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer"
+                                        >
+                                            <IoPencil size={18}/>
+                                            <span>Editar</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDeleteRequest();
+                                            }}
+                                            className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer"
+                                        >
+                                            <IoTrash size={18}/>
+                                            <span>Eliminar</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 )}
 
                 <div
-                    className="absolute top-0 left-0 bottom-0 w-1 bg-orange-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                </div>
+                    className="absolute top-0 left-0 bottom-0 w-1 bg-orange-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
-            {isMenuOpen && (
-                <div ref={menuRef}
-                     className="absolute bottom-14 right-4 bg-gray-800 text-white rounded-md shadow-lg w-35">
-                    <ul className="p-2 space-y-1">
-                        <li>
-                            <Link
-                                to={`${ROUTES.REGISTER_STARTUP}`}
-                                state={{
-                                    startupId: startup.id,
-                                    startupName: startup.name,
-                                    startupDescription: startup.description,
-                                    startupIndustry: startup.industry,
-                                }}
-                                className="flex items-center gap-2 p-2 hover:bg-blue-500 cursor-pointer rounded-md"
-                            >
-                                <IoPencil size={18}/>
-                                Editar
-                            </Link>
-                        </li>
-                        <li>
-                            <button
-                                onClick={handleDeleteRequest}
-                                className="flex items-center gap-2 p-2 hover:bg-red-500 cursor-pointer rounded-md"
-                            >
-                                <IoTrash size={18}/>
-                                Eliminar
-                            </button>
-                        </li>
-                    </ul>
-                </div>
 
-            )}
             <DeleteModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
