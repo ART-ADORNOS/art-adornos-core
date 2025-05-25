@@ -22,6 +22,7 @@ const ProductList = () => {
     let {usertype} = location.state || {};
     usertype = usertype || localStorage.getItem('usertype') || '';
     const redirect = usertype === USER_TYPE.SELLER ? ROUTES.DASHBOARD_SELLER : ROUTES.DASHBOARD;
+    const isLoading = loading || loadingTwo;
 
 
     return (
@@ -60,13 +61,13 @@ const ProductList = () => {
                     </div>
                 )}
             </div>
-            {loading || loadingTwo ? (
+            {isLoading ? (
                 <div className="flex items-center justify-center h-96 w-full">
                     <Loader/>
                 </div>
             ) : (
                 <>
-                    <div className="container mx-auto px-6 sm:px-12 py-12">
+                    <div className="container mx-auto px-14 sm:px-8 py-12">
                         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                             <div className="text-center sm:text-left">
                                 <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-orange-400 to-purple-500 bg-clip-text text-transparent">
@@ -80,14 +81,14 @@ const ProductList = () => {
                     </div>
 
                     {usertype === USER_TYPE.SELLER && categories.length > 0 && (
-                        <div className="w-full px-8 py-4 ">
+                        <div className="w-full px-14 py-2 ">
                             <CategorySidebar categories={categories}/>
                         </div>)
                     }
 
                     {products.length > 0 ? (
                         <div className="container mx-auto px-4 sm:px-8 lg:px-16 py-10">
-                            <div className="flex flex-wrap gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8 lg:px-12">
                                 {products.map((product) => (
                                     <ProductCard key={product.id} product={product} usertype={usertype}/>))}
                             </div>
