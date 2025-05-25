@@ -1,9 +1,14 @@
+import logging
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from Apps.store.models import Category
 from Apps.store.serializer.category.category import CategorySerializer
+
+logger = logging.getLogger(__name__)
 
 
 class CategoryListView(APIView):
@@ -38,7 +43,9 @@ class CategoryUpdateView(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Error updating category: {e}")
+            return Response({"error": "Ocurrio un error interno. Por favor, intente más tarde."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CategoryDeleteView(APIView):
@@ -50,4 +57,6 @@ class CategoryDeleteView(APIView):
             category.delete()
             return Response({"result": "category delete successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Error deleting category: {e}")
+            return Response({"error": "Ocurrio un error interno. Por favor, intente más tarde."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)

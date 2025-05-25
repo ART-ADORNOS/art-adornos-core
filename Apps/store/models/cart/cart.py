@@ -48,28 +48,3 @@ class CartProduct(models.Model):
         verbose_name = 'Producto en Carrito'
         verbose_name_plural = 'Productos en Carrito'
         ordering = ['id']
-
-
-class OrderHistory(ModelBase):
-    user = models.ForeignKey('Accounts.User', on_delete=models.CASCADE, verbose_name='Usuario')
-    products = models.ManyToManyField('Product', through='OrderProduct', verbose_name='Productos')
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Precio Total')
-    order_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Pedido')
-
-    def __str__(self):
-        return f"Pedido de {self.user.username} - {self.order_date.strftime('%Y-%m-%d %H:%M:%S')}"
-
-    class Meta:
-        verbose_name = 'Historial de Pedido'
-        verbose_name_plural = 'Historial de Pedidos'
-        ordering = ['order_date']
-
-
-class OrderProduct(models.Model):
-    order = models.ForeignKey(OrderHistory, on_delete=models.CASCADE)
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    price_at_purchase = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.product.name} - {self.quantity} (Precio: {self.price_at_purchase})"

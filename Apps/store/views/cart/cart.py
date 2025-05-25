@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -5,6 +7,8 @@ from rest_framework.views import APIView
 
 from Apps.store.models import CartProduct, Cart
 from Apps.store.serializer.cart.cart import CartSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class CartListView(APIView):
@@ -55,7 +59,9 @@ class DeleteCartView(APIView):
             cart.delete()
             return Response(status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Error deleting cart: {e}")
+            return Response({"error", "Ocurrio un error interno. Por favor, intente más tarde."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class DeleteCartProductView(APIView):

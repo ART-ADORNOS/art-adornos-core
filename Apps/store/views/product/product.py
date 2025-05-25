@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +8,8 @@ from rest_framework.views import APIView
 
 from Apps.store.models import Product
 from Apps.store.serializer.product.Product import ProductSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class RegisterProductView(APIView):
@@ -41,7 +45,9 @@ class ProductUpdateView(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Error updating product: {e}")
+            return Response({"error": "Ocurrio un error interno. Por favor, intente más tarde."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ProductDeleteView(APIView):
@@ -53,7 +59,9 @@ class ProductDeleteView(APIView):
             product.delete()
             return Response({"result": "product delete successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Error deleting product: {e}")
+            return Response({"error": "Ocurrio un error interno. Por favor, intente más tarde."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ProductDetailView(APIView):
@@ -65,4 +73,6 @@ class ProductDetailView(APIView):
             data = product.to_json(request=request)
             return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Error getting product detail: {e}")
+            return Response({"error", "Ocurrio un error interno. Por favor, intente más tarde."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
