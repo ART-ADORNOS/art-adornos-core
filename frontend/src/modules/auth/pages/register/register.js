@@ -92,6 +92,7 @@ const Register = () => {
                                 label="Pais"
                                 name="country"
                                 type="text"
+                                placeholder="Pais"
                                 value={formData.country}
                                 onChange={handleChange}
                             />
