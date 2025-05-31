@@ -1,5 +1,5 @@
 import Navbar from "../../../shared/components/layout/header/Navbar";
-import React, {useRef, useState} from "react";
+import React, {Fragment, useRef, useState} from "react";
 import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
 import {Link, useLocation} from "react-router-dom";
 import ProductCard from "../components/ProductCard";
@@ -66,7 +66,7 @@ const ProductList = () => {
                     <Loader/>
                 </div>
             ) : (
-                <>
+                <Fragment>
                     <div className="container mx-auto px-14 sm:px-8 py-12">
                         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                             <div className="text-center sm:text-left">
@@ -113,7 +113,7 @@ const ProductList = () => {
                             )}
                         </div>
                     )}
-                </>
+                </Fragment>
             )}
         </div>);
 };

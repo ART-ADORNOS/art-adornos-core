@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {Fragment, useEffect, useRef, useState} from "react";
 import {FiFile, FiTrash2, FiUploadCloud} from "react-icons/fi";
 
 const ProductInput = ({formData, handleChange, categories}) => {
@@ -139,13 +139,13 @@ const ProductInput = ({formData, handleChange, categories}) => {
                             <span className="text-gray-400 text-sm mt-1">Soporta: JPG, JPEG2000, PNG</span>
                         </label>
                     ) : (
-                        <>
+                        <Fragment>
                             <img
                                 src={previewImage}
                                 alt="Vista previa"
                                 className="w-full h-full object-cover rounded-md shadow-md"
                             />
-                        </>
+                        </Fragment>
                     )}
                 </div>
                 <div

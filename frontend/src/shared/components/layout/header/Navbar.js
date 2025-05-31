@@ -1,20 +1,21 @@
 import {Link, useNavigate} from "react-router-dom";
-import React, {useContext, useState} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import ThemeContext from "../../../../shared/providers/ThemeContent";
 import AuthContext from "../../../providers/AuthContext";
-import {BsSun, BsMoon} from "react-icons/bs";
+import {BsMoon, BsSun} from "react-icons/bs";
 import DeleteUserModal from "../../../../modules/auth/components/Modal/delete";
 import api from '../../../../core/api/axios';
 import AlertMessage from "../../ui/Messages/AlertMessage";
 
 
-export default function Navbar({ dashboardTyype }){
+export default function Navbar({dashboardTyype}) {
     const {isDarkMode, toggleTheme} = useContext(ThemeContext);
     const {user, logout} = useContext(AuthContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
-    const [message, setMessage] = useState("");     const [messageType, setMessageType] = useState("");
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState("");
     const navigate = useNavigate()
 
 
@@ -29,7 +30,7 @@ export default function Navbar({ dashboardTyype }){
     async function deleteAccount() {
         try {
             const response = await api.delete('/delete/'); // Usa el interceptor para el token
-            if  (response.status === 200) {
+            if (response.status === 200) {
                 logout('/login');
             } else {
                 setMessage('No se pudo eliminar la cuenta');
@@ -53,7 +54,7 @@ export default function Navbar({ dashboardTyype }){
     }
 
     return (
-        <>
+        <Fragment>
             <nav className="flex items-center justify-between px-8 py-4 bg-gray-200 dark:bg-gray-800 shadow-md">
                 <div className="text-2xl font-bold">
                     <a href="" className="text-orange-600 dark:text-orange-400">Logo</a>
@@ -85,7 +86,7 @@ export default function Navbar({ dashboardTyype }){
                                         <li>
                                             <Link
                                                 to="/edit-profile"
-                                                state = {{fromDashboard: dashboardTyype}}
+                                                state={{fromDashboard: dashboardTyype}}
                                                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                                             >
                                                 Editar Usuario
@@ -111,7 +112,7 @@ export default function Navbar({ dashboardTyype }){
                                 )}
                             </li>
                         ) : (
-                            <>
+                            <Fragment>
                                 <li className="transition transform hover:scale-110 ease-in-out duration-200">
                                     <Link
                                         to="/"
@@ -128,7 +129,7 @@ export default function Navbar({ dashboardTyype }){
                                         Iniciar sesión
                                     </Link>
                                 </li>
-                            </>
+                            </Fragment>
                         )}
                     </ul>
                 </div>
@@ -145,6 +146,6 @@ export default function Navbar({ dashboardTyype }){
             {isModalOpen && (
                 <DeleteUserModal isOpenModal={isModalOpen} onCloseModal={closeModal} onDelete={deleteAccount}/>
             )}
-        </>
+        </Fragment>
     );
 }
