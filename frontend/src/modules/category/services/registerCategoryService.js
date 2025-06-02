@@ -3,10 +3,10 @@ import apiStore from "../../../core/api/ApiStore";
 
 
 const registerCategoryService = async (formData) => {
-    try{
+    try {
         await apiStore.post(BASE_URLS_CATEGORY.REGISTER_CATEGORY, formData);
-    }catch(err){
-        throw err;
+    } catch (err) {
+        throw new Error("Error al registrar la categoría. Intente nuevamente más tarde.");
     }
 }
 

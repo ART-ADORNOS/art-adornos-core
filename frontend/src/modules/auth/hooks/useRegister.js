@@ -95,7 +95,7 @@ export function useRegister() {
             navigate(ROUTES.LOGIN);
         } catch (err) {
             let errorMessage = "Error desconocido";
-            if (err.response && err.response.data) {
+            if (err.response?.data) {
                 if (err.response.data.message) {
                     errorMessage = err.response.data.message;
                 } else if (err.response.data.email) {
