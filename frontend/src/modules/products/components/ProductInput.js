@@ -12,19 +12,17 @@ const ProductInput = ({formData, handleChange, categories}) => {
     }, [formData.image]);
 
     const handleImageChange = (event) => {
-        const files = event.target.files;
-        if (files && files.length > 0) {
-            const file = files[0];
-            if (file && file.type.startsWith("image/")) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setPreviewImage(reader.result);
-                };
-                reader.readAsDataURL(file);
-                handleChange(event);
-            }
+        const file = event.target.files?.[0];
+        if (file?.type?.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+            handleChange(event);
         }
     };
+
 
     const handleRemoveImage = () => {
         setPreviewImage(null);

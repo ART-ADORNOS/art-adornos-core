@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from Apps.store.models import Category
 from Apps.store.serializer.category.category import CategorySerializer
+from Apps.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ class CategoryUpdateView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error(f"Error updating category: {e}")
-            return Response({"error": "Ocurrio un error interno. Por favor, intente más tarde."},
+            return Response({"error": Messages.INTERNAL_ERROR_MSG},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -58,5 +59,5 @@ class CategoryDeleteView(APIView):
             return Response({"result": "category delete successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Error deleting category: {e}")
-            return Response({"error": "Ocurrio un error interno. Por favor, intente más tarde."},
+            return Response({"error": Messages.INTERNAL_ERROR_MSG},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)

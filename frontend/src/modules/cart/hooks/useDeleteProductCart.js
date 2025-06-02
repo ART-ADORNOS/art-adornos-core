@@ -14,12 +14,12 @@ const useDeleteProductCart = () => {
             if (result) {
                 showNotification("Producto eliminado del carrito con éxito", "success");
             }
-        } catch (error) {
+        } catch{
             showNotification("Error al eliminar el producto del carrito", "error");
         } finally {
             setIsDeleting(false);
         }
-    };
+    }
     return {deleteProductCart, isDeleting};
 
 }

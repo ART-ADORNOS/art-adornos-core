@@ -14,7 +14,7 @@ const useGetStartup = () => {
             try {
                 const data = await getStartupService();
                 setStartup(data);
-            } catch (error) {
+            } catch {
                 showNotification("Error al cargar la información de la startup", "error");
             } finally {
                 setLoading(false);

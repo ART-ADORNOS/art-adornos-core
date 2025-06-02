@@ -14,7 +14,7 @@ const useGetCart = () => {
             try {
                 const data = await getCart();
                 setCarts(data);
-            } catch (error) {
+            } catch {
                 showNotification("Error al cargar la información del carrito", "error");
             } finally {
                 setLoading(false);
