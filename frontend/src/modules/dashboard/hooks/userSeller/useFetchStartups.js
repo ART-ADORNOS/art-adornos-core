@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { getStartup } from '../../../startup/services/startupGet';
-import { useNotification } from '../../../../shared/providers/alertProvider';
+import {useEffect, useState} from 'react';
+import {getStartup} from '../../../startup/services/startupGet';
+import {useNotification} from '../../../../shared/providers/alertProvider';
 
 const useFetchStartups = () => {
     const [startupData, setStartupData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { showNotification } = useNotification();
+    const {showNotification} = useNotification();
 
     useEffect(() => {
         const fetchStartup = async () => {
@@ -17,7 +17,7 @@ const useFetchStartups = () => {
                     industry: Array.isArray(startup.industry) ? startup.industry : [startup.industry]
                 }));
                 setStartupData(normalizedData);
-            } catch (error) {
+            } catch {
                 showNotification("Error al cargar la información de la startup", "error");
             } finally {
                 setLoading(false);
@@ -26,7 +26,7 @@ const useFetchStartups = () => {
         fetchStartup();
     }, [showNotification]);
 
-    return { startupData, loading };
+    return {startupData, loading};
 };
 
 export default useFetchStartups;

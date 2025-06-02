@@ -17,7 +17,7 @@ const useGetCategories = (startupId) => {
                 startupIdRef.current = startupId || idST;
                 const data = await getCategory(startupId);
                 setCategories(data);
-            } catch (error) {
+            } catch {
                 showNotification("Error al cargar la información de las categorías", "error");
             } finally {
                 setLoading(false);

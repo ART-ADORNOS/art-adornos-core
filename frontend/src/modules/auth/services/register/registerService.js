@@ -1,10 +1,6 @@
 import axios from "../../../../core/api/axios";
 
-const registerUser = async(formData) => {
-    try {
-        await axios.post("/register/", formData);
-    } catch (err) {
-        throw err;
-    }
+const registerUser = async (formData) => {
+    await axios.post("/register/", formData);
 };
 export default registerUser;

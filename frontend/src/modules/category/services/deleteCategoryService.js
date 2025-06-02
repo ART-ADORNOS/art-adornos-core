@@ -8,7 +8,7 @@ const deleteCategoryService = async (categoryId) => {
         if (response.status === 200) {
             return response.data;
         }
-    } catch (err) {
+    } catch {
         throw new Error("Failed to delete category. Please try again later.");
     }
 }
