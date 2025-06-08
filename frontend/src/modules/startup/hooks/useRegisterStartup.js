@@ -14,6 +14,7 @@ const useRegisterStartup = (startupId = null) => {
         name: "",
         description: "",
         industry: "",
+        icon: "",
     });
 
     const handleChange = (e) => {
@@ -28,7 +29,7 @@ const useRegisterStartup = (startupId = null) => {
         e.preventDefault();
         if (startupId) {
             try {
-                formData.owner = formData.owner || user?.id;
+                formData.owner ||= user?.id;
                 formData.industry = Array.isArray(formData.industry) ? formData.industry[0] : formData.industry;
                 await updateStartupService(startupId, formData);
                 showNotification("Emprendimiento actualizado exitosamente", "success");
@@ -38,15 +39,14 @@ const useRegisterStartup = (startupId = null) => {
             }
         } else {
             try {
-                if (formData.owner === "") {
-                    formData.owner = user?.id;
-                }
+                formData.owner ||= user?.id;
                 await registerStartupService(formData);
                 setFormData({
                     owner: "",
                     name: "",
                     description: "",
                     industry: "",
+                    icon: "",
                 });
                 showNotification("Emprendimiento registrado exitosamente", "success");
                 navigate(ROUTES.DASHBOARD_SELLER);

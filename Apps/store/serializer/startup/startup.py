@@ -7,7 +7,7 @@ from Apps.store.utilities.enums.industry import Industry
 class StartupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Startup
-        fields = ['id', 'owner', 'name', 'description', 'industry']
+        fields = ['id', 'owner', 'name', 'description', 'industry', "icon"]
 
     def to_internal_value(self, data):
         data = data.copy()

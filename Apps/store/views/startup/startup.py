@@ -41,7 +41,6 @@ class RegisterStartupView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print(request.data)
         serializer = StartupSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)

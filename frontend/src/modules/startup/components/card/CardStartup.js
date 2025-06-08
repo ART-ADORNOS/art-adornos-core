@@ -1,5 +1,4 @@
 import React, {useContext, useState} from "react";
-import {FaRocket} from "react-icons/fa";
 import {Link} from "react-router-dom";
 import {StartupContext} from "../../context/StartupProvider";
 import {IoEllipsisVertical, IoPencil, IoTrash} from "react-icons/io5";
@@ -8,12 +7,14 @@ import DeleteModal from "../../../../shared/components/ui/Modals/DeleteModal";
 import {useDeleteStartups} from "../../hooks/useDeleteStartups";
 import Loader from "../../../dashboard/components/Loader";
 import ROUTES from "../../../../core/constants/routes/routes";
+import getIconComponent from "../../../../shared/utils/getIconComponent";
 
 const CardStartup = ({startup, usertype}) => {
     const {setSelectedStartup} = useContext(StartupContext);
     const {isMenuOpen, setIsMenuOpen, menuRef} = useOutsideClick();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteStartup, isDeleting} = useDeleteStartups(startup.id);
+    const Icon = getIconComponent(startup.icon)
     usertype = usertype || localStorage.getItem('usertype') || '';
 
     const handleClick = () => {
@@ -45,7 +46,7 @@ const CardStartup = ({startup, usertype}) => {
                 className="relative h-full cursor-pointer bg-white dark:bg-neutral-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center p-4 gap-4 border border-gray-100 dark:border-neutral-700">
                 <div className="flex items-center flex-1 min-w-0">
                     <div className="p-2 rounded-full flex-shrink-0">
-                        <FaRocket className="stroke-orange-400 dark:stroke-orange-300" size={40}/>
+                        <Icon size={40}/>
                     </div>
 
                     <div className="ml-3 overflow-hidden">
@@ -88,6 +89,7 @@ const CardStartup = ({startup, usertype}) => {
                                                 startupName: startup.name,
                                                 startupDescription: startup.description,
                                                 startupIndustry: startup.industry,
+                                                startupIcon: startup.icon,
                                             }}
                                             className="flex items-center gap-2 px-4 py-2 hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer"
                                         >
