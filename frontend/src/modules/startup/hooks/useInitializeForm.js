@@ -9,7 +9,7 @@ const useInitializeForm = (state, setFormData) => {
                 ...prevData,
                 name: startupName || '',
                 description: startupDescription || '',
-                industry: industryMap[startupIndustry?.[0]] || '',
+                industry: Array.isArray(startupIndustry) ? industryMap[startupIndustry[0]] || '' : '',
                 icon: startupIcon || ''
             }));
         }
