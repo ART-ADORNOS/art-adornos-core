@@ -16,7 +16,7 @@ const useDeleteCategory = () => {
             if (result) {
                 showNotification("Categoría eliminada con éxito", "success");
             }
-        } catch (error) {
+        } catch {
             showNotification("Error al eliminar la categoría", "error");
         } finally {
             setIsDeleting(false);

@@ -2,10 +2,11 @@ import {useState} from "react";
 import registerCategoryService from "../services/registerCategoryService";
 import {useNotification} from "../../../shared/providers/alertProvider";
 import updateCategoryService from "../services/updateCategoryService";
+import ROUTES from "../../../core/constants/routes/routes";
 
 
 const useRegisterCategory = (categoryId = null) => {
-const {showNotification} = useNotification();
+    const {showNotification} = useNotification();
     const startupId = localStorage.getItem("selectedStartupId");
 
 
@@ -31,8 +32,8 @@ const {showNotification} = useNotification();
                 formData.start_up = formData.start_up || startupId;
                 await updateCategoryService(categoryId, formData);
                 showNotification("Categoría actualizada con éxito", "success");
-                navigate('/product-list');
-            } catch (err) {
+                navigate(ROUTES.PRODUCT_LIST);
+            } catch {
                 showNotification("Error al actualizar la categoría", "error");
             }
         } else {
@@ -44,10 +45,10 @@ const {showNotification} = useNotification();
                     name: "",
                     description: ""
                 });
-                navigate('/product-list');
+                navigate(ROUTES.PRODUCT_LIST);
                 showNotification("Categoría creada con éxito", "success");
 
-            } catch (err) {
+            } catch {
                 showNotification("Error al crear la categoría", "error");
             }
         }

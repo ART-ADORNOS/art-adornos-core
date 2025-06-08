@@ -1,3 +1,5 @@
+import logging
+
 from django.db import models
 from django.utils.text import slugify
 from django_currentuser.middleware import (get_current_authenticated_user)
@@ -5,6 +7,8 @@ from django_currentuser.middleware import (get_current_authenticated_user)
 from Apps.Accounts.models import User
 from Apps.store.utilities.enums.icon import Icon
 from Apps.store.utilities.enums.industry import Industry
+
+logger = logging.getLogger(__name__)
 
 
 class ModelBase(models.Model):
@@ -29,7 +33,8 @@ class ModelBase(models.Model):
             else:
                 self.update_by = user.username
         except Exception as e:
-            raise e
+            logger.error(f"Error in ModelBase save method: {e}")
+            raise
 
         super().save(*args, **kwargs)
 
