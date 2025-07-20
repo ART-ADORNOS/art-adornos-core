@@ -2,10 +2,11 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {Fragment, useContext, useState} from "react";
 import ThemeContext from "../../../../shared/providers/ThemeContent";
 import AuthContext from "../../../providers/AuthContext";
-import {BsMoon, BsSun} from "react-icons/bs";
 import DeleteUserModal from "../../../../modules/auth/components/Modal/delete";
 import api from '../../../../core/api/axios';
 import AlertMessage from "../../ui/Messages/AlertMessage";
+import {NotificationIcon} from "../../icons/NotificationIcon";
+import {ThemeToggleIcon} from "../../icons/ThemeToggleIcon";
 
 
 export default function Navbar({dashboardTyype}) {
@@ -29,7 +30,7 @@ export default function Navbar({dashboardTyype}) {
 
     async function deleteAccount() {
         try {
-            const response = await api.delete('/delete/'); // Usa el interceptor para el token
+            const response = await api.delete('/delete/');
             if (response.status === 200) {
                 logout('/login');
             } else {
@@ -61,13 +62,8 @@ export default function Navbar({dashboardTyype}) {
                 </div>
                 <div className="space-x-4">
                     <ul className="flex items-center space-x-6">
-                        <li className="cursor-pointer" onClick={toggleTheme}>
-                            {isDarkMode ? (
-                                <BsSun className="text-yellow-500 text-xl"/>
-                            ) : (
-                                <BsMoon className="text-black text-xl"/>
-                            )}
-                        </li>
+                        <NotificationIcon count={6}/>
+                        <ThemeToggleIcon toggleTheme={toggleTheme} isDarkMode={isDarkMode}/>
                         {user ? (
                             <li className="relative">
                                 <button
