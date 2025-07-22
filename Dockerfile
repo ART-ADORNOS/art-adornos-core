@@ -1,12 +1,12 @@
 FROM python:3.11-slim AS build
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 ENV APP_HOME=/app
 
 WORKDIR $APP_HOME
 
-COPY requirements/production.txt /app/requirements.txt
+COPY requirements/ ./requirements/
 RUN pip install --upgrade pip setuptools \
     && pip install --no-cache-dir -r requirements/production.txt
 
