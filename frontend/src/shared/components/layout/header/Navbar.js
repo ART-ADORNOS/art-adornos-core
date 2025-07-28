@@ -7,6 +7,9 @@ import api from '../../../../core/api/axios';
 import AlertMessage from "../../ui/Messages/AlertMessage";
 import {NotificationIcon} from "../../icons/NotificationIcon";
 import {ThemeToggleIcon} from "../../icons/ThemeToggleIcon";
+import {NotificationModal} from "../../ui/Modals/NotificationModal";
+import ROUTES from "../../../../core/constants/routes/routes";
+import USER_TYPE from "../../../../core/constants/user/userType";
 
 
 export default function Navbar({dashboardTyype}) {
@@ -15,6 +18,7 @@ export default function Navbar({dashboardTyype}) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
+    const [showModalNotification, setShowModalNotification] = useState(false);
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
     const navigate = useNavigate()
@@ -23,16 +27,15 @@ export default function Navbar({dashboardTyype}) {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+    const handleNotification = () => setShowModalNotification((wasVisible) => !wasVisible);
 
-    const dashboardRedirect = dashboardTyype === "userSeller"
-        ? "/admin"
-        : "/login";
+    const dashboardRedirect = dashboardTyype === USER_TYPE.SELLER ? ROUTES.ADMIN : ROUTES.LOGIN;
 
     async function deleteAccount() {
         try {
             const response = await api.delete('/delete/');
             if (response.status === 200) {
-                logout('/login');
+                logout(ROUTES.LOGIN);
             } else {
                 setMessage('No se pudo eliminar la cuenta');
                 setMessageType('error');
@@ -50,7 +53,7 @@ export default function Navbar({dashboardTyype}) {
         });
 
         setTimeout(() => {
-            navigate('/login');
+            navigate(ROUTES.LOGIN);
         });
     }
 
@@ -62,7 +65,7 @@ export default function Navbar({dashboardTyype}) {
                 </div>
                 <div className="space-x-4">
                     <ul className="flex items-center space-x-6">
-                        <NotificationIcon count={6}/>
+                        {user && <NotificationIcon count={6} onClick={handleNotification}/>}
                         <ThemeToggleIcon toggleTheme={toggleTheme} isDarkMode={isDarkMode}/>
                         {user ? (
                             <li className="relative">
@@ -141,6 +144,10 @@ export default function Navbar({dashboardTyype}) {
 
             {isModalOpen && (
                 <DeleteUserModal isOpenModal={isModalOpen} onCloseModal={closeModal} onDelete={deleteAccount}/>
+            )}
+
+            {showModalNotification && (
+                <NotificationModal onClose={() => setShowModalNotification(false)}/>
             )}
         </Fragment>
     );

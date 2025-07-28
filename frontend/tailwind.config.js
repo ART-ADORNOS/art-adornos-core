@@ -1,12 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class',
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+    darkMode: 'class',
+    content: [
+        "./src/**/*.{js,jsx,ts,tsx}",
+    ],
+    theme: {
+        extend: {
+            animation: {
+                'slide-in': 'slide-in 0.3s ease-out forwards',
+            },
+            keyframes: {
+                slideIn: {
+                    '0%': {opacity: 0, transform: 'translateY(-10px)'},
+                    '100%': {opacity: 1, transform: 'translateY(0)'},
+                },
+            },
+        },
+    },
+    plugins: [],
 }
 
