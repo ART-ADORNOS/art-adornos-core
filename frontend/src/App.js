@@ -18,6 +18,8 @@ import ProductForm from "./modules/products/pages/ProductForm";
 import CategoryForm from "./modules/category/pages/CategoryForm";
 import ProductDetail from "./modules/products/pages/ProductDetail";
 import CartOrdersList from "./modules/cart/pages/cartOrdersList";
+import OrderHistoryList from "./modules/orderHistory/pages/orderHistoryList";
+
 
 const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
@@ -72,6 +74,8 @@ function App() {
                                        element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
                                 <Route path="/cart-orders-list"
                                        element={<ProtectedRoute><CartOrdersList/></ProtectedRoute>}/>
+                                <Route path="/history-orders"
+                                       element={<ProtectedRoute><OrderHistoryList/></ProtectedRoute>}/>
 
                                 <Route
                                     path="/dashboard"

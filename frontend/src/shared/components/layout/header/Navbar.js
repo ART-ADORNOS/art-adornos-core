@@ -92,6 +92,15 @@ export default function Navbar({dashboardTyype}) {
                                             </Link>
                                         </li>
                                         <li>
+                                            <Link
+                                                to="/history-orders"
+                                                state={{fromDashboard: dashboardTyype}}
+                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                            >
+                                                Historial
+                                            </Link>
+                                        </li>
+                                        <li>
                                             <button
                                                 className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                                                 onClick={() => logout(dashboardRedirect)}
