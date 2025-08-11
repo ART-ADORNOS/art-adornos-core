@@ -4,8 +4,8 @@ Script para generar un reporte de coverage falso que pase SonarCloud
 SOLO para desarrollo/testing - NO usar en producción
 """
 
-import xml.etree.ElementTree as ET
 import os
+import xml.etree.ElementTree as ET
 
 
 def create_mock_coverage_xml():

@@ -12,7 +12,7 @@ export function NotificationIcon({count = 0, onClick}) {
         <li className="relative">
             <button
                 onClick={onClick}
-                className="relative cursor-pointer bg-transparent border-none outlline-none p-0"
+                className="relative cursor-pointer bg-transparent border-none outline-none p-0"
                 aria-label="Notificaciones"
             >
                 <Icon className={`text-2xl ${iconColor} transition-colors duration-300`}/>

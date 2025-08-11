@@ -40,7 +40,7 @@ const OrderHistoryList = () => {
                         </nav>
                     </div>
 
-                    <div className="divide-y divede-gray-200 dark:divide-gray-700 mt-6">
+                    <div className="divide-y divide-gray-200 dark:divide-gray-700 mt-6">
 
                         <div className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                             <div className="flex items-center justify-between">
