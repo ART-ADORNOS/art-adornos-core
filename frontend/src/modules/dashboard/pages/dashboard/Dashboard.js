@@ -12,7 +12,7 @@ import {getFilteredStartups, useIndustryKeys} from "../../utils/filterUtils";
 import USER_TYPE from "../../../../core/constants/user/userType";
 import useUsertype from "../../../products/hooks/useUsertype";
 import ROUTES from "../../../../core/constants/routes/routes";
-import {DashboardTypeProvider} from "../../../../shared/providers/dashboardTypeProvider";
+import {useDashboardType} from "../../../../shared/providers/dashboardTypeProvider";
 
 const Dashboard = () => {
     const {user} = useContext(AuthContext);
@@ -22,7 +22,7 @@ const Dashboard = () => {
     const industryKeys = useIndustryKeys(industry);
     const filteredStartups = getFilteredStartups(startups, activeFilters);
     const [usertype] = useUsertype(USER_TYPE.USER);
-    const {setDashboardType} = useContext(DashboardTypeProvider);
+    const {setDashboardType} = useDashboardType();
 
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-            <Navbar dashboardTyype="user"/>
+            <Navbar dashboardTyype={USER_TYPE.USER}/>
             <WelcomeHeader
                 username={user?.username}
                 redirectTo={ROUTES.CART_ORDERS_LIST}

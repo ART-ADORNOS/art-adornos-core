@@ -77,25 +77,31 @@ function App() {
                                            element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
                                     <Route path="/cart-orders-list"
                                            element={<ProtectedRoute><CartOrdersList/></ProtectedRoute>}/>
-                                    <Route path="/history-orders"
-                                           element={<ProtectedRoute><OrderHistoryList/></ProtectedRoute>}/>
 
-                                    <Route
-                                        path="/dashboard"
-                                        element={<StartupProvider>
-                                            <ProtectedRoute>
-                                                <Dashboard/>
-                                            </ProtectedRoute>
-                                        </StartupProvider>}
+                                    <Route path="/history-orders"
+                                           element={
+                                               <ProtectedRoute><OrderHistoryList/></ProtectedRoute>
+                                           }/>
+
+                                    <Route path="/dashboard"
+                                           element={
+                                               <StartupProvider>
+                                                   <ProtectedRoute>
+                                                       <Dashboard/>
+                                                   </ProtectedRoute>
+                                               </StartupProvider>
+                                           }
                                     />
 
                                     <Route
                                         path="/dashboard-seller"
-                                        element={<StartupProvider>
-                                            <ProtectedRoute>
-                                                <DashboardSeller/>
-                                            </ProtectedRoute>
-                                        </StartupProvider>}
+                                        element={
+                                            <StartupProvider>
+                                                <ProtectedRoute>
+                                                    <DashboardSeller/>
+                                                </ProtectedRoute>
+                                            </StartupProvider>
+                                        }
                                     />
                                     <Route
                                         path="/product-list"

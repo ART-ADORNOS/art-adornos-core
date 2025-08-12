@@ -8,8 +8,8 @@ import USER_TYPE from "../../../core/constants/user/userType";
 
 const OrderHistoryList = () => {
     const [activeTab, setActiveTab] = useState("Pending");
-
     const tabs = ['Pending', 'In Progress', 'Completed'];
+
     const {dashboardType} = useDashboardType();
     console.log("dashboardType", dashboardType);
     const redirectTo = dashboardType === USER_TYPE.USER ? ROUTES.DASHBOARD : ROUTES.DASHBOARD_SELLER;

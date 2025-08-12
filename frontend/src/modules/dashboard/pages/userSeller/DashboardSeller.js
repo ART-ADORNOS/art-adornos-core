@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import AuthContext from '../../../../shared/providers/AuthContext';
 import Navbar from '../../../../shared/components/organisms/Navbar';
@@ -12,6 +12,7 @@ import WelcomeHeader from "../../components/WelcomeHeader";
 import USER_TYPE from "../../../../core/constants/user/userType";
 import useUsertype from "../../../products/hooks/useUsertype";
 import ROUTES from "../../../../core/constants/routes/routes";
+import {DashboardTypeProvider, useDashboardType} from "../../../../shared/providers/dashboardTypeProvider";
 
 const DashboardSeller = () => {
     const {user} = useContext(AuthContext);
@@ -20,9 +21,12 @@ const DashboardSeller = () => {
     const {startupData, loading} = useFetchStartups();
     const {industry} = useGetUserIndustry();
     const [usertype] = useUsertype(USER_TYPE.SELLER);
+    const {setDashboardType} = useDashboardType();
 
 
-
+    useEffect(() => {
+        setDashboardType(USER_TYPE.SELLER);
+    }, [setDashboardType]);
 
     const filteredStartups = activeFilters.length > 0
         ? startupData.filter(startup =>
@@ -32,7 +36,7 @@ const DashboardSeller = () => {
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-            <Navbar dashboardTyype="userSeller"/>
+            <Navbar dashboardTyype={USER_TYPE.SELLER}/>
             <WelcomeHeader
                 username={user?.username}
                 redirectTo={ROUTES.REGISTER_STARTUP}

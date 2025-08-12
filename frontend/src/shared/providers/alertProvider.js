@@ -1,33 +1,31 @@
-import { createContext, useContext, useState } from "react";
+import {createContext, useContext, useState} from "react";
 import AlertMessage from "../components/molecules/AlertMessage";
 
 const NotificationContext = createContext();
 
-export const NotificationProvider = ({ children }) => {
-  const [notification, setNotification] = useState(null);
+export const NotificationProvider = ({children}) => {
+    const [notification, setNotification] = useState(null);
 
-  const showNotification = (message, type = "success") => {
-    setNotification({ message, type });
+    const showNotification = (message, type = "success") => {
+        setNotification({message, type});
 
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
-  };
+        setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+    };
 
-  return (
-    <NotificationContext.Provider value={{ showNotification }}>
-      {children}
-      {notification && (
-        <AlertMessage
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification(null)}
-        />
-      )}
-    </NotificationContext.Provider>
-  );
+    return (
+        <NotificationContext.Provider value={{showNotification}}>
+            {children}
+            {notification && (
+                <AlertMessage
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
+                />
+            )}
+        </NotificationContext.Provider>
+    );
 };
 
-export const useNotification = () => {
-  return useContext(NotificationContext);
-};
+export const useNotification = () => useContext(NotificationContext);
