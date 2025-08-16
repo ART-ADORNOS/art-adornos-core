@@ -13,6 +13,7 @@ export const RESOURCES = {
     USER_INDUSTRY: 'user-industry/',
     CATEGORY: 'category/',
     CART: 'cart/',
+    ORDER: 'order/',
 };
 
 export const ADDITIONAL = {
