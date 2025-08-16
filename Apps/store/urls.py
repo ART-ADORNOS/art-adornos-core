@@ -41,4 +41,7 @@ urlpatterns += [
     path('api/cart/update/<int:cart_id>', UpdateCartView.as_view(), name='update_cart'),
     path('api/cart/delete/<int:cart_id>', DeleteCartView.as_view(), name='delete_cart'),
     path('api/cart/delete-product/<int:cart_product_id>', DeleteCartProductView.as_view(), name='delete_cart_product'),
+
+    # Order
+    path('api/order/register/', 'Apps.store.views.order.order.RegisterOrderView.as_view()', name='register_order'),
 ]

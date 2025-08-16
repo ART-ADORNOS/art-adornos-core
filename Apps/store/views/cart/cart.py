@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Apps.store.models import CartProduct, Cart
-from Apps.store.serializer.cart.cart import CartSerializer
+from Apps.store.serializer import CartSerializer
 
 logger = logging.getLogger(__name__)
 

@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Apps.store.models import Startup
-from Apps.store.serializer.startup.startup import StartupSerializer
+from Apps.store.serializer import StartupSerializer
 from Apps.store.utilities.enums.industry import Industry
 from Apps.store.utils.constants import Messages
 
