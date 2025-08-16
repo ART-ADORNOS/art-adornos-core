@@ -9,14 +9,15 @@ import Loader from "../../../shared/components/molecules/Loader";
 import {FaShoppingCart} from "react-icons/fa";
 import ROUTES from "../../../core/constants/routes/routes";
 import useRegisterCart from "../../cart/hooks/useRegisterCart";
+import {useDashboardType} from "../../../shared/providers/dashboardTypeProvider";
 
 
-const ProductCard = ({product, usertype}) => {
+const ProductCard = ({product}) => {
     const {id, name, description, category, price, stock, image} = product;
     const {isMenuOpen, setIsMenuOpen, menuRef} = useOutsideClick();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteProduct, isDeleting} = useDeleteProduct(id);
-    usertype = usertype || localStorage.getItem('usertype') || '';
+    const {dashboardType} = useDashboardType();
     const {handleSubmit} = useRegisterCart();
 
 
@@ -46,7 +47,8 @@ const ProductCard = ({product, usertype}) => {
     }
 
     return (
-        <div className="relative w-full max-w-xs flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+        <div
+            className="relative w-full max-w-xs flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
             <div
                 className="relative flex h-56 w-full items-center justify-center overflow-hidden rounded-t-xl bg-gradient-to-tr from-orange-500 to-purple-500">
                 <img src={image} alt="producto" className="w-full h-full object-cover rounded-md shadow-md"/>
@@ -65,7 +67,7 @@ const ProductCard = ({product, usertype}) => {
                         Mas detalles
                     </button>
                 </Link>
-                {usertype === USER_TYPE.SELLER ? (
+                {dashboardType === USER_TYPE.SELLER ? (
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="absolute right-4 bottom-6 p-2 rounded-full hover:bg-gray-100"

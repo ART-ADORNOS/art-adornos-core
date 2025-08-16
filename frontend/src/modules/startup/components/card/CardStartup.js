@@ -16,7 +16,7 @@ const CardStartup = ({startup}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteStartup, isDeleting} = useDeleteStartups(startup.id);
     const Icon = getIconComponent(startup.icon)
-    const {usertype} = useDashboardType()
+    const {dashboardType} = useDashboardType()
 
     const handleClick = () => {
         localStorage.setItem("selectedStartupId", startup.id);
@@ -62,7 +62,7 @@ const CardStartup = ({startup}) => {
                     </div>
                 </div>
 
-                {usertype !== "user" && (
+                {dashboardType !== "user" && (
                     <div className="flex-shrink-0 relative">
                         <button
                             onClick={(e) => {

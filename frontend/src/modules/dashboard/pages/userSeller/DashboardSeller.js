@@ -34,7 +34,7 @@ const DashboardSeller = () => {
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-            <Navbar dashboardTyype={USER_TYPE.SELLER}/>
+            <Navbar/>
             <WelcomeHeader
                 username={user?.username}
                 redirectTo={ROUTES.REGISTER_STARTUP}
