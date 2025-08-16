@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import Navbar from "../../../../shared/components/layout/header/Navbar";
+import Navbar from "../../../../shared/components/organisms/Navbar";
 import {useLogin} from "../../hooks/userLogin";
 import ROUTES from "../../../../core/constants/routes/routes";
 

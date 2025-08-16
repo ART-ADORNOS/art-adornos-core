@@ -1,14 +1,14 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
-import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
+import Navbar from "../../../shared/components/organisms/Navbar";
+import GoBackButton from "../../../shared/components/molecules/GoBackButton";
 import {useLocation, useNavigate} from "react-router-dom";
-import InputField from "../../../shared/components/ui/Fields/InputField";
+import InputField from "../../../shared/components/atoms/InputField";
 import useRegisterStartup from "../hooks/useRegisterStartup";
 import React from "react";
 import useGetIndustry from "../hooks/useGetIndustry";
-import Loader from "../../../shared/components/ui/Loaders/Loader";
+import Loader from "../../../shared/components/molecules/Loader";
 import ROUTES from "../../../core/constants/routes/routes";
 import useInitializeForm from "../hooks/useInitializeForm";
-import IconDropdown from "../../../shared/components/ui/Fields/IconDropdown";
+import IconDropdown from "../../../shared/components/atoms/IconDropdown";
 import iconOptions from "../../../core/constants/startup/iconOptions";
 
 const RegisterStartup = () => {

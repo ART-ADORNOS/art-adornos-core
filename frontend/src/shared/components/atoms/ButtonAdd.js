@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import {IoAddOutline} from "react-icons/io5";
 
-const AddButton = ({redirectTo, title, isFloating = false}) => {
+const ButtonAdd = ({redirectTo, title, isFloating = false}) => {
     const commonStyles = `
         flex items-center justify-center space-x-2 transition-all
         bg-gray-600 text-white
@@ -25,4 +25,4 @@ const AddButton = ({redirectTo, title, isFloating = false}) => {
     );
 };
 
-export default AddButton;
+export default ButtonAdd;

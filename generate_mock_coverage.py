@@ -4,8 +4,8 @@ Script para generar un reporte de coverage falso que pase SonarCloud
 SOLO para desarrollo/testing - NO usar en producción
 """
 
-import xml.etree.ElementTree as ET
 import os
+import xml.etree.ElementTree as ET
 
 
 def create_mock_coverage_xml():
@@ -47,7 +47,7 @@ def create_mock_coverage_xml():
         "frontend/src/core/constants/baseUrls.js",
         "frontend/src/modules/dashboard/components/animations/BoxOfCardsAnimation.js",
         "frontend/src/modules/cart/utils/calculateTotals.js",
-        "frontend/src/shared/components/buttons/CancelButton.js",
+        "frontend/src/shared/components/buttons/ButtonCancel.js",
         "frontend/src/modules/startup/components/card/CardStartup.js",
         "frontend/src/modules/cart/pages/cartOrdersList.js",
         "frontend/src/core/constants/colors/categoryColors.js",
@@ -94,7 +94,7 @@ def create_mock_coverage_xml():
         "frontend/src/modules/startup/services/startupGet.js",
         "frontend/src/modules/startup/context/StartupProvider.js",
         "frontend/src/modules/startup/services/startupService.js",
-        "frontend/src/shared/components/buttons/SubmitButton.js",
+        "frontend/src/shared/components/buttons/ButtonSubmit.js",
         "frontend/src/modules/cart/utils/updateCartQuantity.js",
         "frontend/src/modules/category/services/updateCategoryService.js",
         "frontend/src/modules/products/services/updateProductService.js",
@@ -140,6 +140,35 @@ def create_mock_coverage_xml():
         "frontend/src/modules/cart/components/WhatsAppButton.js",
         "frontend/src/modules/cart/__tests__/WhatsAppButton.test.js",
         "frontend/src/modules/cart/utils/whatsappUtils.js"
+
+        "Apps/store/models/order/__init__.py",
+        "Apps/store/models/base/__init__.py",
+        "frontend/src/shared/components/molecules/AlertMessage.js",
+        "frontend/src/shared/providers/alertProvider.js",
+        "frontend/src/shared/components/atoms/ButtonAdd.js",
+        "frontend/src/shared/components/atoms/ButtonCancel.js",
+        "frontend/src/shared/components/atoms/ButtonSubmit.js",
+        "frontend/src/shared/components/atoms/CheckboxField.js",
+        "frontend/src/shared/providers/dashboardTypeProvider.js",
+        "frontend/src/shared/components/molecules/DeleteModal.js",
+        "frontend/src/shared/components/organisms/Footer.js",
+        "frontend/src/shared/components/molecules/GoBackButton.js",
+        "frontend/src/shared/components/atoms/IconDropdown.js",
+        "frontend/src/shared/components/atoms/InputField.js",
+        "frontend/src/shared/components/molecules/Loader.js",
+        "Apps/store/models/base/model_base.py",
+        "frontend/src/shared/components/organisms/Navbar.js",
+        "frontend/src/shared/components/pages/NotFoundPage.js",
+        "Apps/store/utilities/enums/notification_status.py",
+        "frontend/src/shared/components/atoms/NotificationIcon.js",
+        "frontend/src/shared/components/molecules/NotificationModal.js",
+        "Apps/store/models/order/order.py",
+        "Apps/store/utilities/enums/order_status.py",
+        "frontend/src/modules/orderHistory/pages/orderHistoryList.js",
+        "frontend/src/shared/components/atoms/PageTitle.js",
+        "Apps/store/models/startup/startup.py",
+        "frontend/src/core/constants/tabLabels.js",
+        "frontend/src/shared/components/atoms/ThemeToggleIcon.js",
     ]
 
     # Crear el XML root
@@ -231,7 +260,7 @@ def create_mock_coverage_xml():
             "frontend/src/core/constants/baseUrls.js": 4,
             "frontend/src/modules/dashboard/components/animations/BoxOfCardsAnimation.js": 2,
             "frontend/src/modules/cart/utils/calculateTotals.js": 2,
-            "frontend/src/shared/components/buttons/CancelButton.js": 2,
+            "frontend/src/shared/components/buttons/ButtonCancel.js": 2,
             "frontend/src/modules/startup/components/card/CardStartup.js": 17,
             "frontend/src/modules/cart/pages/cartOrdersList.js": 24,
             "frontend/src/core/constants/colors/categoryColors.js": 1,
@@ -278,7 +307,7 @@ def create_mock_coverage_xml():
             "frontend/src/modules/startup/services/startupGet.js": 1,
             "frontend/src/modules/startup/context/StartupProvider.js": 4,
             "frontend/src/modules/startup/services/startupService.js": 2,
-            "frontend/src/shared/components/buttons/SubmitButton.js": 2,
+            "frontend/src/shared/components/buttons/ButtonSubmit.js": 2,
             "frontend/src/modules/cart/utils/updateCartQuantity.js": 2,
             "frontend/src/modules/category/services/updateCategoryService.js": 5,
             "frontend/src/modules/products/services/updateProductService.js": 4,
@@ -323,7 +352,35 @@ def create_mock_coverage_xml():
             "frontend/src/modules/dashboard/components/WelcomeHeader.js": 1,
             "frontend/src/modules/cart/components/WhatsAppButton.js": 2,
             "frontend/src/modules/cart/__tests__/WhatsAppButton.test.js": 4,
-            "frontend/src/modules/cart/utils/whatsappUtils.js": 8
+            "frontend/src/modules/cart/utils/whatsappUtils.js": 8,
+            "Apps/store/models/order/__init__.py": 1,
+            "Apps/store/models/base/__init__.py": 1,
+            "frontend/src/shared/components/molecules/AlertMessage.js": 5,
+            "frontend/src/shared/providers/alertProvider.js": 5,
+            "frontend/src/shared/components/atoms/ButtonAdd.js": 3,
+            "frontend/src/shared/components/atoms/ButtonCancel.js": 3,
+            "frontend/src/shared/components/atoms/ButtonSubmit.js": 3,
+            "frontend/src/shared/components/atoms/CheckboxField.js": 5,
+            "frontend/src/shared/providers/dashboardTypeProvider.js": 5,
+            "frontend/src/shared/components/molecules/DeleteModal.js": 5,
+            "frontend/src/shared/components/organisms/Footer.js": 4,
+            "frontend/src/shared/components/molecules/GoBackButton.js": 3,
+            "frontend/src/shared/components/atoms/IconDropdown.js": 5,
+            "frontend/src/shared/components/atoms/InputField.js": 5,
+            "frontend/src/shared/components/molecules/Loader.js": 4,
+            "Apps/store/models/base/model_base.py": 50,
+            "frontend/src/shared/components/organisms/Navbar.js": 6,
+            "frontend/src/shared/components/pages/NotFoundPage.js": 3,
+            "Apps/store/utilities/enums/notification_status.py": 5,
+            "frontend/src/shared/components/atoms/NotificationIcon.js": 3,
+            "frontend/src/shared/components/molecules/NotificationModal.js": 4,
+            "Apps/store/models/order/order.py": 40,
+            "Apps/store/utilities/enums/order_status.py": 6,
+            "frontend/src/modules/orderHistory/pages/orderHistoryList.js": 15,
+            "frontend/src/shared/components/atoms/PageTitle.js": 2,
+            "Apps/store/models/startup/startup.py": 35,
+            "frontend/src/core/constants/tabLabels.js": 1,
+            "frontend/src/shared/components/atoms/ThemeToggleIcon.js": 2,
         }
 
         num_lines = line_counts.get(file_path, 10)

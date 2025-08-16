@@ -2,7 +2,7 @@ import {useEffect, useMemo, useState} from "react";
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import {AuthProvider} from './shared/providers/AuthContext';
 import LandingPages from "./modules/landing/pages/landingPages";
-import NotFoundPage from "./shared/components/errors/NotFoundPage";
+import NotFoundPage from "./shared/components/pages/NotFoundPage";
 import ThemeContext from "./shared/providers/ThemeContent";
 import LoginAdmin from "./modules/auth/pages/login/LoginAdmin";
 import Login from './modules/auth/pages/login/Login';
@@ -18,6 +18,9 @@ import ProductForm from "./modules/products/pages/ProductForm";
 import CategoryForm from "./modules/category/pages/CategoryForm";
 import ProductDetail from "./modules/products/pages/ProductDetail";
 import CartOrdersList from "./modules/cart/pages/cartOrdersList";
+import OrderHistoryList from "./modules/orderHistory/pages/orderHistoryList";
+import {DashboardTypeProvider} from "./shared/providers/dashboardTypeProvider";
+
 
 const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
     const token = localStorage.getItem('token');
@@ -57,70 +60,76 @@ function App() {
             <div className={`${isDarkMode ? "dark" : "light"} min-h-screen flex flex-col`}>
                 <NotificationProvider>
                     <AuthProvider>
-                        <Router>
-                            <Routes>
-                                <Route path="/" element={<LandingPages/>}/>
-                                <Route path="/register" element={<Register/>}/>
-                                <Route path="/login" element={<Login/>}/>
-                                <Route path="/admin" element={<LoginAdmin/>}/>
-                                <Route path="*" element={<NotFoundPage/>}/>
-                                <Route path="/edit-profile"
-                                       element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
-                                <Route path="/register-startup"
-                                       element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
-                                <Route path="/product-detail/:id"
-                                       element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
-                                <Route path="/cart-orders-list"
-                                       element={<ProtectedRoute><CartOrdersList/></ProtectedRoute>}/>
+                        <DashboardTypeProvider>
+                            <Router>
+                                <Routes>
+                                    <Route path="/" element={<LandingPages/>}/>
+                                    <Route path="/register" element={<Register/>}/>
+                                    <Route path="/login" element={<Login/>}/>
+                                    <Route path="/admin" element={<LoginAdmin/>}/>
+                                    <Route path="*" element={<NotFoundPage/>}/>
 
-                                <Route
-                                    path="/dashboard"
-                                    element={<StartupProvider>
-                                        <ProtectedRoute>
-                                            <Dashboard/>
-                                        </ProtectedRoute>
-                                    </StartupProvider>}
-                                />
+                                    <Route path="/edit-profile"
+                                           element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
+                                    <Route path="/register-startup"
+                                           element={<ProtectedRoute><RegisterStartup/></ProtectedRoute>}/>
+                                    <Route path="/product-detail/:id"
+                                           element={<ProtectedRoute><ProductDetail/></ProtectedRoute>}/>
+                                    <Route path="/cart-orders-list"
+                                           element={<ProtectedRoute><CartOrdersList/></ProtectedRoute>}/>
+                                    <Route path="/history-orders"
+                                           element={<ProtectedRoute><OrderHistoryList/></ProtectedRoute>}/>
 
-                                <Route
-                                    path="/dashboard-seller"
-                                    element={<StartupProvider>
-                                        <ProtectedRoute>
-                                            <DashboardSeller/>
-                                        </ProtectedRoute>
-                                    </StartupProvider>}
-                                />
-                                <Route
-                                    path="/product-list"
-                                    element={<StartupProvider>
-                                        <ProtectedRoute>
-                                            <ProductList/>
-                                        </ProtectedRoute>
-                                    </StartupProvider>}
-                                />
+                                    <Route
+                                        path="/dashboard"
+                                        element={
+                                            <StartupProvider>
+                                                <ProtectedRoute><Dashboard/></ProtectedRoute>
+                                            </StartupProvider>
+                                        }
+                                    />
+                                    <Route
+                                        path="/dashboard-seller"
+                                        element={
+                                            <StartupProvider>
+                                                <ProtectedRoute><DashboardSeller/></ProtectedRoute>
+                                            </StartupProvider>
+                                        }
+                                    />
 
-                                <Route
-                                    path="/register-product"
-                                    element={<StartupProvider>
-                                        <ProtectedRoute>
-                                            <ProductForm/>
-                                        </ProtectedRoute>
-                                    </StartupProvider>}
-                                />
-                                <Route
-                                    path="/register-category"
-                                    element={<StartupProvider>
-                                        <ProtectedRoute>
-                                            <CategoryForm/>
-                                        </ProtectedRoute>
-                                    </StartupProvider>}
-                                />
-                            </Routes>
-                        </Router>
+                                    <Route
+                                        path="/product-list"
+                                        element={
+                                            <StartupProvider>
+                                                <ProtectedRoute><ProductList/></ProtectedRoute>
+                                            </StartupProvider>
+                                        }
+                                    />
+                                    <Route
+                                        path="/register-product"
+                                        element={
+                                            <StartupProvider>
+                                                <ProtectedRoute><ProductForm/></ProtectedRoute>
+                                            </StartupProvider>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/register-category"
+                                        element={
+                                            <StartupProvider>
+                                                <ProtectedRoute><CategoryForm/></ProtectedRoute>
+                                            </StartupProvider>
+                                        }
+                                    />
+                                </Routes>
+                            </Router>
+                        </DashboardTypeProvider>
                     </AuthProvider>
                 </NotificationProvider>
             </div>
-        </ThemeContext.Provider>);
+        </ThemeContext.Provider>
+    );
 }
 
 export default App;

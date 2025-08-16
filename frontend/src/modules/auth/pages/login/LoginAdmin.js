@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from "../../../../shared/components/layout/header/Navbar"
+import Navbar from "../../../../shared/components/organisms/Navbar"
 import {Link} from "react-router-dom";
 import {useSellerLogin} from "../../hooks/useSellerLogin";
 import ROUTES from "../../../../core/constants/routes/routes";

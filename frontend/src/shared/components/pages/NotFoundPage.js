@@ -1,4 +1,4 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
+import Navbar from "../organisms/Navbar";
 
 export default function NotFountPage() {
     return (

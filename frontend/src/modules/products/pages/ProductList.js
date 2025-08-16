@@ -1,15 +1,16 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
+import Navbar from "../../../shared/components/organisms/Navbar";
 import React, {Fragment, useRef, useState} from "react";
-import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
-import {Link, useLocation} from "react-router-dom";
+import GoBackButton from "../../../shared/components/molecules/GoBackButton";
+import {Link} from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import {useGetProducts} from "../hooks/useGetProducts";
 import {useGetCategories} from "../../category/hooks/useGetCategory";
 import CategorySidebar from "../../category/components/CategorySidebar";
-import Loader from "../../../shared/components/ui/Loaders/Loader";
+import Loader from "../../../shared/components/molecules/Loader";
 import USER_TYPE from "../../../core/constants/user/userType";
 import BoxOfCardsAnimation from '../../dashboard/components/animations/BoxOfCardsAnimation';
 import ROUTES from "../../../core/constants/routes/routes";
+import {useDashboardType} from "../../../shared/providers/dashboardTypeProvider";
 
 
 const ProductList = () => {
@@ -18,10 +19,8 @@ const ProductList = () => {
     const selectedStartup = JSON.parse(localStorage.getItem("selectedStartupData"));
     const {products, loadingTwo} = useGetProducts(selectedStartup?.id);
     const {categories, loading} = useGetCategories(selectedStartup?.id);
-    const location = useLocation();
-    let {usertype} = location.state || {};
-    usertype = usertype || localStorage.getItem('usertype') || '';
-    const redirect = usertype === USER_TYPE.SELLER ? ROUTES.DASHBOARD_SELLER : ROUTES.DASHBOARD;
+    const {dashboardType} = useDashboardType()
+    const redirect = dashboardType === USER_TYPE.SELLER ? ROUTES.DASHBOARD_SELLER : ROUTES.DASHBOARD;
     const isLoading = loading || loadingTwo;
 
 
@@ -31,7 +30,7 @@ const ProductList = () => {
             <div className="flex items-center justify-between w-full px-4 py-2">
                 <GoBackButton redirectTo={redirect}/>
 
-                {usertype === USER_TYPE.SELLER && (<div className="relative mr-4" ref={dropdownRef}>
+                {dashboardType === USER_TYPE.SELLER && (<div className="relative mr-4" ref={dropdownRef}>
                         <button
                             className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-purple-500 hover:from-orange-600 hover:to-purple-600 text-white px-5 py-2.5 rounded-full shadow-lg transition-all duration-300"
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -80,7 +79,7 @@ const ProductList = () => {
                         </div>
                     </div>
 
-                    {usertype === USER_TYPE.SELLER && categories.length > 0 && (
+                    {dashboardType === USER_TYPE.SELLER && categories.length > 0 && (
                         <div className="w-full px-14 py-2 ">
                             <CategorySidebar categories={categories}/>
                         </div>)
@@ -90,13 +89,13 @@ const ProductList = () => {
                         <div className="container mx-auto px-4 sm:px-8 lg:px-16 py-10">
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8 lg:px-12">
                                 {products.map((product) => (
-                                    <ProductCard key={product.id} product={product} usertype={usertype}/>))}
+                                    <ProductCard key={product.id} product={product}/>))}
                             </div>
                         </div>
                     ) : (
                         <div
                             className="flex flex-col items-center justify-center h-64 text-center text-gray-700 dark:text-gray-300">
-                            {usertype === USER_TYPE.SELLER ? (
+                            {dashboardType === USER_TYPE.SELLER ? (
                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                     <span className="text-6xl mb-3">📭</span>
                                     <p className="text-lg font-semibold">No se encontraron productos.</p>

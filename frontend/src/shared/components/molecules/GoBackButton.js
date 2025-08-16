@@ -1,7 +1,7 @@
 import {IoArrowBackOutline} from 'react-icons/io5';
 import {Link} from "react-router-dom";
 
-const GoBack = ({ redirectTo }) => (
+const GoBackButton = ({ redirectTo }) => (
     <Link to={redirectTo}>
     <button className="cursor-pointer ml-5 p-5 flex items-center space-x-2" title="Go Back">
         <IoArrowBackOutline size={24} className="stroke-black dark:stroke-gray-400"/>
@@ -10,4 +10,4 @@ const GoBack = ({ redirectTo }) => (
     </Link>
 );
 
-export default GoBack;
+export default GoBackButton;

@@ -1,5 +1,5 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
-import Footer from "../../../shared/components/layout/Footer";
+import Navbar from "../../../shared/components/organisms/Navbar";
+import Footer from "../../../shared/components/organisms/Footer";
 import {Link} from "react-router-dom";
 import {FaUserAlt} from "react-icons/fa";
 import {FaUserGear} from "react-icons/fa6";

@@ -1,13 +1,13 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
-import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
+import Navbar from "../../../shared/components/organisms/Navbar";
+import GoBackButton from "../../../shared/components/molecules/GoBackButton";
 import {useLocation, useNavigate} from "react-router-dom";
 import useRegisterProduct from "../hooks/useRegisterProduct";
 import ProductInput from "../components/ProductInput";
 import Alert from "../components/Alert";
 import useInitializeProductForm from "../hooks/useInitializeProductForm";
 import ROUTES from "../../../core/constants/routes/routes";
-import SubmitButton from "../../../shared/components/buttons/SubmitButton";
-import CancelButton from "../../../shared/components/buttons/CancelButton";
+import ButtonSubmit from "../../../shared/components/atoms/ButtonSubmit";
+import ButtonCancel from "../../../shared/components/atoms/ButtonCancel";
 
 
 const ProductForm = () => {
@@ -43,8 +43,8 @@ const ProductForm = () => {
                             categories={categories}
                         />
                         <div className="mt-6 flex gap-x-6">
-                            <SubmitButton text={state ? 'Actualizar' : 'Registrar'}/>
-                            <CancelButton route={ROUTES.PRODUCT_LIST}/>
+                            <ButtonSubmit text={state ? 'Actualizar' : 'Registrar'}/>
+                            <ButtonCancel route={ROUTES.PRODUCT_LIST}/>
                         </div>
                     </form>
                 </div>

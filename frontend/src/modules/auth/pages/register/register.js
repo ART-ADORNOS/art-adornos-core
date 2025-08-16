@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "../../../../shared/components/layout/header/Navbar";
-import InputField from "../../../../shared/components/ui/Fields/InputField";
-import GoBackButton from "../../../../shared/components/ui/Buttons/goBack";
+import Navbar from "../../../../shared/components/organisms/Navbar";
+import InputField from "../../../../shared/components/atoms/InputField";
+import GoBackButton from "../../../../shared/components/molecules/GoBackButton";
 import {useRegister} from "../../hooks/useRegister";
 import ROUTES from "../../../../core/constants/routes/routes";
 

@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import {useState} from "react";
-import DeleteModal from "../../../shared/components/ui/Modals/DeleteModal";
+import DeleteModal from "../../../shared/components/molecules/DeleteModal";
 import {useDeleteCategory} from "../hooks/useDeleteCategory";
 import ROUTES from "../../../core/constants/routes/routes";
 

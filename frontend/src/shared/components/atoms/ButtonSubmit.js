@@ -1,4 +1,4 @@
-const SubmitButton = ({text}) => {
+const ButtonSubmit = ({text}) => {
     return (
         <button
             type="submit"
@@ -9,4 +9,4 @@ const SubmitButton = ({text}) => {
     );
 };
 
-export default SubmitButton;
+export default ButtonSubmit;

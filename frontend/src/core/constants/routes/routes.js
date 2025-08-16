@@ -20,6 +20,8 @@ const ROUTES = {
     CART_ORDERS_LIST: '/cart-orders-list',
     LOGIN: '/login',
     ADMIN: '/admin',
+    EDIT_PROFILE: '/edit-profile',
+    HISTORY_ORDERS: '/history-orders',
 };
 
 export default ROUTES;

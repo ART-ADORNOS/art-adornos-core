@@ -1,4 +1,4 @@
-import AddButton from "../../../shared/components/buttons/AddButton";
+import ButtonAdd from "../../../shared/components/atoms/ButtonAdd";
 import ShopButton from "./ShopButton";
 import {Fragment} from "react";
 
@@ -13,7 +13,7 @@ export default function WelcomeHeader({username, redirectTo = "", title = ""}) {
                 </h1>
                 <div className="hidden sm:flex">
                     {showAddButton ? (
-                        <AddButton redirectTo={redirectTo} title={title}/>
+                        <ButtonAdd redirectTo={redirectTo} title={title}/>
                     ) : (
                         <ShopButton redirectTo={redirectTo}/>
                     )}
@@ -22,7 +22,7 @@ export default function WelcomeHeader({username, redirectTo = "", title = ""}) {
 
             {showAddButton && (
                 <div className="sm:hidden fixed bottom-6 right-6 z-50">
-                    <AddButton redirectTo={redirectTo} title={title} isFloating/>
+                    <ButtonAdd redirectTo={redirectTo} title={title} isFloating/>
                 </div>
             )}
         </Fragment>

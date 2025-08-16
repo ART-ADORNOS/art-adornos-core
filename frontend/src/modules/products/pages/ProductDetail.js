@@ -1,9 +1,9 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
-import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
+import Navbar from "../../../shared/components/organisms/Navbar";
+import GoBackButton from "../../../shared/components/molecules/GoBackButton";
 import {FaBoxOpen, FaDollarSign, FaTags} from "react-icons/fa";
 import useProductDetail from "../hooks/useProductDetail";
 import {useParams} from "react-router-dom";
-import Loader from "../../../shared/components/ui/Loaders/Loader";
+import Loader from "../../../shared/components/molecules/Loader";
 
 const ProductDetail = () => {
     const {id} = useParams();

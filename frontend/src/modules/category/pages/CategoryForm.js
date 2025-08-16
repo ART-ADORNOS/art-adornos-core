@@ -1,11 +1,11 @@
-import Navbar from "../../../shared/components/layout/header/Navbar";
+import Navbar from "../../../shared/components/organisms/Navbar";
 import {useLocation, useNavigate} from "react-router-dom";
 import useRegisterCategory from "../hooks/useRegisterCategory";
-import GoBackButton from "../../../shared/components/ui/Buttons/goBack";
-import InputField from "../../../shared/components/ui/Fields/InputField";
+import GoBackButton from "../../../shared/components/molecules/GoBackButton";
+import InputField from "../../../shared/components/atoms/InputField";
 import useInitializeCategoryForm from "../hooks/useInitializeCategoryForm";
-import SubmitButton from "../../../shared/components/buttons/SubmitButton";
-import CancelButton from "../../../shared/components/buttons/CancelButton";
+import ButtonSubmit from "../../../shared/components/atoms/ButtonSubmit";
+import ButtonCancel from "../../../shared/components/atoms/ButtonCancel";
 import ROUTES from "../../../core/constants/routes/routes";
 
 
@@ -18,7 +18,7 @@ const CategoryForm = () => {
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>
-            <GoBackButton redirectTo="/product-list"/>
+            <GoBackButton redirectTo={ROUTES.PRODUCT_LIST}/>
             <section className="text-center my-2 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Registro de Categoría</h1>
             </section>
@@ -43,14 +43,14 @@ const CategoryForm = () => {
                             onChange={handleChange}
                         />
                         <div className="mt-6 flex gap-x-6">
-                            <SubmitButton text="Registrar"/>
-                            <CancelButton route={ROUTES.PRODUCT_LIST}/>
+                            <ButtonSubmit text="Registrar"/>
+                            <ButtonCancel route={ROUTES.PRODUCT_LIST}/>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-)
+    )
 }
 
 export default CategoryForm;
