@@ -1,7 +1,7 @@
 import Navbar from "../../../shared/components/organisms/Navbar";
 import React, {Fragment, useRef, useState} from "react";
 import GoBackButton from "../../../shared/components/molecules/GoBackButton";
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import {useGetProducts} from "../hooks/useGetProducts";
 import {useGetCategories} from "../../category/hooks/useGetCategory";
@@ -10,6 +10,7 @@ import Loader from "../../../shared/components/molecules/Loader";
 import USER_TYPE from "../../../core/constants/user/userType";
 import BoxOfCardsAnimation from '../../dashboard/components/animations/BoxOfCardsAnimation';
 import ROUTES from "../../../core/constants/routes/routes";
+import {useDashboardType} from "../../../shared/providers/dashboardTypeProvider";
 
 
 const ProductList = () => {
@@ -18,9 +19,7 @@ const ProductList = () => {
     const selectedStartup = JSON.parse(localStorage.getItem("selectedStartupData"));
     const {products, loadingTwo} = useGetProducts(selectedStartup?.id);
     const {categories, loading} = useGetCategories(selectedStartup?.id);
-    const location = useLocation();
-    let {usertype} = location.state || {};
-    usertype = usertype || localStorage.getItem('usertype') || '';
+    const {usertype} = useDashboardType()
     const redirect = usertype === USER_TYPE.SELLER ? ROUTES.DASHBOARD_SELLER : ROUTES.DASHBOARD;
     const isLoading = loading || loadingTwo;
 

@@ -3,18 +3,21 @@ import GoBackButton from "../../../shared/components/molecules/GoBackButton";
 import React, {useState} from "react";
 import PageTitle from "../../../shared/components/atoms/PageTitle";
 import ROUTES from "../../../core/constants/routes/routes";
+import {useDashboardType} from "../../../shared/providers/dashboardTypeProvider";
+import USER_TYPE from "../../../core/constants/user/userType";
+import TABS from "../../../core/constants/tabLabels";
 
 const OrderHistoryList = () => {
     const [activeTab, setActiveTab] = useState("Pending");
-
-    const tabs = ['Pending', 'In Progress', 'Completed'];
-
+    const tabs = TABS
+    const {dashboardType} = useDashboardType();
+    const redirectTo = dashboardType === USER_TYPE.USER ? ROUTES.DASHBOARD : ROUTES.DASHBOARD_SELLER;
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>
             <div className="flex items-center justify-between w-full px-4 py-2">
-                <GoBackButton redirectTo={ROUTES.DASHBOARD}/>
+                <GoBackButton redirectTo={redirectTo}/>
             </div>
 
             <PageTitle title={"Historial de Pedidos"}/>
@@ -40,7 +43,7 @@ const OrderHistoryList = () => {
                         </nav>
                     </div>
 
-                    <div className="divide-y divede-gray-200 dark:divide-gray-700 mt-6">
+                    <div className="divide-y divide-gray-200 dark:divide-gray-700 mt-6">
 
                         <div className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                             <div className="flex items-center justify-between">

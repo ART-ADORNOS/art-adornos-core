@@ -8,14 +8,15 @@ import {useDeleteStartups} from "../../hooks/useDeleteStartups";
 import Loader from "../../../dashboard/components/Loader";
 import ROUTES from "../../../../core/constants/routes/routes";
 import getIconComponent from "../../../../shared/utils/getIconComponent";
+import {useDashboardType} from "../../../../shared/providers/dashboardTypeProvider";
 
-const CardStartup = ({startup, usertype}) => {
+const CardStartup = ({startup}) => {
     const {setSelectedStartup} = useContext(StartupContext);
     const {isMenuOpen, setIsMenuOpen, menuRef} = useOutsideClick();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {deleteStartup, isDeleting} = useDeleteStartups(startup.id);
     const Icon = getIconComponent(startup.icon)
-    usertype = usertype || localStorage.getItem('usertype') || '';
+    const {usertype} = useDashboardType()
 
     const handleClick = () => {
         localStorage.setItem("selectedStartupId", startup.id);
@@ -52,7 +53,6 @@ const CardStartup = ({startup, usertype}) => {
                     <div className="ml-3 overflow-hidden">
                         <Link
                             to={`${ROUTES.PRODUCT_LIST}`}
-                            state={{usertype: usertype}}
                             onClick={handleClick}
                             className="text-lg font-semibold text-neutral-800 dark:text-white hover:underline truncate block"
                             title={startup.name}

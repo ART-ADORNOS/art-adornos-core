@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Navbar from '../../../../shared/components/organisms/Navbar';
 import useGetStartup from "../../hooks/user/useGetStartup";
 import AuthContext from "../../../../shared/providers/AuthContext";
@@ -10,8 +10,8 @@ import FilterSidebar from "../../components/FilterSidebar";
 import useGetIndustryAll from "../../hooks/user/useGetIndustryAll";
 import {getFilteredStartups, useIndustryKeys} from "../../utils/filterUtils";
 import USER_TYPE from "../../../../core/constants/user/userType";
-import useUsertype from "../../../products/hooks/useUsertype";
 import ROUTES from "../../../../core/constants/routes/routes";
+import {useDashboardType} from "../../../../shared/providers/dashboardTypeProvider";
 
 const Dashboard = () => {
     const {user} = useContext(AuthContext);
@@ -20,12 +20,17 @@ const Dashboard = () => {
     const {industry} = useGetIndustryAll();
     const industryKeys = useIndustryKeys(industry);
     const filteredStartups = getFilteredStartups(startups, activeFilters);
-    const [usertype] = useUsertype(USER_TYPE.USER);
+    const {setDashboardType} = useDashboardType();
+
+
+    useEffect(() => {
+        setDashboardType(USER_TYPE.USER);
+    }, [setDashboardType]);
 
 
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
-            <Navbar dashboardTyype="user"/>
+            <Navbar/>
             <WelcomeHeader
                 username={user?.username}
                 redirectTo={ROUTES.CART_ORDERS_LIST}
@@ -48,7 +53,7 @@ const Dashboard = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-8 mt-10">
                         {filteredStartups.map((startup, index) => (
                             <div key={index}>
-                                <CardStartup startup={startup} usertype={usertype}/>
+                                <CardStartup startup={startup}/>
                             </div>
                         ))}
                     </div>

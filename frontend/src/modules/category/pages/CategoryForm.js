@@ -18,7 +18,7 @@ const CategoryForm = () => {
     return (
         <div className="bg-zinc-100 dark:bg-gray-900 flex-auto text-gray-900 dark:text-white flex flex-col">
             <Navbar/>
-            <GoBackButton redirectTo="/product-list"/>
+            <GoBackButton redirectTo={ROUTES.PRODUCT_LIST}/>
             <section className="text-center my-2 mx-8 flex-auto">
                 <h1 className="text-5xl font-extrabold">Registro de Categoría</h1>
             </section>
@@ -50,7 +50,7 @@ const CategoryForm = () => {
                 </div>
             </div>
         </div>
-)
+    )
 }
 
 export default CategoryForm;

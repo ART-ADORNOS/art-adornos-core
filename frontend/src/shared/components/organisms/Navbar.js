@@ -10,9 +10,10 @@ import {ThemeToggleIcon} from "../atoms/ThemeToggleIcon";
 import {NotificationModal} from "../molecules/NotificationModal";
 import ROUTES from "../../../core/constants/routes/routes";
 import USER_TYPE from "../../../core/constants/user/userType";
+import {useDashboardType} from "../../providers/dashboardTypeProvider";
 
 
-export default function Navbar({dashboardTyype}) {
+export default function Navbar() {
     const {isDarkMode, toggleTheme} = useContext(ThemeContext);
     const {user, logout} = useContext(AuthContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -22,6 +23,8 @@ export default function Navbar({dashboardTyype}) {
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
     const navigate = useNavigate()
+    const {dashboardType} = useDashboardType()
+    const dashboardRedirect = dashboardType === USER_TYPE.SELLER ? ROUTES.ADMIN : ROUTES.LOGIN;
 
 
     const openModal = () => setIsModalOpen(true);
@@ -29,7 +32,6 @@ export default function Navbar({dashboardTyype}) {
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
     const handleNotification = () => setShowModalNotification((wasVisible) => !wasVisible);
 
-    const dashboardRedirect = dashboardTyype === USER_TYPE.SELLER ? ROUTES.ADMIN : ROUTES.LOGIN;
 
     async function deleteAccount() {
         try {
@@ -85,7 +87,6 @@ export default function Navbar({dashboardTyype}) {
                                         <li>
                                             <Link
                                                 to="/edit-profile"
-                                                state={{fromDashboard: dashboardTyype}}
                                                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                                             >
                                                 Editar Usuario
@@ -94,7 +95,6 @@ export default function Navbar({dashboardTyype}) {
                                         <li>
                                             <Link
                                                 to="/history-orders"
-                                                state={{fromDashboard: dashboardTyype}}
                                                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                                             >
                                                 Historial
