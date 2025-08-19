@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Apps.store.models import Product
-from Apps.store.serializer.product.Product import ProductSerializer
+from Apps.store.serializer import ProductSerializer
 from Apps.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)

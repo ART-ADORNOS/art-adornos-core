@@ -1,11 +1,6 @@
 from django.urls import path
 
-from Apps.store.views import (RegisterStartupView, IndustryListView,
-                              UserStartupsListView, RegisterProductView, RegisterCategoryView, CategoryListView,
-                              ProductListView, ProductDeleteView, ProductUpdateView, UserIndustryView,
-                              CategoryDeleteView, CategoryUpdateView, ProductDetailView, AllStartupsListView,
-                              StartupUpdateView, StartupDeleteView, RegisterCartView, CartListView, UpdateCartView,
-                              DeleteCartView, DeleteCartProductView)
+from Apps.store.views import *
 
 app_name = 'store'
 urlpatterns = []
@@ -41,4 +36,7 @@ urlpatterns += [
     path('api/cart/update/<int:cart_id>', UpdateCartView.as_view(), name='update_cart'),
     path('api/cart/delete/<int:cart_id>', DeleteCartView.as_view(), name='delete_cart'),
     path('api/cart/delete-product/<int:cart_product_id>', DeleteCartProductView.as_view(), name='delete_cart_product'),
+
+    # Order
+    path('api/order/register/', RegisterOrderView.as_view(), name='register_order'),
 ]

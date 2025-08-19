@@ -16,6 +16,7 @@ import updateCartQuantity from "../utils/updateCartQuantity";
 import calculateTotals from "../utils/calculateTotals";
 import PageTitle from "../../../shared/components/atoms/PageTitle";
 import ROUTES from "../../../core/constants/routes/routes";
+import useRegisterOrder from "../../orderHistory/hooks/useRegisterOrder";
 
 const CartOrdersList = () => {
     const {carts: fetchedCarts, loading} = useGetCart();
@@ -26,6 +27,7 @@ const CartOrdersList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [dataProduct, setDataProduct] = useState({id: null, product: ""});
     const [deleteRow, setDeleteRow] = useState(null);
+    const {handleRegisterOrder} = useRegisterOrder();
 
     const openModalConfirmation = (id, product) => {
         setDataProduct({id, product});

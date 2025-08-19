@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Apps.store.models import Category
-from Apps.store.serializer.category.category import CategorySerializer
+from Apps.store.serializer import CategorySerializer
 from Apps.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
