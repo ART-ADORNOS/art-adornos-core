@@ -9,9 +9,9 @@ const useRegisterOrder = () => {
 
         try {
             await registerOrderService(dataOrder);
-            showNotification("Orden registada con éxito", "success");
+            showNotification("Orden registrada con éxito", "success");
         } catch (error) {
-            showNotification("Error al crear el carrito", "error");
+            showNotification("Error al registrar la orden", "error");
         }
     };
     return {handleRegisterOrder};
