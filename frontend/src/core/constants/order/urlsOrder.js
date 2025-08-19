@@ -1,5 +1,5 @@
-import {RESOURCES} from "../baseUrls";
+import {ACTIONS, BASE_API_URL, RESOURCES} from "../baseUrls";
 
 export const BASE_URLS_ORDER = {
-    REGISTER_ORDER: `${RESOURCES.ORDER}register/`,
+    REGISTER_ORDER: `${BASE_API_URL}${RESOURCES.ORDER}${ACTIONS.REGISTER}`,
 }

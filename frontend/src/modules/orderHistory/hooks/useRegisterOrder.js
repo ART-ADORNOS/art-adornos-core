@@ -6,7 +6,6 @@ const useRegisterOrder = () => {
 
     const handleRegisterOrder = async (e, dataOrder) => {
         e.preventDefault();
-
         try {
             await registerOrderService(dataOrder);
             showNotification("Orden registrada con éxito", "success");

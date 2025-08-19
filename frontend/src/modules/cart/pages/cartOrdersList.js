@@ -9,7 +9,6 @@ import {RiDeleteBin5Fill} from "react-icons/ri";
 import useDeleteProductCart from "../hooks/useDeleteProductCart";
 import HorizontalNavBar from "../components/HorizontalNavBar";
 import useFilteredCarts from "../hooks/useFilteredCarts";
-import {handleWhatsAppClick} from "../utils/whatsappUtils";
 import DeleteModal from "../../../shared/components/molecules/DeleteModal";
 import {AnimatePresence, motion} from "framer-motion";
 import updateCartQuantity from "../utils/updateCartQuantity";
@@ -180,9 +179,7 @@ const CartOrdersList = () => {
 
             {selectStartup !== "Todos" && (
                 <div className="flex justify-end mb-14 mr-20">
-                    <button onClick={() => handleWhatsAppClick(filteredCarts)}>
-                        <WhatsAppButton/>
-                    </button>
+                    <WhatsAppButton onClick={(e) => handleRegisterOrder(e, filteredCarts)}/>
                 </div>
             )}
 

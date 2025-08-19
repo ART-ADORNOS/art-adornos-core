@@ -1,8 +1,9 @@
 import {FaWhatsapp} from 'react-icons/fa';
 
-const WhatsAppButton = () => {
+const WhatsAppButton = ({onClick}) => {
     return (
         <button
+            onClick={onClick}
             className="group relative overflow-hidden z-10 flex items-center px-6 py-3 text-lg font-medium text-gray-900 bg-gray-100 rounded-lg border border-gray-100 shadow-lg transition-all duration-300 hover:border-teal-600">
               <span
                   className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
