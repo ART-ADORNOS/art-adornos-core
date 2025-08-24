@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from Apps.store.views import *
 
@@ -37,6 +37,6 @@ urlpatterns += [
     path('api/cart/delete/<int:cart_id>', DeleteCartView.as_view(), name='delete_cart'),
     path('api/cart/delete-product/<int:cart_product_id>', DeleteCartProductView.as_view(), name='delete_cart_product'),
 
-    # Order
-    path('api/order/register/', RegisterOrderView.as_view(), name='register_order'),
+    # Api
+    path('api/', include('Apps.store.api.urls'))
 ]
