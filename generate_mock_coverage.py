@@ -18,6 +18,16 @@ def create_mock_coverage_xml():
         "Apps/Accounts/migrations/0001_initial.py": 5,
         "Apps/store/migrations/0001_initial.py": 7,
 
+        # Api
+        "Apps/store/api/__init__.py": 1,
+        "Apps/store/api/order/__init__.py": 3,
+        "Apps/store/api/order/views/__init__.py": 1,
+        "Apps/store/api/order/features/__init__.py": 1,
+        "Apps/store/api/order/views/order.py": 8,
+        "Apps/store/api/order/features/order.py": 25,
+        "Apps/store/api/urls.py": 2,
+        "Apps/store/api/order/urls.py": 3,
+
         # Python __init__ files
         "Apps/store/models/__init__.py": 5,
         "Apps/store/models/cart/__init__.py": 1,
