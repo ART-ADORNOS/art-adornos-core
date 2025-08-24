@@ -1,8 +1,12 @@
+import logging
+
 from django.db import transaction
 from rest_framework import status
 from rest_framework.response import Response
 
 from Apps.store.models import Startup, Order, OrderItem
+
+logger = logging.getLogger(__name__)
 
 
 class OrderFeature:
@@ -44,7 +48,9 @@ class OrderFeature:
                     for item in order_items_data
                 ]
                 OrderItem.objects.bulk_create(order_items)
+                logger.info(f"Registered order '{order.name}' with ID {order.id}")
                 return Response(status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.exception(f"Error in register_order: {e}")
+            return Response(status=status.HTTP_400_BAD_REQUEST)
