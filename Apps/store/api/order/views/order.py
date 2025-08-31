@@ -23,5 +23,4 @@ class ListOrdersView(APIView):
         user = request.user
         orders = Order.objects.filter(customer=user).order_by('-id')
         serializer = OrderSerializerOut(orders, many=True)
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)

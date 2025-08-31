@@ -1,4 +1,5 @@
 export const BASE_API_URL = 'api/';
+
 export const ACTIONS = {
     DELETE: 'delete/',
     UPDATE: 'update/',
@@ -6,6 +7,7 @@ export const ACTIONS = {
     REGISTER: 'register/',
     LIST: 'list/'
 };
+
 export const RESOURCES = {
     STARTUP: 'startups/',
     PRODUCT: 'products/',
