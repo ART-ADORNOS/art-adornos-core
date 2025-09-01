@@ -17,7 +17,7 @@ const useGetOrder = () => {
                     setOrder(response.data);
                 }
             } catch {
-                showNotification("Error al cargar la información del carrito", "error");
+                showNotification("Error al cargar la información de las órdenes", "error");
             } finally {
                 setLoading(false);
             }

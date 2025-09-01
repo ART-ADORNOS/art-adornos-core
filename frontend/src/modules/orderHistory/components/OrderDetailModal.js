@@ -5,7 +5,7 @@ import {AiOutlineClose} from "react-icons/ai";
 const OrderDetailModal = ({orderDetail, onClose}) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="absolute inset-0 bg-black/40" onClick={onClose}></div>
+            <div className="absolute inset-0 bg-black/40"></div>
             <div className="relative bg-white dark:bg-gray-800 w-11/12 max-w-md rounded-xl shadow-lg p-4">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white">

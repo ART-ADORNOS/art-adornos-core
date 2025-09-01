@@ -8,7 +8,7 @@ const useGetOrderDetail = () => {
     const [orderDetail, setOrderDetail] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleGetOrderDetails = async (orderId: number) => {
+    const handleGetOrderDetails = async (orderId) => {
         setLoading(true);
         try {
             const response = await getOrderDetail(orderId);
@@ -17,7 +17,7 @@ const useGetOrderDetail = () => {
             }
         } catch (error) {
             showNotification("Error al obtener los detalles de la orden", "error");
-        }finally {
+        } finally {
             setLoading(false);
         }
     };
