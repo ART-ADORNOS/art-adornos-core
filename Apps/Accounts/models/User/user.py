@@ -48,6 +48,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+
+    def get_initials(self):
+        first_letter = self.first_name[0] if self.first_name else ''
+        last_letter = self.last_name[0] if self.last_name else ''
+        return (first_letter + last_letter).upper()
+
     def assign_permissions(self):
         from Apps.store.models.product import Category, Product
         from Apps.store.models.startup import Startup

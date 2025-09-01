@@ -10,7 +10,7 @@ const useGetCart = () => {
 
     useEffect(() => {
         setLoading(true);
-        const fetchCategories = async () => {
+        const fetchCart = async () => {
             try {
                 const data = await getCart();
                 setCarts(data);
@@ -21,7 +21,7 @@ const useGetCart = () => {
             }
         };
 
-        fetchCategories().catch(() => {
+        fetchCart().catch(() => {
             showNotification("Error en el servidor", "error");
         });
 
