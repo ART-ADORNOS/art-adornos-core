@@ -202,6 +202,16 @@ def create_mock_coverage_xml():
         "frontend/src/modules/cart/components/WhatsAppButton.js": 2,
         "frontend/src/modules/cart/__tests__/WhatsAppButton.test.js": 4,
         "frontend/src/modules/cart/utils/whatsappUtils.js": 8,
+
+        "Apps/store/api/order/serializers/__init__.py": 2,
+        "frontend/src/modules/orderHistory/service/getOrderDetail.js": 4,
+        "frontend/src/modules/orderHistory/service/getOrderService.js": 4,
+        "Apps/store/api/order/serializers/order.py": 4,
+        "Apps/store/api/order/serializers/order_detail.py": 9,
+        "Apps/store/api/order/views/order_detail.py": 17,
+        "frontend/src/modules/orderHistory/hooks/useGetOrder.js": 15,
+        "frontend/src/modules/orderHistory/hooks/useGetOrderDetail.js": 13,
+        "Apps/Accounts/models/User/user.py": 6
     }
 
     total_lines = sum(line_counts.values())
