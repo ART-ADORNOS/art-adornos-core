@@ -88,7 +88,7 @@ const OrderHistoryList = () => {
                         )}
                     </div>
                     {showModal && (
-                        <OrderDetailModal orderDetail={orderDetail}/>
+                        <OrderDetailModal orderDetail={orderDetail} onClose={() => setShowModal(false)}/>
                     )}
                 </div>
             </div>

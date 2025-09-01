@@ -9,4 +9,5 @@ class OrderItemSerializerOut(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        return instance.to_json_api()
+        request = self.context.get('request')
+        return instance.to_json_api(request=request)

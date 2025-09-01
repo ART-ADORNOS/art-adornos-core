@@ -17,6 +17,5 @@ class ListOrderDetailView(APIView):
             order_items = order.items.all()
         except Order.DoesNotExist:
             return Response({"detail": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
-        serializer = OrderItemSerializerOut(order_items, many=True)
-        print(serializer.data)
+        serializer = OrderItemSerializerOut(order_items, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)

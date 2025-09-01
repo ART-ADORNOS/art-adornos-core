@@ -1,4 +1,6 @@
 import React from "react";
+import {AiOutlineClose} from "react-icons/ai";
+
 
 const OrderDetailModal = ({orderDetail, onClose}) => {
     return (
@@ -13,7 +15,7 @@ const OrderDetailModal = ({orderDetail, onClose}) => {
                         className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                         onClick={onClose}
                     >
-                        ✕
+                        <AiOutlineClose className="h-5 w-5"/>
                     </button>
                 </div>
 

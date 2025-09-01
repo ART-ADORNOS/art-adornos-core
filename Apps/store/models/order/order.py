@@ -40,7 +40,7 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Precio')
 
     def to_json_api(self, request=None):
-        items = model_to_dict(self, exclude=[])
+        items = model_to_dict(self, exclude=['order'])
         items['product_name'] = self.product.name
         items['total_price'] = str(self.price * self.quantity)
         items['price'] = str(self.price)
