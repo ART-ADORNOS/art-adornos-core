@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import model_to_dict
+
 from ..startup.startup import ModelBase
 
 
@@ -26,18 +28,13 @@ class Product(ModelBase):
             image_url = request.build_absolute_uri(image_url)
         return image_url
 
-    def to_json(self, request=None):
-        image_url = self.get_image_url(request=request)
-        return {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description,
-            'image': image_url,
-            'category': self.category.name,
-            'price': self.price,
-            'stock': self.stock,
-            'state': self.state
-        }
+    def to_json_api(self, request=None):
+        item = model_to_dict(self, exclude=['start_up', 'category'])
+        item['image'] = self.get_image_url(request=request)
+        item['price'] = float(item['price'])
+        item['category'] = self.category.name
+        item['id'] = self.id
+        return item
 
     class Meta:
         verbose_name = 'Producto'

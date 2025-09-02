@@ -8,8 +8,5 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['id', 'start_up', 'name', 'description', 'image', 'category', 'price', 'stock']
 
-    def get_image(self, obj):
-        request = self.context.get('request')
-        if obj.image:
-            return request.build_absolute_uri(obj.image.url)
-        return None
+    def to_representation(self, instance):
+        return instance.to_json_api(request=self.context.get('request'))

@@ -17,13 +17,6 @@ urlpatterns += [
     path('api/startups/update/<int:startup_id>/', StartupUpdateView.as_view(), name='update_startup'),
     path('api/startups/delete/<int:startup_id>/', StartupDeleteView.as_view(), name='delete_startup'),
 
-    # Product
-    path('products/register/', RegisterProductView.as_view(), name='register_product'),
-    path('api/products/list/<int:startup_id>', ProductListView.as_view(), name='list_product'),
-    path('api/products/delete/<int:product_id>', ProductDeleteView.as_view(), name='delete_product'),
-    path('api/products/update/<int:product_id>', ProductUpdateView.as_view(), name='update_product'),
-    path('api/products/detail/<int:product_id>', ProductDetailView.as_view(), name='get_product'),
-
     # Category
     path('category/register/', RegisterCategoryView.as_view(), name='register_category'),
     path('api/category/list/<int:startup_id>', CategoryListView.as_view(), name='get_category'),
