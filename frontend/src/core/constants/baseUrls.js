@@ -10,7 +10,7 @@ export const ACTIONS = {
 
 export const RESOURCES = {
     STARTUP: 'startups/',
-    PRODUCT: 'products/',
+    PRODUCT: 'product/',
     INDUSTRY: 'industry-choices/',
     USER_INDUSTRY: 'user-industry/',
     CATEGORY: 'category/',
