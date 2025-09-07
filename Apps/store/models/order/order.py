@@ -16,9 +16,7 @@ class Order(ModelBase):
                                 related_name='orders')
 
     def to_json_api(self):
-        items = model_to_dict(self,
-                              exclude=['customer', 'cart', 'startup', 'date_updated', 'hour_updated', 'created_at',
-                                       'state'])
+        items = model_to_dict(self, exclude=['customer', 'cart', 'startup', 'date_updated', 'hour_updated', 'created_at'])
         items['customer_name'] = self.customer.get_full_name()
         items['status'] = self.get_status_display()
         items['created_at'] = self.created_at.strftime('%Y-%m-%d')

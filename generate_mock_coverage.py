@@ -211,7 +211,16 @@ def create_mock_coverage_xml():
         "Apps/store/api/order/views/order_detail.py": 17,
         "frontend/src/modules/orderHistory/hooks/useGetOrder.js": 15,
         "frontend/src/modules/orderHistory/hooks/useGetOrderDetail.js": 13,
-        "Apps/Accounts/models/User/user.py": 6
+        "Apps/Accounts/models/User/user.py": 6,
+
+        "Apps/store/api/product/__init__.py": 2,
+        "Apps/store/api/product/views/__init__.py": 1,
+        "Apps/store/api/product/serializers/__init__.py": 1,
+        "frontend/src/modules/orderHistory/utils/ordedrFilters.js": 7,
+        "Apps/store/api/product/views/product.py": 58,
+        "Apps/store/api/product/serializers/product.py": 8,
+        "Apps/store/api/product/urls.py": 3
+
     }
 
     total_lines = sum(line_counts.values())
