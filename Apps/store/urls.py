@@ -24,11 +24,8 @@ urlpatterns += [
     path('api/category/delete/<int:category_id>', CategoryDeleteView.as_view(), name='delete_category'),
 
     # Cart
-    # path('api/cart/', CartListView.as_view(), name='get_cart'),
     path('api/cart/register/', RegisterCartView.as_view(), name='register_cart'),
     path('api/cart/update/<int:cart_id>', UpdateCartView.as_view(), name='update_cart'),
-    path('api/cart/delete/<int:cart_id>', DeleteCartView.as_view(), name='delete_cart'),
-    path('api/cart/delete-product/<int:cart_product_id>', DeleteCartProductView.as_view(), name='delete_cart_product'),
 
     # Api
     path('api/', include('Apps.store.api.urls'))
