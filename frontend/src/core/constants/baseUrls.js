@@ -5,7 +5,8 @@ export const ACTIONS = {
     UPDATE: 'update/',
     DETAIL: 'detail/',
     REGISTER: 'register/',
-    LIST: 'list/'
+    LIST: 'list/',
+    USER_INDUSTRY: 'user-industry/'
 };
 
 export const RESOURCES = {
