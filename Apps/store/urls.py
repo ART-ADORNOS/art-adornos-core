@@ -19,9 +19,7 @@ urlpatterns += [
 
     # Category
     path('category/register/', RegisterCategoryView.as_view(), name='register_category'),
-    path('api/category/list/<int:startup_id>', CategoryListView.as_view(), name='get_category'),
     path('api/category/update/<int:category_id>', CategoryUpdateView.as_view(), name='update_category'),
-    path('api/category/delete/<int:category_id>', CategoryDeleteView.as_view(), name='delete_category'),
 
     # Cart
     path('api/cart/register/', RegisterCartView.as_view(), name='register_cart'),
