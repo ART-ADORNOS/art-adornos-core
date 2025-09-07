@@ -7,7 +7,6 @@ urlpatterns = []
 
 urlpatterns += [
     # Api
-    path('api/industry-choices/', IndustryListView.as_view(), name='industry-choices'),
     path('api/user-industry/', UserIndustryView.as_view(), name='user-industry'),
     path('api/startups/all-startups/', AllStartupsListView.as_view(), name='all-startups'),
 
