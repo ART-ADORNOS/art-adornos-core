@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from Apps.store.api.product import ProductSerializer
+from Apps.store.api.product.serializers.product import ProductSerializer
 from Apps.store.models import Product
 from Apps.store.utils.constants import Messages
 

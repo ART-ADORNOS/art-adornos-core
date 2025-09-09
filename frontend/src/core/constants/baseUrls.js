@@ -5,13 +5,14 @@ export const ACTIONS = {
     UPDATE: 'update/',
     DETAIL: 'detail/',
     REGISTER: 'register/',
-    LIST: 'list/'
+    LIST: 'list/',
+    USER_INDUSTRY: 'user-industry/'
 };
 
 export const RESOURCES = {
     STARTUP: 'startups/',
     PRODUCT: 'product/',
-    INDUSTRY: 'industry-choices/',
+    INDUSTRY: 'industry/',
     USER_INDUSTRY: 'user-industry/',
     CATEGORY: 'category/',
     CART: 'cart/',

@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -5,6 +7,8 @@ from rest_framework.views import APIView
 
 from Apps.store.api.order.serializers.order_detail import OrderItemSerializerOut
 from Apps.store.models import Order
+
+logger = logging.getLogger(__name__)
 
 
 class ListOrderDetailView(APIView):
@@ -15,7 +19,9 @@ class ListOrderDetailView(APIView):
         try:
             order = Order.objects.get(id=order_id, customer=user)
             order_items = order.items.all()
-        except Order.DoesNotExist:
-            return Response({"detail": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
-        serializer = OrderItemSerializerOut(order_items, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = OrderItemSerializerOut(order_items, many=True, context={'request': request})
+            logger.info(f"Response data: {serializer.data}")
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error(str(e))
+            return Response(status=status.HTTP_404_NOT_FOUND)

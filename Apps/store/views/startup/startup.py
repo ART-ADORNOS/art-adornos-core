@@ -7,25 +7,9 @@ from rest_framework.views import APIView
 
 from Apps.store.models import Startup
 from Apps.store.serializer import StartupSerializer
-from Apps.store.utilities.enums.industry import Industry
 from Apps.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
-
-
-class UserIndustryView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        industries = Startup.objects.filter(owner=request.user).values_list('industry', flat=True).distinct()
-        unique_industries = set(industries)
-        industries_with_labels = []
-        for ind_value in unique_industries:
-            industries_with_labels.append({
-                'value': ind_value,
-                'label': Industry(ind_value).label
-            })
-        return Response({"industries": industries_with_labels})
 
 
 class UserStartupsListView(APIView):

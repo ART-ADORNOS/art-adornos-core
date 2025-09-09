@@ -33,7 +33,7 @@ class CartProduct(models.Model):
     def __str__(self):
         return f"{self.product} - {self.quantity}"
 
-    def to_json(self, request=None):
+    def to_json_api(self, request=None):
         item = model_to_dict(self)
         item['product'] = self.product.name
         item['product_id'] = self.product.id
