@@ -23,7 +23,6 @@ def create_mock_coverage_xml():
         "Apps/store/api/order/__init__.py": 3,
         "Apps/store/api/order/views/__init__.py": 1,
         "Apps/store/api/order/features/__init__.py": 1,
-        "Apps/store/api/order/views/order.py": 8,
         "Apps/store/api/order/features/order.py": 25,
         "Apps/store/api/urls.py": 2,
         "Apps/store/api/order/urls.py": 3,
@@ -53,11 +52,10 @@ def create_mock_coverage_xml():
         "frontend/src/modules/startup/components/card/CardStartup.js": 22,
 
         # Core Python models y views - números actualizados
-        "Apps/store/models/cart/cart.py": 39,
-        "Apps/store/views/cart/cart.py": 57,
+        "Apps/store/models/cart/cart.py": 1,
+        "Apps/store/views/cart/cart.py": 1,
         "Apps/store/serializer/cart/cart.py": 20,
         "frontend/src/modules/cart/pages/cartOrdersList.js": 24,
-        "Apps/store/models/product/category.py": 1,
         "Apps/store/views/category/category.py": 46,
         "Apps/store/serializer/category/category.py": 6,
         "frontend/src/core/constants/colors/categoryColors.js": 1,
@@ -208,7 +206,6 @@ def create_mock_coverage_xml():
         "frontend/src/modules/orderHistory/service/getOrderService.js": 4,
         "Apps/store/api/order/serializers/order.py": 4,
         "Apps/store/api/order/serializers/order_detail.py": 9,
-        "Apps/store/api/order/views/order_detail.py": 17,
         "frontend/src/modules/orderHistory/hooks/useGetOrder.js": 15,
         "frontend/src/modules/orderHistory/hooks/useGetOrderDetail.js": 13,
         "Apps/Accounts/models/User/user.py": 6,
@@ -217,9 +214,27 @@ def create_mock_coverage_xml():
         "Apps/store/api/product/views/__init__.py": 1,
         "Apps/store/api/product/serializers/__init__.py": 1,
         "frontend/src/modules/orderHistory/utils/ordedrFilters.js": 7,
-        "Apps/store/api/product/views/product.py": 58,
         "Apps/store/api/product/serializers/product.py": 8,
-        "Apps/store/api/product/urls.py": 3
+        "Apps/store/api/product/urls.py": 3,
+
+        "Apps/store/api/cart/__init__.py": 1,
+        "Apps/store/api/cart/views/__init__.py": 1,
+        "Apps/store/api/industry/__init__.py": 1,
+        "Apps/store/api/industry/views/__init__.py": 1,
+        "Apps/store/api/category/__init__.py": 1,
+        "Apps/store/api/category/views/__init__.py": 1,
+        "Apps/store/api/cart/views/cart.py": 42,
+        "Apps/store/api/cart/serializers/cart.py": 9,
+        "Apps/store/api/category/views/category.py": 30,
+        "Apps/store/api/category/serializers/category.py": 8,
+        "Apps/store/models/product/category.py": 7,
+        "Apps/store/api/industry/views/industry.py": 27,
+        "Apps/store/api/order/views/order.py": 7,
+        "Apps/store/api/order/views/order_detail.py": 6,
+        "Apps/store/api/product/views/product.py": 1,
+        "Apps/store/api/cart/urls.py": 3,
+        "Apps/store/api/industry/urls.py": 3,
+        "Apps/store/api/category/urls.py": 3
 
     }
 
