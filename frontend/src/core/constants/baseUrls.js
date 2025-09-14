@@ -17,6 +17,7 @@ export const RESOURCES = {
     CATEGORY: 'category/',
     CART: 'cart/',
     ORDER: 'order/',
+    USER: 'user/'
 };
 
 export const ADDITIONAL = {

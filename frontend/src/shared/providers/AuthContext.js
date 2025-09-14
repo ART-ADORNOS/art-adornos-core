@@ -1,5 +1,6 @@
 import React, {createContext, useEffect, useState} from 'react';
 import api from '../../core/api/axios';
+import {BASE_URLS_USER} from "../../core/constants/user/urlsUser";
 
 const AuthContext = createContext();
 
@@ -67,7 +68,7 @@ export const AuthProvider = ({children}) => {
             delete userData.confirm_password;
         }
         try {
-            const response = await api.put('/update/', userData);
+            const response = await api.put(BASE_URLS_USER.UPDATE_USER, userData);
             setUser(response.data);
             return true;
         } catch (error) {

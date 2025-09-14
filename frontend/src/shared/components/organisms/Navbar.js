@@ -1,9 +1,8 @@
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import React, {Fragment, useContext, useState} from "react";
 import ThemeContext from "../../providers/ThemeContent";
 import AuthContext from "../../providers/AuthContext";
 import DeleteUserModal from "../../../modules/auth/components/Modal/delete";
-import api from '../../../core/api/axios';
 import AlertMessage from "../molecules/AlertMessage";
 import {NotificationIcon} from "../atoms/NotificationIcon";
 import {ThemeToggleIcon} from "../atoms/ThemeToggleIcon";
@@ -11,9 +10,10 @@ import {NotificationModal} from "../molecules/NotificationModal";
 import ROUTES from "../../../core/constants/routes/routes";
 import USER_TYPE from "../../../core/constants/user/userType";
 import {useDashboardType} from "../../providers/dashboardTypeProvider";
+import {useDeleteAccount} from "../../../modules/auth/hooks/useDeleteAccount";
 
 
-export default function Navbar() {
+function Navbar() {
     const {isDarkMode, toggleTheme} = useContext(ThemeContext);
     const {user, logout} = useContext(AuthContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -22,42 +22,15 @@ export default function Navbar() {
     const [showModalNotification, setShowModalNotification] = useState(false);
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
-    const navigate = useNavigate()
     const {dashboardType} = useDashboardType()
     const dashboardRedirect = dashboardType === USER_TYPE.SELLER ? ROUTES.ADMIN : ROUTES.LOGIN;
+    const {deleteAccount, isDeleting} = useDeleteAccount(logout);
 
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
     const handleNotification = () => setShowModalNotification((wasVisible) => !wasVisible);
-
-
-    async function deleteAccount() {
-        try {
-            const response = await api.delete('/delete/');
-            if (response.status === 200) {
-                logout(ROUTES.LOGIN);
-            } else {
-                setMessage('No se pudo eliminar la cuenta');
-                setMessageType('error');
-                setShowMessage(true);
-            }
-        } catch (error) {
-            setMessage('Ocurrió un error al procesar tu solicitud.');
-            setMessageType('error');
-            setShowMessage(true);
-        }
-
-        setIsModalOpen(false);
-        setTimeout(() => {
-            setShowMessage(false);
-        });
-
-        setTimeout(() => {
-            navigate(ROUTES.LOGIN);
-        });
-    }
 
     return (
         <Fragment>
@@ -152,7 +125,11 @@ export default function Navbar() {
             )}
 
             {isModalOpen && (
-                <DeleteUserModal isOpenModal={isModalOpen} onCloseModal={closeModal} onDelete={deleteAccount}/>
+                <DeleteUserModal
+                    isOpenModal={isModalOpen}
+                    onCloseModal={closeModal}
+                    onDelete={deleteAccount}
+                />
             )}
 
             {showModalNotification && (
@@ -161,3 +138,5 @@ export default function Navbar() {
         </Fragment>
     );
 }
+
+export default Navbar;
