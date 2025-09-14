@@ -37,19 +37,3 @@ class UpdateUserView(APIView):
             logger.error(f"Error updating user: {e}")
             return Response({"error": Messages.INTERNAL_ERROR_MSG},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-class UserDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            user = request.user
-            if not user.is_active:
-                return Response({"error": "User not found or already deactivated"}, status=status.HTTP_404_NOT_FOUND)
-            user.delete()
-            return Response({"result": "user delete successfully"}, status=status.HTTP_200_OK)
-        except Exception as e:
-            logger.error(f"Error deleting user: {e}")
-            return Response({"error": Messages.INTERNAL_ERROR_MSG},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
