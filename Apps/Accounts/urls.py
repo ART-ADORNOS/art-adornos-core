@@ -1,16 +1,12 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from Apps.Accounts.views import RegisterUserView, UpdateUserView, GetUserView
+from Apps.Accounts.views import GetUserView
 
 app_name = 'accounts'
 urlpatterns = []
 
 urlpatterns += [
-    # User
-    path('register/', RegisterUserView.as_view(), name='register'),
-    path('update/', UpdateUserView.as_view(), name='user_update'),
-
     # Api
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
