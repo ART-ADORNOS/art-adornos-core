@@ -37,7 +37,7 @@ class UpdateUserView(APIView):
             serializer = UserSerializer(user, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                logger.info(f"User {user.name} updated successfully.")
+                logger.info(f"User {user.username} updated successfully.")
                 return Response(serializer.data, status=status.HTTP_200_OK)
             logger.error({"error": serializer.errors})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -53,10 +53,10 @@ class UserDeleteView(APIView):
         try:
             user = request.user
             if not user.is_active:
-                logger.error('User %s is deactivated.' % user.name)
+                logger.error('User %s is deactivated.' % user.username)
                 return Response({"error": "User not found or already deactivated"}, status=status.HTTP_404_NOT_FOUND)
             user.delete()
-            logger.info(f"User {user.name} deleted successfully.")
+            logger.info(f"User {user.username} deleted successfully.")
             return Response({"result": "user delete successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Error deleting user: {e}")
