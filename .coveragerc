@@ -1,0 +1,30 @@
+[run]
+branch = True
+source =
+    Apps
+    ArtHome
+omit =
+    */migrations/*
+    */tests/*
+    */test_*.py
+    */settings/*
+    */wsgi.py
+    manage.py
+
+[report]
+show_missing = True
+skip_covered = True
+exclude_lines =
+    pragma: no cover
+    def __str__
+    def __repr__
+    if self\.debug
+    if settings\.DEBUG
+    raise NotImplementedError
+    if __name__ == .__main__.:
+
+[xml]
+output = coverage.xml
+
+[html]
+directory = coverage_html_report
