@@ -500,8 +500,8 @@ coverage report
 coverage html  # Genera reporte HTML en htmlcov/
 
 # Tests específicos
-python manage.py test Apps.users.tests
-python manage.py test Apps.products.tests. test_api
+python manage.py test coreusers.tests
+python manage.py test coreproducts.tests. test_api
 ```
 
 ### Estructura de Tests
