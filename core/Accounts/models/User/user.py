@@ -5,8 +5,8 @@ from django.contrib.auth.models import (
     Group,
     Permission
 )
-from django.db import models
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
@@ -81,3 +81,19 @@ class User(AbstractBaseUser, PermissionsMixin):
                 for perm in permissions:
                     group.permissions.add(perm)
             self.groups.add(group)
+
+    def to_json_api(self):
+        item = dict()
+        item['id'] = self.id
+        item['username'] = self.username
+        item['email'] = self.email
+        item['phone'] = self.phone
+        item['first_name'] = self.first_name
+        item['last_name'] = self.last_name
+        item['is_staff'] = self.is_staff
+        item['is_seller'] = self.is_seller
+        return item
+
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
