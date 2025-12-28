@@ -28,6 +28,17 @@ class Startup(ModelBase):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def to_json_api(self):
+        item = dict()
+        item['id'] = self.id
+        item['owner'] = self.owner_id
+        item['name'] = self.name
+        item['description'] = self.description
+        item['industry'] = self.industry
+        item['industry_display'] = self.get_industry_display()
+        item['icon'] = self.icon
+        return item
+
     class Meta:
         verbose_name = 'Startup'
         verbose_name_plural = 'Startups'

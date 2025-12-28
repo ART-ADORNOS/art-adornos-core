@@ -5,8 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.store.models import Startup
-from core.store.serializer import StartupSerializer
+from core.store.serializer.startup import StartupSerializer
 from core.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
@@ -61,13 +60,3 @@ class StartupDeleteView(APIView):
             logger.error(f"Error deleting startup: {e}")
             return Response({"error": Messages.INTERNAL_ERROR_MSG},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-# API
-class AllStartupsListView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        startups = Startup.objects.all()
-        serializer = StartupSerializer(startups, many=True)
-        return Response(serializer.data)

@@ -6,9 +6,6 @@ app_name = 'store'
 urlpatterns = []
 
 urlpatterns += [
-    # Api
-    path('api/startups/all-startups/', AllStartupsListView.as_view(), name='all-startups'),
-
     # Startup
     path('startups/register/', RegisterStartupView.as_view(), name='register_startup'),
     path('api/startups/list/', UserStartupsListView.as_view(), name='get_startup'),
