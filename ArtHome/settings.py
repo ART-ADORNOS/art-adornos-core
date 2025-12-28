@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt',
-    'Apps.Accounts',
-    'Apps.store'
+    'core.Accounts',
+    'core.store'
 ]
 
 AUTH_USER_MODEL = 'Accounts.User'

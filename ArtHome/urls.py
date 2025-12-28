@@ -22,8 +22,8 @@ from ArtHome import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('Apps.Accounts.urls', namespace="accounts")),
-    path('store/', include('Apps.store.urls', namespace="store")),
+    path('accounts/', include('core.Accounts.urls', namespace="accounts")),
+    path('store/', include('core.store.urls', namespace="store")),
 ]
 
 # only for development
