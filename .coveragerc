@@ -2,7 +2,7 @@
 branch = True
 source =
     Apps
-    ArtHome
+    config
 omit =
     */migrations/*
     */tests/*
