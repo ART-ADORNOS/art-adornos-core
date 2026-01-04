@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.Accounts.api.user.serializers.user import UserSerializer
+from core.Accounts.api.user.serializers import UserSerializer
 from core.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
