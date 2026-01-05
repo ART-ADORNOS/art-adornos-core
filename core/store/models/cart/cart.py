@@ -34,13 +34,12 @@ class CartProduct(models.Model):
         return f"{self.product} - {self.quantity}"
 
     def to_json_api(self, request=None):
-        item = model_to_dict(self)
+        item = model_to_dict(self, exclude=['product'])
         item['product'] = self.product.name
         item['product_id'] = self.product.id
         item["name_startup"] = self.product.start_up.name
         item["phone_owner"] = self.product.start_up.owner.phone
         item["image_product"] = self.product.get_image_url(request=request)
-        item["quantity"] = self.quantity
         item["price"] = float(self.product.price)
         return item
 

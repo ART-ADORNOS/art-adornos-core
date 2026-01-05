@@ -6,9 +6,6 @@ app_name = 'store'
 urlpatterns = []
 
 urlpatterns += [
-    # Api
-    path('api/startups/all-startups/', AllStartupsListView.as_view(), name='all-startups'),
-
     # Startup
     path('startups/register/', RegisterStartupView.as_view(), name='register_startup'),
     path('api/startups/list/', UserStartupsListView.as_view(), name='get_startup'),
@@ -24,5 +21,5 @@ urlpatterns += [
     path('api/cart/update/<int:cart_id>', UpdateCartView.as_view(), name='update_cart'),
 
     # Api
-    path('api/', include('core.store.api.urls'))
+    path('api/', include('core.store.api.v1.urls'))
 ]
