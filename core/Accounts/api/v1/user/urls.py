@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.Accounts.api import UserDeleteView, RegisterUserView, UpdateUserView, GetUserView
+from core.Accounts.api.v1.user import UserDeleteView, RegisterUserView, UpdateUserView, GetUserView
 
 urlpatterns = [
     path('delete/', UserDeleteView.as_view(), name='delete_user'),
