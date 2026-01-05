@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.Accounts.api.user.serializers import UserSerializer, UserDetailSerializer
-from core.Accounts.api.user.serializers.update import UserUpdateSerializer
-from core.Accounts.api.user.services import RegisterUserService, UpdateUserService, DeleteUserService
+from core.Accounts.api.v1.user.serializers import UserSerializer, UserDetailSerializer
+from core.Accounts.api.v1.user.serializers.update import UserUpdateSerializer
+from core.Accounts.api.v1.user.services import RegisterUserService, UpdateUserService, DeleteUserService
 from core.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ class UpdateUserView(APIView):
         user = UpdateUserService.execute(request.user,serializer.validated_data)
         logger.info(f"User {user.username} updated successfully.")
 
-        return Response(UserDetailSerializer(user).data,status=status.HTTP_200_OK)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 class UserDeleteView(APIView):
@@ -43,23 +43,18 @@ class UserDeleteView(APIView):
 
     def delete(self, request):
         user = DeleteUserService.execute(request.user)
-
         logger.info(f"User {user.username} deleted successfully.")
 
-        return Response(
-            {"result": "user deleted successfully"},
-            status=status.HTTP_200_OK
-        )
+        return Response({"result": "user deleted successfully"},status=status.HTTP_200_OK)
 
 class GetUserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
-        serializer = UserSerializer(user)
-        data = serializer.data
+        serializer = UserDetailSerializer(user)
         logger.info(f"Retrieved user data for {user.username}.")
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 

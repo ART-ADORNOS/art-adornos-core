@@ -4,9 +4,9 @@ from core.Accounts.models import User
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
-    model = User
-    fields = '__all__'
+    class Meta:
+        model = User
+        fields = '__all__'
 
     def to_representation(self, instance):
-        request = self.context.get('request')
-        return instance.to_json_api(request=request)
+        return instance.to_api_dict()

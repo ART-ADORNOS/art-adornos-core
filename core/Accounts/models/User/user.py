@@ -82,7 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                     group.permissions.add(perm)
             self.groups.add(group)
 
-    def to_json_api(self):
+    def to_api_dict(self):
         item = dict()
         item['id'] = self.id
         item['username'] = self.username
