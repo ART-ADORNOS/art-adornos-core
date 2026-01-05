@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.store.api import CartListView, DeleteCartView, DeleteCartProductView
+from core.store.api.v1.cart import CartListView, DeleteCartView, DeleteCartProductView
 
 urlpatterns = [
     path('list/', CartListView.as_view(), name='list_carts'),

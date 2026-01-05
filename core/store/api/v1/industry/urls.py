@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.store.api import IndustryListView, UserIndustryView
+from core.store.api.v1.industry import IndustryListView, UserIndustryView
 
 urlpatterns = [
     path('list/', IndustryListView.as_view(), name='industry-choices'),

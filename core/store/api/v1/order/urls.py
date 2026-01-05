@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.store.api import RegisterOrderView, ListOrdersView, ListOrderDetailView
+from core.store.api.v1.order import RegisterOrderView, ListOrdersView, ListOrderDetailView
 
 urlpatterns = [
     path('register/', RegisterOrderView.as_view(), name='register_order'),

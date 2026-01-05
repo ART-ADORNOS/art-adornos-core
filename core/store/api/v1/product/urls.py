@@ -1,6 +1,7 @@
 from django.urls import path
 
-from core.store.api import ProductUpdateView, RegisterProductView, ProductListView, ProductDeleteView, ProductDetailView
+from core.store.api.v1.product import ProductListView, RegisterProductView, ProductUpdateView, ProductDeleteView, \
+    ProductDetailView
 
 urlpatterns = [
     path('list/<int:startup_id>', ProductListView.as_view(), name='list_product'),
