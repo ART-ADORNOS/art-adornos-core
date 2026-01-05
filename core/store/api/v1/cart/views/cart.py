@@ -22,10 +22,9 @@ class CartListView(APIView):
             return Response([], status=status.HTTP_200_OK)
 
         cart_products = CartProduct.objects.filter(cart=cart)
-        serializer = CartSerializerOutput(cart_products, many=True, context={"request": request},)
+        serializer = CartSerializerOutput(cart_products, many=True, context={"request": request}, )
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 class DeleteCartView(APIView):
@@ -35,13 +34,12 @@ class DeleteCartView(APIView):
         cart = Cart.objects.filter(user=request.user).first()
 
         if not cart:
-            return Response({"detail": "Cart not found"},status=status.HTTP_404_NOT_FOUND,)
+            return Response({"detail": "Cart not found"}, status=status.HTTP_404_NOT_FOUND, )
 
         DeleteCartService.execute(cart)
         logger.info(f"Deleted cart for user_id={cart.user_id}")
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 
 class DeleteCartProductView(APIView):

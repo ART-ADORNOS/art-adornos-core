@@ -22,7 +22,7 @@ class RegisterUserView(APIView):
         user = RegisterUserService.execute(serializer.validated_data)
         logger.info(f"User {user.username} registered successfully.")
 
-        return Response({"message": Messages.USER_REGISTERED_SUCCESS},status=status.HTTP_201_CREATED)
+        return Response({"message": Messages.USER_REGISTERED_SUCCESS}, status=status.HTTP_201_CREATED)
 
 
 class UpdateUserView(APIView):
@@ -30,12 +30,12 @@ class UpdateUserView(APIView):
 
     def put(self, request, *args, **kwargs):
         user = request.user
-        serializer = UserUpdateSerializer(user,data=request.data,partial=True)
+        serializer = UserUpdateSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-        user = UpdateUserService.execute(request.user,serializer.validated_data)
+        user = UpdateUserService.execute(request.user, serializer.validated_data)
         logger.info(f"User {user.username} updated successfully.")
 
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserDeleteView(APIView):
@@ -45,7 +45,8 @@ class UserDeleteView(APIView):
         user = DeleteUserService.execute(request.user)
         logger.info(f"User {user.username} deleted successfully.")
 
-        return Response({"result": "user deleted successfully"},status=status.HTTP_200_OK)
+        return Response({"result": "user deleted successfully"}, status=status.HTTP_200_OK)
+
 
 class GetUserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -56,5 +57,3 @@ class GetUserView(APIView):
         logger.info(f"Retrieved user data for {user.username}.")
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
