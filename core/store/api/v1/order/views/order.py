@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.store.api.order.services import OrderFeature
-from core.store.api.order.serializers import OrderSerializerOut
+from core.store.api.v1.order.services import OrderFeature
+from core.store.api.v1.order.serializers import OrderSerializerOut
 from core.store.models import Order
 
 logger = logging.getLogger(__name__)

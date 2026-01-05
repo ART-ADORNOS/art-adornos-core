@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.store.api.category import CategoryListView, CategoryDeleteView
+from core.store.api.v1.category import CategoryListView, CategoryDeleteView
 
 urlpatterns = [
     path('list/<int:startup_id>', CategoryListView.as_view(), name='list_categories'),

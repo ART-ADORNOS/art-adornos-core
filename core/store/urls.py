@@ -21,5 +21,5 @@ urlpatterns += [
     path('api/cart/update/<int:cart_id>', UpdateCartView.as_view(), name='update_cart'),
 
     # Api
-    path('api/', include('core.store.api.urls'))
+    path('api/', include('core.store.api.v1.urls'))
 ]

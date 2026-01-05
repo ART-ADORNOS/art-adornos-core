@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.store.api.cart.serializers import CartSerializerOutput
+from core.store.api.v1.cart.serializers import CartSerializerOutput
 from core.store.models import CartProduct, Cart
 
 logger = logging.getLogger(__name__)

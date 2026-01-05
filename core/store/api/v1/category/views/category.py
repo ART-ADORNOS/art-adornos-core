@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.store.api.category.serializers import CategorySerializerOutput
+from core.store.api.v1.category.serializers import CategorySerializerOutput
 from core.store.models import Category
 
 logger = logging.getLogger(__name__)
