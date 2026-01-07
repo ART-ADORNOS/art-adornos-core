@@ -3,7 +3,7 @@ from rest_framework import serializers
 from core.store.models import CartProduct
 
 
-class CartSerializerOutput(serializers.ModelSerializer):
+class CartOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartProduct
         fields = '__all__'
