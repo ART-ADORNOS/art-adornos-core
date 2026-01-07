@@ -9,7 +9,7 @@ from core.store.models import Startup, Order, OrderItem
 logger = logging.getLogger(__name__)
 
 
-class OrderFeature:
+class OrderFeatureService:
 
     def __init__(self, request):
         self.request = request
