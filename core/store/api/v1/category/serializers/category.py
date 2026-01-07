@@ -3,7 +3,7 @@ from rest_framework import serializers
 from core.store.models import Category
 
 
-class CategorySerializerOutput(serializers.ModelSerializer):
+class CategoryOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'

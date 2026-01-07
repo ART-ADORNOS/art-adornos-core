@@ -1,46 +1,48 @@
 import logging
 
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.store.api import ProductSerializer
+from core.store.api.v1.product import ProductInputSerializer
 from core.store.models import Product
 from core.store.utils.constants import Messages
 
 logger = logging.getLogger(__name__)
 
 
-class ProductListView(APIView):
+class ProductListAPIView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, startup_id):
         products = Product.objects.filter(start_up_id=startup_id)
-        serializer = ProductSerializer(products, many=True, context={'request': request})
+        if not products.exists():
+            return Response({"error": Messages.PRODUCT_NOT_FOUND}, status=status.HTTP_404_NOT_FOUND)
+        serializer = ProductInputSerializer(products, many=True, context={'request': request})
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class RegisterProductView(APIView):
+# TODO : Add transaction management
+class RegisterProductAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request):
-        serializer = ProductSerializer(data=request.data)
+        serializer = ProductInputSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductUpdateView(APIView):
+class ProductUpdateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
-            serializer = ProductSerializer(product, data=request.data)
+            serializer = ProductInputSerializer(product, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -51,7 +53,7 @@ class ProductUpdateView(APIView):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ProductDeleteView(APIView):
+class ProductDeleteAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, product_id):
@@ -65,13 +67,13 @@ class ProductDeleteView(APIView):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ProductDetailView(APIView):
+class ProductDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
-            serializer = ProductSerializer(product, context={'request': request})
+            serializer = ProductInputSerializer(product, context={'request': request})
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Error getting product detail: {e}")

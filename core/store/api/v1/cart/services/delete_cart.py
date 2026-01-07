@@ -9,4 +9,3 @@ class DeleteCartService:
     @transaction.atomic
     def execute(cart: Cart) -> None:
         cart.delete()
-

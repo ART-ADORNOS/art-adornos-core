@@ -3,7 +3,7 @@ from rest_framework import serializers
 from core.store.models import Order
 
 
-class OrderSerializerOut(serializers.ModelSerializer):
+class OrderOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
