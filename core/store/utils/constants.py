@@ -9,3 +9,4 @@ class Messages:
     PRODUCT_LISTED_SUCCESS = "Productos listados con éxito."
     INTERNAL_ERROR_MSG = "Ocurrió un error interno. Por favor, intente más tarde."
     PRODUCT_NOT_FOUND = "Producto no encontrado."
+    STARTUP_DELETED_SUCCESS = "Startup eliminada con éxito."

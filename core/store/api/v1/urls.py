@@ -6,4 +6,5 @@ urlpatterns = [
     path('cart/', include('core.store.api.v1.cart.urls')),
     path('category/', include('core.store.api.v1.category.urls')),
     path('industry/', include('core.store.api.v1.industry.urls')),
+    path('startup/', include('core.store.api.v1.startup.urls')),
 ]
