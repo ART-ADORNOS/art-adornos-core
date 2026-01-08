@@ -2,7 +2,7 @@ from django.db import models
 from django.forms import model_to_dict
 
 from core.store.models import ModelBase
-from core.store.utilities.enums.order_status import OrderStatus
+from core.store.utils.enums.order_status import OrderStatus
 
 
 class Order(ModelBase):
