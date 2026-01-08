@@ -1,11 +1,13 @@
 import logging
 
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.store.api.v1.product import ProductInputSerializer
+from core.store.api.v1.product import ProductInputSerializer, ProductOutputSerializer
+from core.store.api.v1.product.services import RegisterProductService, UpdateProductService, DeleteProductService
 from core.store.models import Product
 from core.store.utils.constants import Messages
 
@@ -24,58 +26,48 @@ class ProductListAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# TODO : Add transaction management
 class RegisterProductAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ProductInputSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        RegisterProductService.execute(serializer.validated_data)
+
+        return Response({"message": Messages.PRODUCT_REGISTERED_SUCCESS}, status=status.HTTP_201_CREATED)
 
 
 class ProductUpdateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request, product_id):
-        try:
-            product = Product.objects.get(id=product_id)
-            serializer = ProductInputSerializer(product, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            logger.error(f"Error updating product: {e}")
-            return Response({"error": Messages.INTERNAL_ERROR_MSG},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        product = get_object_or_404(Product, id=product_id)
+
+        serializer = ProductInputSerializer(product, data=request.data, partial=False)
+        serializer.is_valid(raise_exception=True)
+
+        product = UpdateProductService.execute(product, serializer.validated_data)
+
+        logger.info(f"Product {product.id} updated successfully.")
+
+        return Response(ProductInputSerializer(product).data, status=status.HTTP_200_OK)
 
 
 class ProductDeleteAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, product_id):
-        try:
-            product = Product.objects.get(id=product_id)
-            product.delete()
-            return Response({"result": Messages.PRODUCT_DELETED_SUCCESS}, status=status.HTTP_200_OK)
-        except Exception as e:
-            logger.error(f"Error deleting product: {e}")
-            return Response({"error": Messages.INTERNAL_ERROR_MSG},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        DeleteProductService.execute(product_id)
+        logger.info(f"Retrieved product data for product ID {product_id}.")
+
+        return Response({"result": Messages.PRODUCT_DELETED_SUCCESS}, status=status.HTTP_200_OK)
 
 
 class ProductDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, product_id):
-        try:
-            product = Product.objects.get(id=product_id)
-            serializer = ProductInputSerializer(product, context={'request': request})
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            logger.error(f"Error getting product detail: {e}")
-            return Response({"error": Messages.INTERNAL_ERROR_MSG},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        product = Product.objects.get(id=product_id)
+        serializer = ProductOutputSerializer(product, context={'request': request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

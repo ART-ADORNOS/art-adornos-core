@@ -6,7 +6,7 @@ from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
 from core.store.api.v1.industry.services import GetUserIndustriesService
-from core.store.utilities.enums.industry import Industry
+from core.store.utils.enums.industry import Industry
 
 logger = logging.getLogger(__name__)
 

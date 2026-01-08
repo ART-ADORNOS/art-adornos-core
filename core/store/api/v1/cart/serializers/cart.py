@@ -11,3 +11,9 @@ class CartOutputSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         request = self.context.get('request')
         return instance.to_json_api(request=request)
+
+
+class CartInputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartProduct
+        fields = ['product_id', 'quantity']

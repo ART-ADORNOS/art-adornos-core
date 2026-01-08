@@ -1,12 +1,13 @@
 import logging
 
 from django.db import models
+from django.forms import model_to_dict
 from django.utils.text import slugify
 
 from core.Accounts.models import User
 from core.store.models import ModelBase
-from core.store.utilities.enums.icon import Icon
-from core.store.utilities.enums.industry import Industry
+from core.store.utils.enums.icon import Icon
+from core.store.utils.enums.industry import Industry
 
 logger = logging.getLogger(__name__)
 
@@ -29,14 +30,9 @@ class Startup(ModelBase):
         super().save(*args, **kwargs)
 
     def to_json_api(self):
-        item = dict()
-        item['id'] = self.id
+        item = model_to_dict(self, exclude=['owner', 'created_at', 'updated_at', 'slug'])
         item['owner'] = self.owner_id
-        item['name'] = self.name
-        item['description'] = self.description
-        item['industry'] = self.industry
         item['industry_display'] = self.get_industry_display()
-        item['icon'] = self.icon
         return item
 
     class Meta:

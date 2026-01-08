@@ -1,5 +1,5 @@
 from core.store.models import Startup
-from core.store.utilities.enums.industry import Industry
+from core.store.utils.enums.industry import Industry
 
 
 class GetUserIndustriesService:
