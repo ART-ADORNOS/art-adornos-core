@@ -1,4 +1,4 @@
-from core.store.utilities.enums.enums import TextChoicesCustom
+from core.store.utils.enums.enums import TextChoicesCustom
 
 
 class Industry(TextChoicesCustom):

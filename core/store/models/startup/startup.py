@@ -6,8 +6,8 @@ from django.utils.text import slugify
 
 from core.Accounts.models import User
 from core.store.models import ModelBase
-from core.store.utilities.enums.icon import Icon
-from core.store.utilities.enums.industry import Industry
+from core.store.utils.enums.icon import Icon
+from core.store.utils.enums.industry import Industry
 
 logger = logging.getLogger(__name__)
 
