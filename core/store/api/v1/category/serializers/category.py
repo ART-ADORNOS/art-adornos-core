@@ -10,3 +10,9 @@ class CategoryOutputSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return instance.to_json_api()
+
+
+class CategoryInputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description', 'state', 'start_up']

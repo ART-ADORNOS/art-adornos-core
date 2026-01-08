@@ -7,5 +7,11 @@ class DeleteCartService:
 
     @staticmethod
     @transaction.atomic
-    def execute(cart: Cart) -> None:
+    def execute(user: object) -> Cart:
+        cart = Cart.objects.filter(user=user).first()
+        if not cart:
+            raise Cart.DoesNotExist("Cart not found")
+
         cart.delete()
+
+        return cart

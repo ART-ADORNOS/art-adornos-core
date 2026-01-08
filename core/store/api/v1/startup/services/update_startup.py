@@ -7,9 +7,7 @@ class UpdateStartupService:
 
     @staticmethod
     @transaction.atomic
-    def execute(startup: Startup, startup_data: dict) -> Startup:
+    def execute(startup: Startup, startup_data: dict) -> None:
         for field, value in startup_data.items():
             setattr(startup, field, value)
         startup.save()
-
-        return startup
