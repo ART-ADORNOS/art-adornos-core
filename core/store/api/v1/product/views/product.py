@@ -7,9 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.store.api.v1.product import ProductInputSerializer, ProductOutputSerializer
-from core.store.api.v1.product.services import RegisterProductService
-from core.store.api.v1.product.services.delete_product import DeleteProductService
-from core.store.api.v1.product.services.update_product import UpdateProductService
+from core.store.api.v1.product.services import RegisterProductService, UpdateProductService, DeleteProductService
 from core.store.models import Product
 from core.store.utils.constants import Messages
 
