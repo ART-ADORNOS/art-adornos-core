@@ -5,662 +5,470 @@
 ### Backend Oficial de la Organización ART-ADORNOS
 
 ![Django](https://img.shields.io/badge/Django-5.1.1-092E20?style=for-the-badge&logo=django&logoColor=white)
-![DRF](https://img.shields.io/badge/DRF-3.14-a30000?style=for-the-badge&logo=django&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![DRF](https://img.shields.io/badge/DRF-3.15.2-a30000?style=for-the-badge&logo=django&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 
 [![CI](https://github.com/ART-ADORNOS/art-adornos-core/workflows/Django%20CI/badge.svg)](https://github.com/ART-ADORNOS/art-adornos-core/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ART-ADORNOS_art-adornos-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=ART-ADORNOS_art-adornos-core)
-[![License:  MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-[Documentación](#-documentación) • [Instalación](#-instalación-y-ejecución) • [API](#-endpoints-principales) • [Contribuir](#-contribución)
 
 </div>
 
 ---
 
-## 📌 Descripción General
+## 📌 Descripción
 
-**ART-ADORNOS Core** es el backend oficial de la organización **ART-ADORNOS**, desarrollado con **Django 5.1** y **Django REST Framework**. Este repositorio es responsable de: 
+**ART-ADORNOS Core** es el backend oficial construido con **Django 5.1** y **Django REST Framework** que proporciona:
 
-- 🔐 **Autenticación y autorización** mediante JWT
-- 🔌 **API REST centralizada** para todos los clientes
-- 🧠 **Lógica de negocio** y validaciones
-- 💾 **Persistencia y gestión de datos**
-- 🛡️ **Seguridad y control de acceso**
-- 🔗 **Integraciones futuras** con servicios externos
-
-> **⚠️ Nota importante:** Este repositorio **NO incluye frontend**. El cliente web (React + TailwindCSS) se mantiene en un repositorio independiente, siguiendo las mejores prácticas de arquitectura desacoplada y microservicios.
+- 🔐 Autenticación JWT
+- 🔌 API REST para gestión de productos y startups
+- 💾 Persistencia con PostgreSQL
+- 🚀 CI/CD con GitHub Actions
+- 🐳 Despliegue con Docker
 
 ---
 
-## 🧩 Arquitectura General
+## 🛠️ Tecnologías
 
-```
-ART-ADORNOS (GitHub Organization)
-│
-├── 🖥️  art-adornos-core        ← Backend (Django / DRF)    ← 📍 ESTE REPOSITORIO
-│   ├── API REST
-│   ├── Autenticación JWT
-│   ├── Lógica de Negocio
-│   └── Base de Datos
-│
-└── 🎨 art-adornos-frontend    ← Frontend (React / Tailwind)
-    ├── Interfaz de Usuario
-    ├── Componentes React
-    └── Consumo de API
-```
-
-### 🎯 Responsabilidades del Backend
-
-| Área | Descripción |
-|------|-------------|
-| **🔐 Autenticación** | Sistema JWT con tokens de acceso y refresco |
-| **🌐 API REST** | Endpoints documentados y versionados |
-| **💼 Lógica de Negocio** | Reglas, validaciones y procesos empresariales |
-| **💾 Persistencia** | Gestión de base de datos PostgreSQL |
-| **🔌 Integraciones** | Preparado para servicios de terceros |
-| **🛡️ Seguridad** | Validaciones, permisos y protección CSRF |
+| Categoría         | Tecnología                          | Versión |
+|-------------------|-------------------------------------|---------|
+| **Lenguaje**      | Python                              | 3.12+   |
+| **Framework**     | Django                              | 5.1.1   |
+| **API REST**      | Django REST Framework               | 3.15.2  |
+| **Base de Datos** | PostgreSQL                          | 15      |
+| **Autenticación** | JWT (djangorestframework-simplejwt) | 5.4.0   |
+| **CORS**          | django-cors-headers                 | 4.4.0   |
+| **Imágenes**      | Pillow                              | 11.2.1  |
+| **Testing**       | Coverage                            | 7.8.2   |
 
 ---
 
-## ✨ Características Principales
+## 📋 Prerrequisitos
 
-- 🔐 **Autenticación JWT completa** (login, registro, refresh tokens, logout)
-- 🧑‍💼 **Sistema de usuarios y roles** con permisos granulares
-- 📦 **Gestión de productos y catálogos** con operaciones CRUD
-- 🏢 **Módulo de emprendimientos y startups**
-- 🔌 **API RESTful totalmente desacoplada** del frontend
-- 🧪 **Infraestructura de testing** automatizado
-- 📊 **Análisis de calidad continuo** con SonarCloud
-- 🐳 **Soporte para Docker** y contenedores
-- 📈 **Arquitectura escalable** y preparada para microservicios
-- 🔄 **CI/CD** con GitHub Actions
+### Para WSL (Ubuntu/Linux)
 
----
+- Python 3.12 o superior
+- PostgreSQL 15
+- pip y venv
+- git
 
-## ⚙️ Stack Tecnológico
+### Para Windows
 
-<div align="center">
+- Python 3.12 o superior → [Descargar](https://www.python.org/downloads/)
+- PostgreSQL 15 → [Descargar](https://www.postgresql.org/download/windows/)
+- Git for Windows → [Descargar](https://git-scm.com/download/win)
 
-| 🎯 Capa | 🛠️ Tecnología | 📦 Versión |
-|---------|---------------|-----------|
-| **Backend Framework** | Django | 5.1.1 |
-| **API** | Django REST Framework | 3.14+ |
-| **Autenticación** | JWT (djangorestframework-simplejwt) | Latest |
-| **Base de Datos** | PostgreSQL (producción) / SQLite (desarrollo) | 14+ / 3 |
-| **Servidor WSGI** | Gunicorn | Latest |
-| **Integración Continua** | GitHub Actions | - |
-| **Análisis de Código** | SonarCloud | - |
-| **Gestión de Dependencias** | pip + requirements. txt | - |
-| **Entornos Soportados** | Linux, WSL, Windows, Docker | - |
-
-</div>
+> ⚠️ **Al instalar Python en Windows:** Marca la opción "Add Python to PATH"
 
 ---
 
-## 🚀 Instalación y Ejecución
+## 🚀 Instalación y Configuración
 
-### 📋 Prerrequisitos
+### 📦 Opción 1: WSL / Linux
 
-Antes de comenzar, asegúrese de contar con:
-
-- ✅ **Python 3.11** o superior
-- ✅ **Git** 2.x o superior
-- ✅ **PostgreSQL 14+** (recomendado para producción)
-- ✅ **pip** actualizado
-- ✅ **virtualenv** o **pyenv** (recomendado)
-
----
-
-### 🐧 Instalación en Linux / WSL
-
-Esta sección utiliza **pyenv** para gestionar versiones de Python y **virtualenv** para aislar dependencias. 
-
-#### 1️⃣ Clonar el Repositorio
+#### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/ART-ADORNOS/art-adornos-core.git
 cd art-adornos-core
 ```
 
-#### 2️⃣ Instalar pyenv (si no está instalado)
+#### 2. Crear entorno virtual
 
 ```bash
-# Actualizar el sistema
-sudo apt update && sudo apt upgrade -y
-
-# Instalar dependencias necesarias
-sudo apt install -y make build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
-libffi-dev liblzma-dev git
-
-# Instalar pyenv
-curl https://pyenv.run | bash
-
-# Configurar pyenv en el shell
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-
-# Recargar configuración del shell
-exec "$SHELL"
-```
-
-#### 3️⃣ Instalar Python con pyenv
-
-```bash
-# Instalar Python 3.11
-pyenv install 3.11.0
-
-# Establecer Python 3.11 como versión local del proyecto
-pyenv local 3.11.0
-
-# Verificar la instalación
-python --version  # Debe mostrar:  Python 3.11.0
-```
-
-#### 4️⃣ Crear Entorno Virtual
-
-```bash
-# Instalar virtualenv
-pip install virtualenv
-
-# Crear entorno virtual en el proyecto
-python -m venv venv
-
-# Activar el entorno virtual
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-#### 5️⃣ Instalar Dependencias
+#### 3. Instalar dependencias
 
 ```bash
-# Actualizar pip
-pip install --upgrade pip setuptools wheel
-
-# Instalar dependencias de desarrollo
-pip install -r requirements/development.txt
+pip install --upgrade pip
+pip install -r requirements/production.txt
 ```
 
-#### 6️⃣ Configurar Variables de Entorno
+#### 4. Configurar PostgreSQL
 
 ```bash
-# Copiar el archivo de ejemplo
-cp .env.sample . env
+# Instalar PostgreSQL (si no lo tienes)
+sudo apt update
+sudo apt install postgresql postgresql-contrib
 
-# Editar el archivo . env
-nano .env
+# Acceder a PostgreSQL
+sudo -u postgres psql
+
+# Crear base de datos y usuario
+CREATE DATABASE art_adornos_db;
+CREATE USER art_user WITH PASSWORD 'tu_password';
+ALTER ROLE art_user SET client_encoding TO 'utf8';
+ALTER ROLE art_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE art_user SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE art_adornos_db TO art_user;
+\q
 ```
 
-**Configuración mínima para desarrollo:**
+#### 5. Configurar variables de entorno
+
+```bash
+cp .env.sample .env
+nano .env  # o usa vim, code, etc. 
+```
+
+Edita el archivo `.env` con tus datos:
 
 ```env
-SECRET_KEY=django-insecure-development-key-change-in-production
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_URL=sqlite:///db.sqlite3
+SECRET_KEY=tu-secret-key-aqui
+DEBUG=1
+PSQL=1
 
-# Para PostgreSQL (opcional en desarrollo):
-# DATABASE_URL=postgresql://user:password@localhost:5432/art_adornos_db
+DB_NAME=art_adornos_db
+DB_USER=art_user
+DB_PASSWORD=tu_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_SCHEMA=public
+
+PGADMIN_EMAIL=admin@admin.com
+PGADMIN_PASSWORD=admin
 ```
 
-#### 7️⃣ Ejecutar Migraciones y Crear Superusuario
+> 💡 **Generar SECRET_KEY:**
+> ```bash
+> python -c 'from django.core. management.utils import get_random_secret_key; print(get_random_secret_key())'
+> ```
+
+#### 6. Ejecutar migraciones
 
 ```bash
-# Aplicar migraciones de base de datos
 python manage.py migrate
-
-# Crear un superusuario para acceder al admin
-python manage.py createsuperuser
-
-# Recolectar archivos estáticos (opcional en desarrollo)
-python manage.py collectstatic --noinput
 ```
 
-#### 8️⃣ Iniciar el Servidor de Desarrollo
+#### 7. Crear superusuario (opcional)
 
 ```bash
-# Ejecutar servidor Django
+python manage.py createsuperuser
+```
+
+#### 8. Ejecutar el servidor
+
+```bash
 python manage.py runserver
 ```
 
-✅ **API disponible en:** [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)  
-✅ **Panel de administración:** [`http://127.0.0.1:8000/admin/`](http://127.0.0.1:8000/admin/)
+✅ El servidor estará disponible en: `http://localhost:8000`
 
 ---
 
-### 🪟 Instalación en Windows
+### 🪟 Opción 2: Windows (Python Nativo)
 
-Esta sección utiliza el módulo **venv** nativo de Python, ideal para Windows.
+#### 1. Clonar el repositorio
 
-#### 1️⃣ Clonar el Repositorio
+Abre **PowerShell** o **CMD** y ejecuta:
 
 ```cmd
 git clone https://github.com/ART-ADORNOS/art-adornos-core.git
 cd art-adornos-core
 ```
 
-#### 2️⃣ Verificar Instalación de Python
+#### 2. Crear entorno virtual
 
 ```cmd
-# Verificar versión de Python
-python --version
-
-# Si no está instalado, descargar desde: 
-# https://www.python.org/downloads/
-# ⚠️ IMPORTANTE: Marcar "Add Python to PATH" durante la instalación
-```
-
-#### 3️⃣ Crear Entorno Virtual
-
-```cmd
-# Crear entorno virtual con venv
 python -m venv venv
-
-# Activar el entorno virtual
 venv\Scripts\activate
 ```
 
-#### 4️⃣ Instalar Dependencias
+> 💡 Si aparece un error de permisos en PowerShell, ejecuta:
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+
+#### 3. Instalar dependencias
 
 ```cmd
-# Actualizar pip
-python -m pip install --upgrade pip setuptools wheel
-
-# Instalar dependencias de desarrollo
-pip install -r requirements\development.txt
+python -m pip install --upgrade pip
+pip install -r requirements/production. txt
 ```
 
-#### 5️⃣ Configurar Variables de Entorno
+#### 4. Configurar PostgreSQL
+
+**Opción A: Usando pgAdmin (GUI)**
+
+1. Abre **pgAdmin 4** (instalado con PostgreSQL)
+2. Conéctate al servidor local
+3. Click derecho en "Databases" → Create → Database
+    - Database:  `art_adornos_db`
+4. Click derecho en "Login/Group Roles" → Create → Login/Group Role
+    - Name: `art_user`
+    - Password (pestaña Definition): `tu_password`
+    - Privileges (pestaña): Marcar "Can login?"
+5. Click derecho en `art_adornos_db` → Properties → Security
+    - Agregar privilegios a `art_user`
+
+**Opción B: Usando SQL Shell (psql)**
+
+1. Abre **SQL Shell (psql)** del menú inicio
+2. Presiona Enter hasta llegar a "Password for user postgres"
+3. Ingresa tu contraseña de PostgreSQL
+4. Ejecuta:
+
+```sql
+CREATE
+DATABASE art_adornos_db;
+CREATE
+USER art_user WITH PASSWORD 'tu_password';
+GRANT ALL PRIVILEGES ON DATABASE
+art_adornos_db TO art_user;
+\q
+```
+
+#### 5. Configurar variables de entorno
 
 ```cmd
-# Copiar el archivo de ejemplo
 copy .env.sample .env
-
-# Editar con el Bloc de notas o tu editor preferido
 notepad .env
 ```
 
-**Configuración mínima para desarrollo en Windows:**
+Edita el archivo `.env` con tus datos:
 
 ```env
-SECRET_KEY=django-insecure-development-key-change-in-production
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_URL=sqlite:///db.sqlite3
+SECRET_KEY=tu-secret-key-generada
+DEBUG=1
+PSQL=1
+
+DB_NAME=art_adornos_db
+DB_USER=art_user
+DB_PASSWORD=tu_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_SCHEMA=public
+
+PGADMIN_EMAIL=admin@admin.com
+PGADMIN_PASSWORD=admin
 ```
 
-#### 6️⃣ Ejecutar Migraciones y Crear Superusuario
+> 💡 **Generar SECRET_KEY en Windows:**
+> ```cmd
+> python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+> ```
+
+#### 6. Ejecutar migraciones
 
 ```cmd
+python manage.py migrate
+```
+
+#### 7. Crear superusuario (opcional)
+
+```cmd
+python manage.py createsuperuser
+```
+
+#### 8. Ejecutar el servidor
+
+```cmd
+python manage.py runserver
+```
+
+✅ El servidor estará disponible en: `http://localhost:8000`
+
+#### 🔄 Para trabajar en el futuro
+
+Cada vez que trabajes en el proyecto:
+
+```cmd
+cd art-adornos-core
+venv\Scripts\activate
+python manage.py runserver
+```
+
+---
+
+### 🐳 Opción 3: Docker (Alternativa - Multiplataforma)
+
+Si prefieres usar Docker para no instalar PostgreSQL localmente:
+
+#### Para WSL/Linux:
+
+```bash
+# Instalar Docker (si no lo tienes)
+curl -fsSL https://get.docker.com -o get-docker. sh
+sudo sh get-docker. sh
+
+# Iniciar servicios
+docker-compose up -d
+
+# Aplicar migraciones
+docker-compose exec django python manage. py migrate
+
+# Crear superusuario
+docker-compose exec django python manage.py createsuperuser
+```
+
+#### Para Windows:
+
+1. Descarga e instala [Docker Desktop](https://www.docker.com/products/docker-desktop)
+2. Abre PowerShell o CMD en la carpeta del proyecto:
+
+```cmd
+docker-compose up -d
+docker-compose exec django python manage.py migrate
+docker-compose exec django python manage.py createsuperuser
+```
+
+✅ **Servicios disponibles:**
+
+- Django API:  `http://localhost:8000`
+- PostgreSQL: `localhost:5432`
+- PgAdmin: `http://localhost:8080` (user: admin@admin.com, pass: admin)
+
+---
+
+## 🧪 Testing
+
+### En WSL/Linux:
+
+```bash
+# Ejecutar todos los tests
+python manage.py test
+
+# Con cobertura
+coverage run manage.py test
+coverage report
+coverage html  # Genera reporte en htmlcov/index.html
+```
+
+### En Windows:
+
+```cmd
+# Ejecutar todos los tests
+python manage.py test
+
+# Con cobertura
+coverage run manage. py test
+coverage report
+coverage html
+```
+
+Abre el reporte:  `htmlcov\index.html`
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+art-adornos-core/
+├── config/              # Configuración de Django
+├── core/                # Aplicación principal
+├── utils/               # Utilidades y helpers
+├── requirements/        # Dependencias Python
+│   ├── production.txt
+│   └── development.txt
+├── docker/              # Archivos Docker
+├── .github/workflows/   # CI/CD con GitHub Actions
+├── manage.py
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+## 🔧 Comandos Útiles
+
+### Django (WSL/Linux)
+
+```bash
+# Crear nueva migración
+python manage.py makemigrations
+
 # Aplicar migraciones
 python manage.py migrate
 
 # Crear superusuario
 python manage.py createsuperuser
 
-# Recolectar archivos estáticos (opcional)
-python manage.py collectstatic --noinput
+# Ejecutar shell de Django
+python manage.py shell
+
+# Colectar archivos estáticos
+python manage. py collectstatic
 ```
 
-#### 7️⃣ Iniciar el Servidor de Desarrollo
+### Django (Windows)
 
 ```cmd
-# Ejecutar servidor Django
-python manage.py runserver
+REM Crear nueva migración
+python manage.py makemigrations
+
+REM Aplicar migraciones
+python manage.py migrate
+
+REM Crear superusuario
+python manage.py createsuperuser
+
+REM Ejecutar shell de Django
+python manage.py shell
+
+REM Colectar archivos estáticos
+python manage.py collectstatic
 ```
 
-✅ **API disponible en:** [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)  
-✅ **Panel de administración:** [`http://127.0.0.1:8000/admin/`](http://127.0.0.1:8000/admin/)
-
----
-
-### 🐳 Instalación con Docker (Opcional)
+### Docker
 
 ```bash
-# Construir la imagen
-docker-compose build
+# Ver logs
+docker-compose logs -f django
 
-# Iniciar los servicios
-docker-compose up -d
+# Reiniciar servicios
+docker-compose restart
 
-# Ejecutar migraciones
-docker-compose exec web python manage.py migrate
+# Detener servicios
+docker-compose down
 
-# Crear superusuario
-docker-compose exec web python manage.py createsuperuser
+# Rebuild
+docker-compose up --build
 ```
 
 ---
 
-## 🔗 Frontend (Repositorio Separado)
+## 🌐 Endpoints Principales
 
-<div align="center">
+| Método | Endpoint              | Descripción               |
+|--------|-----------------------|---------------------------|
+| POST   | `/api/auth/login/`    | Login (obtener token JWT) |
+| POST   | `/api/auth/register/` | Registro de usuario       |
+| GET    | `/api/products/`      | Listar productos          |
+| POST   | `/api/products/`      | Crear producto            |
+| GET    | `/api/startups/`      | Listar startups           |
+| GET    | `/admin/`             | Panel de administración   |
 
-### 🎨 El frontend React se encuentra en un repositorio independiente
-
-👉 **[art-adornos-frontend](https://github.com/ART-ADORNOS/art-adornos-frontend)**
-
-</div>
-
-Este backend expone una **API REST completa** diseñada para ser consumida por:
-
-- 🌐 **Aplicación web React**
-- 📱 **Aplicaciones móviles** (iOS / Android)
-- 🤖 **Integraciones de terceros**
-- 🔌 **Futuros microservicios**
-
----
-
-## 📡 Endpoints Principales
-
-### 🔐 Autenticación
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `POST` | `/api/auth/register/` | Registro de nuevos usuarios |
-| `POST` | `/api/auth/login/` | Inicio de sesión (obtener tokens JWT) |
-| `POST` | `/api/auth/refresh/` | Refrescar token de acceso |
-| `POST` | `/api/auth/logout/` | Cerrar sesión |
-
-### 👤 Usuarios
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/api/users/me/` | Obtener perfil del usuario actual |
-| `PUT` | `/api/users/me/` | Actualizar perfil |
-| `DELETE` | `/api/users/me/` | Eliminar cuenta |
-
-### 📦 Productos
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/api/products/` | Listar productos |
-| `POST` | `/api/products/` | Crear producto (vendedores) |
-| `GET` | `/api/products/{id}/` | Detalle de producto |
-| `PUT` | `/api/products/{id}/` | Actualizar producto |
-| `DELETE` | `/api/products/{id}/` | Eliminar producto |
-
-### 🏢 Startups
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/api/startups/` | Listar emprendimientos |
-| `POST` | `/api/startups/` | Crear startup |
-| `GET` | `/api/startups/{id}/` | Detalle de startup |
-| `PUT` | `/api/startups/{id}/` | Actualizar startup |
-
-> 📚 **Documentación completa de la API:** Disponible en `/api/docs/` (Swagger) y `/api/redoc/` (ReDoc)
-
----
-
-## 🔄 CI/CD y Calidad de Código
-
-### 🤖 GitHub Actions
-
-El proyecto implementa pipelines automatizados para:
-
-- ✅ **Testing automático** en cada push y PR
-- ✅ **Linting y formato** de código (flake8, black)
-- ✅ **Validación de seguridad** (bandit, safety)
-- ✅ **Builds de Docker** automatizados
-- ✅ **Despliegue continuo** (en configuración)
-
-**Workflows configurados:**
-
-```
-. github/workflows/
-├── django-ci. yml          # Tests y validaciones
-├── sonarcloud.yml         # Análisis de calidad
-└── docker-build.yml       # Build de imágenes
-```
-
-### 📊 SonarCloud
-
-Análisis continuo de calidad del código monitoreando:
-
-- 🐛 **Bugs y vulnerabilidades**
-- 🧹 **Code smells** y deuda técnica
-- 📈 **Cobertura de tests**
-- 🔒 **Seguridad y hotspots**
-- 📏 **Maintainability rating**
-
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ART-ADORNOS_art-adornos-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=ART-ADORNOS_art-adornos-core)
-
----
-
-## 🌐 Despliegue en Producción
-
-### ☁️ Plataformas Compatibles
-
-| Plataforma | Características | Recomendado para |
-|------------|----------------|------------------|
-| **AWS** | Escalabilidad máxima, servicios completos | Empresas y producción |
-| **DigitalOcean** | Balance precio/rendimiento | Startups y proyectos medianos |
-| **Heroku** | Despliegue rápido, PaaS | Prototipos y MVP |
-| **Docker** | Portabilidad total | Cualquier infraestructura |
-| **Railway/Render** | Alternativas modernas a Heroku | Proyectos pequeños |
-
-### 🔐 Variables de Entorno en Producción
-
-**Configuración mínima obligatoria:**
-
-```env
-# Django Core
-SECRET_KEY=your-super-secret-production-key-min-50-chars
-DEBUG=False
-ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
-
-# Database
-DATABASE_URL=postgresql://user:password@host:5432/dbname
-
-# Security
-SECURE_SSL_REDIRECT=True
-SESSION_COOKIE_SECURE=True
-CSRF_COOKIE_SECURE=True
-
-# CORS (si el frontend está en otro dominio)
-CORS_ALLOWED_ORIGINS=https://yourfrontend.com
-
-# Optional: AWS S3 para archivos estáticos
-AWS_ACCESS_KEY_ID=your-access-key
-AWS_SECRET_ACCESS_KEY=your-secret-key
-AWS_STORAGE_BUCKET_NAME=your-bucket-name
-```
-
-### 📝 Checklist de Despliegue
-
-- [ ] Configurar base de datos PostgreSQL
-- [ ] Establecer `DEBUG=False`
-- [ ] Configurar `SECRET_KEY` segura (>50 caracteres aleatorios)
-- [ ] Definir `ALLOWED_HOSTS` correctamente
-- [ ] Habilitar HTTPS y certificados SSL
-- [ ] Configurar archivos estáticos (S3, CDN, etc.)
-- [ ] Configurar logs y monitoreo
-- [ ] Ejecutar `python manage.py check --deploy`
-- [ ] Configurar backups automáticos de la base de datos
-- [ ] Implementar rate limiting y protección DDoS
-
----
-
-## 🧪 Testing
-
-### Ejecutar Tests
-
-```bash
-# Ejecutar todos los tests
-python manage.py test
-
-# Tests con cobertura
-coverage run --source='.' manage.py test
-coverage report
-coverage html  # Genera reporte HTML en htmlcov/
-
-# Tests específicos
-python manage.py test coreusers.tests
-python manage.py test coreproducts.tests. test_api
-```
-
-### Estructura de Tests
-
-```
-Apps/
-├── users/
-│   └── tests/
-│       ├── test_models.py
-│       ├── test_api.py
-│       └── test_auth.py
-└── products/
-    └── tests/
-        ├── test_models.py
-        └── test_api.py
-```
+📖 **Documentación completa de API:** `http://localhost:8000/api/docs/`
 
 ---
 
 ## 🤝 Contribución
 
-¡Sus contribuciones son bienvenidas! Para contribuir al proyecto:
-
-### 📝 Proceso de Contribución
-
-1. **Fork** del repositorio
-2. **Clone** tu fork localmente
-   ```bash
-   git clone https://github.com/TU-USUARIO/art-adornos-core.git
-   ```
-3. **Crea una rama** para tu feature
-   ```bash
-   git checkout -b feature/nombre-descriptivo
-   ```
-4. **Realiza tus cambios** siguiendo las convenciones del proyecto
-5. **Commits** siguiendo [Conventional Commits](https://www.conventionalcommits.org/)
-   ```bash
-   git commit -m "feat: añade endpoint de búsqueda de productos"
-   git commit -m "fix: corrige validación de email en registro"
-   git commit -m "docs: actualiza README con instrucciones de Docker"
-   ```
-6. **Push** a tu fork
-   ```bash
-   git push origin feature/nombre-descriptivo
-   ```
-7. **Abre un Pull Request** detallado explicando los cambios
-
-### ✅ Requisitos para PR
-
-- [ ] El código pasa todos los tests existentes
-- [ ] Se añaden tests para nuevas funcionalidades
-- [ ] La cobertura de tests no disminuye
-- [ ] El código sigue PEP 8 (verificado con flake8)
-- [ ] La documentación está actualizada
-- [ ] Los commits siguen Conventional Commits
-- [ ] No hay conflictos con la rama `main`
-
-### 📏 Convenciones de Código
-
-```bash
-# Formatear código con black
-black .
-
-# Verificar estilo con flake8
-flake8 .
-
-# Ordenar imports con isort
-isort . 
-```
+1. Fork el proyecto
+2. Crea una rama:  `git checkout -b feature/nueva-funcionalidad`
+3. Commit:  `git commit -m 'Add:  nueva funcionalidad'`
+4. Push: `git push origin feature/nueva-funcionalidad`
+5. Abre un Pull Request
 
 ---
 
-## 📚 Documentación
+## 📄 Licencia
 
-- 📖 [Documentación oficial de Django](https://docs.djangoproject.com/)
-- 🔌 [Django REST Framework](https://www.django-rest-framework.org/)
-- 🔐 [Simple JWT](https://django-rest-framework-simplejwt.readthedocs.io/)
-- 🐘 [PostgreSQL](https://www.postgresql.org/docs/)
+Este proyecto está bajo la Licencia MIT.
 
 ---
 
-## 📜 Licencia
+## 👥 Equipo
 
-Este proyecto está licenciado bajo la **Licencia MIT**. 
-
-```
-MIT License
-
-Copyright (c) 2025 ART-ADORNOS Organization
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-[Ver archivo LICENSE completo](LICENSE)
-```
-
----
-
-## 👥 Equipo y Contacto
+Desarrollado con ❤️ por el equipo de **ART-ADORNOS**
 
 <div align="center">
 
-### 👤 Autor Principal
-
-**Freddy Andres Zambrano Quilambaqui**
-
-[![GitHub](https://img.shields.io/badge/GitHub-freddyandreszambrano-181717?style=for-the-badge&logo=github)](https://github.com/freddyandreszambrano)
-[![Email](https://img.shields.io/badge/Email-freddyfazq0614@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:freddyfazq0614@gmail. com)
-
-### 🏢 Organización
-
-[![ART-ADORNOS](https://img.shields.io/badge/GitHub-ART--ADORNOS-181717? style=for-the-badge&logo=github)](https://github.com/ART-ADORNOS)
-
----
-
-### 💬 Soporte y Consultas
-
-- 🐛 **Reportar bugs:** [Issues](https://github.com/ART-ADORNOS/art-adornos-core/issues)
-- 💡 **Sugerir features:** [Discussions](https://github.com/ART-ADORNOS/art-adornos-core/discussions)
-- 📧 **Contacto directo:** [freddyfazq0614@gmail. com](mailto:freddyfazq0614@gmail.com)
-
-</div>
-
----
-
-## 🙏 Agradecimientos
-
-Agradecemos a todos los contribuidores y a la comunidad open source por hacer posible este proyecto. 
-
-Un agradecimiento especial a: 
-
-- 🎯 El equipo de Django y Django REST Framework
-- 🔐 Los mantenedores de Simple JWT
-- 📊 SonarCloud por su plataforma de análisis
-- 🚀 GitHub por su infraestructura de CI/CD
-
----
-
-<div align="center">
-
-## 🎨 ART-ADORNOS Core
-
-**Backend oficial de la organización ART-ADORNOS**
-
-*Diseñado para escalar, mantenerse y evolucionar*
-
----
-
-[![Stars](https://img.shields.io/github/stars/ART-ADORNOS/art-adornos-core?style=social)](https://github.com/ART-ADORNOS/art-adornos-core/stargazers)
-[![Forks](https://img.shields.io/github/forks/ART-ADORNOS/art-adornos-core?style=social)](https://github.com/ART-ADORNOS/art-adornos-core/network/members)
-[![Issues](https://img.shields.io/github/issues/ART-ADORNOS/art-adornos-core)](https://github.com/ART-ADORNOS/art-adornos-core/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/ART-ADORNOS/art-adornos-core)](https://github.com/ART-ADORNOS/art-adornos-core/pulls)
-
-⭐ **Si este proyecto te resulta útil, considera darle una estrella en GitHub**
-
-Made with ❤️ by the ART-ADORNOS team
+**[🌐 GitHub Organization](https://github.com/ART-ADORNOS)** | **[📧 Contacto](mailto:contact@art-adornos.com)**
 
 </div>
