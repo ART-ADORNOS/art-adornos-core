@@ -129,11 +129,21 @@ version:
 init-version:
 	@if [ ! -f $(VERSION_FILE) ]; then \
 		echo "1.0.0" > $(VERSION_FILE); \
+		cat $(VERSION_FILE); \
 		git add $(VERSION_FILE); \
 		git commit -m "chore: initialize version 1.0.0"; \
 		echo "✅ VERSION initialized to 1.0.0"; \
 	else \
-		echo "ℹ️ VERSION already exists ($(VERSION))"; \
+		current=$$(cat $(VERSION_FILE) 2>/dev/null || echo "empty"); \
+		if [ -z "$$current" ] || [ "$$current" = "empty" ]; then \
+			echo "⚠️  VERSION exists but is empty, fixing..."; \
+			echo "1.0.0" > $(VERSION_FILE); \
+			git add $(VERSION_FILE); \
+			git commit -m "chore: fix empty VERSION file"; \
+			echo "✅ VERSION fixed to 1.0.0"; \
+		else \
+			echo "ℹ️  VERSION already exists ($$current)"; \
+		fi; \
 	fi
 
 # Ensure releases are only done from main branch
