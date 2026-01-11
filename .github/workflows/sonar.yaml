@@ -11,10 +11,15 @@ on:
       - develop
 
 jobs:
-  sonarqube:
-    name: SonarQube Scan
+  sonarqube-production:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || 'develop' }}
+    environment: production
+    if: github.ref_name == 'main' || (github.event_name == 'pull_request' && github.base_ref == 'main')
+
+  sonarqube-develop:
+    runs-on: ubuntu-latest
+    environment: develop
+    if: github.ref_name != 'main' && !(github.event_name == 'pull_request' && github.base_ref == 'main')
 
     services:
       postgres:
@@ -50,11 +55,12 @@ jobs:
       - name: Export env
         run: |
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "DB_ENGINE=${{ vars.DB_ENGINE }}" >> $GITHUB_ENV
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
           echo "DB_HOST=localhost" >> $GITHUB_ENV
-          echo "DB_PORT=${{ vars.DB_PORT }}" >> $GITHUB_ENV
+          echo "DB_PORT=${{ vars.DB_PORT || '5432' }}" >> $GITHUB_ENV          
           echo "DEBUG=${{ vars.DEBUG }}" >> $GITHUB_ENV
 
       - name: Run tests with coverage

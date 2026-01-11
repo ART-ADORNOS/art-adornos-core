@@ -119,7 +119,7 @@ gis-logs:
 VERSION_FILE = VERSION
 VERSION      = $(shell cat $(VERSION_FILE) 2>/dev/null || echo "1.0.0")
 
-.PHONY: version init-version bump-patch bump-minor bump-major tag release check-main
+.PHONY: version init-version bump-patch bump-minor bump-major tag release release-dev check-main
 
 # Show current version
 version:
@@ -151,9 +151,9 @@ bump-patch:
 	v[2] = str(int(v[2]) + 1)
 	print(".".join(v))
 	EOF
-		@git add $(VERSION_FILE)
-		@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-		@echo "🔖 Patch version -> $$(cat $(VERSION_FILE))"
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
+	@echo "🔖 Patch version -> $$(cat $(VERSION_FILE))"
 
 # Increment MINOR version (x.Y.0)
 bump-minor:
@@ -163,9 +163,9 @@ bump-minor:
 	v[2] = "0"
 	print(".".join(v))
 	EOF
-		@git add $(VERSION_FILE)
-		@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-		@echo "🔖 Minor version -> $$(cat $(VERSION_FILE))"
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
+	@echo "🔖 Minor version -> $$(cat $(VERSION_FILE))"
 
 # Increment MAJOR version (X.0.0)
 bump-major:
@@ -176,9 +176,9 @@ bump-major:
 	v[2] = "0"
 	print(".".join(v))
 	EOF
-		@git add $(VERSION_FILE)
-		@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-		@echo "🔖 Major version -> $$(cat $(VERSION_FILE))"
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
+	@echo "🔖 Major version -> $$(cat $(VERSION_FILE))"
 
 # Create and push git tag
 tag:
@@ -204,7 +204,7 @@ release-dev:
 	print(".".join(v) + "-dev.1")
 	EOF
 
-		@git add $(VERSION_FILE)
-		@git commit -m "chore(release): staging $$(cat $(VERSION_FILE))"
-		@git tag -a v$$(cat $(VERSION_FILE)) -m "Staging release v$$(cat $(VERSION_FILE))"
-		@git push origin develop --tags
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): staging $$(cat $(VERSION_FILE))"
+	@git tag -a v$$(cat $(VERSION_FILE)) -m "Staging release v$$(cat $(VERSION_FILE))"
+	@git push origin develop --tags
