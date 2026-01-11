@@ -96,6 +96,81 @@ logs:
 
 
 # ======================================================
+# 🐳 DOCKER - DESARROLLO LOCAL
+# ======================================================
+
+dev-up:
+	docker-compose -f docker-compose.dev.yml up -d
+
+dev-down:
+	docker-compose -f docker-compose.dev.yml down
+
+dev-logs:
+	docker-compose -f docker-compose.dev.yml logs -f
+
+dev-restart:
+	docker-compose -f docker-compose.dev.yml restart
+
+dev-rebuild:
+	docker-compose -f docker-compose.dev.yml up -d --build
+
+dev-shell:
+	docker-compose -f docker-compose.dev.yml exec web bash
+
+dev-migrate:
+	docker-compose -f docker-compose.dev.yml exec web python manage.py migrate
+
+dev-makemigrations:
+	docker-compose -f docker-compose.dev.yml exec web python manage.py makemigrations
+
+dev-test:
+	docker-compose -f docker-compose.dev.yml exec web python manage.py test
+
+dev-clean:
+	docker-compose -f docker-compose.dev.yml down -v
+	docker system prune -f
+
+
+# ======================================================
+# 🐳 DOCKER - BUILD PARA CI/CD
+# ======================================================
+
+docker-build:
+	docker build -t $(DOCKER_IMAGE):$(VERSION) .
+
+docker-build-staging:
+	docker build --build-arg ENV=staging -t $(DOCKER_IMAGE):$(VERSION)-dev .
+
+docker-push:
+	docker push $(DOCKER_IMAGE):$(VERSION)
+
+docker-push-staging:
+	docker push $(DOCKER_IMAGE):$(VERSION)-dev
+
+
+# ======================================================
+# 🐳 DOCKER - DESPLIEGUE EN SERVIDOR
+# ======================================================
+
+prod-up:
+	docker-compose -f docker/production/docker-compose.yml up -d
+
+prod-down:
+	docker-compose -f docker/production/docker-compose.yml down
+
+prod-logs:
+	docker-compose -f docker/production/docker-compose.yml logs -f
+
+staging-up:
+	docker-compose -f docker/staging/docker-compose.yml up -d
+
+staging-down:
+	docker-compose -f docker/staging/docker-compose.yml down
+
+staging-logs:
+	docker-compose -f docker/staging/docker-compose.yml logs -f
+
+# ======================================================
 # 🗺️ GIS / DOCKER COMPOSE ESPECIAL
 # ======================================================
 
@@ -129,11 +204,21 @@ version:
 init-version:
 	@if [ ! -f $(VERSION_FILE) ]; then \
 		echo "1.0.0" > $(VERSION_FILE); \
+		cat $(VERSION_FILE); \
 		git add $(VERSION_FILE); \
 		git commit -m "chore: initialize version 1.0.0"; \
 		echo "✅ VERSION initialized to 1.0.0"; \
 	else \
-		echo "ℹ️ VERSION already exists ($(VERSION))"; \
+		current=$$(cat $(VERSION_FILE) 2>/dev/null || echo "empty"); \
+		if [ -z "$$current" ] || [ "$$current" = "empty" ]; then \
+			echo "⚠️  VERSION exists but is empty, fixing..."; \
+			echo "1.0.0" > $(VERSION_FILE); \
+			git add $(VERSION_FILE); \
+			git commit -m "chore: fix empty VERSION file"; \
+			echo "✅ VERSION fixed to 1.0.0"; \
+		else \
+			echo "ℹ️  VERSION already exists ($$current)"; \
+		fi; \
 	fi
 
 # Ensure releases are only done from main branch
@@ -146,39 +231,27 @@ check-main:
 
 # Increment PATCH version (x.y.Z)
 bump-patch:
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[2] = str(int(v[2]) + 1)
-	print(".".join(v))
-	EOF
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-	@echo "🔖 Patch version -> $$(cat $(VERSION_FILE))"
+	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v))"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): bump version to $$new_version"; \
+	echo "🔖 Patch version -> $$new_version"
 
 # Increment MINOR version (x.Y.0)
 bump-minor:
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[1] = str(int(v[1]) + 1)
-	v[2] = "0"
-	print(".".join(v))
-	EOF
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-	@echo "🔖 Minor version -> $$(cat $(VERSION_FILE))"
+	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[1]=str(int(v[1])+1); v[2]='0'; print('.'.join(v))"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): bump version to $$new_version"; \
+	echo "🔖 Minor version -> $$new_version"
 
 # Increment MAJOR version (X.0.0)
 bump-major:
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[0] = str(int(v[0]) + 1)
-	v[1] = "0"
-	v[2] = "0"
-	print(".".join(v))
-	EOF
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-	@echo "🔖 Major version -> $$(cat $(VERSION_FILE))"
+	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[0]=str(int(v[0])+1); v[1]='0'; v[2]='0'; print('.'.join(v))"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): bump version to $$new_version"; \
+	echo "🔖 Major version -> $$new_version"
 
 # Create and push git tag
 tag:
@@ -190,21 +263,20 @@ tag:
 release: check-main bump-patch tag
 	@echo "🚀 Release v$$(cat $(VERSION_FILE)) completed successfully"
 
-
 release-dev:
 	@branch=$$(git rev-parse --abbrev-ref HEAD); \
 	if [ "$$branch" != "develop" ]; then \
 		echo "❌ Staging releases are only allowed from develop"; \
 		exit 1; \
 	fi
-
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[2] = str(int(v[2]) + 1)
-	print(".".join(v) + "-dev.1")
-	EOF
-
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): staging $$(cat $(VERSION_FILE))"
-	@git tag -a v$$(cat $(VERSION_FILE)) -m "Staging release v$$(cat $(VERSION_FILE))"
-	@git push origin develop --tags
+	@if [ ! -f $(VERSION_FILE) ]; then \
+		echo "1.0.0" > $(VERSION_FILE); \
+	fi
+	@current_version=$$(cat $(VERSION_FILE)); \
+	new_version=$$(python3 -c "v='$$current_version'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v)+'-dev.1')"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): staging $$new_version"; \
+	git tag -a v$$new_version -m "Staging release v$$new_version"; \
+	git push origin develop --tags; \
+	echo "🚀 Staging release v$$new_version completed"

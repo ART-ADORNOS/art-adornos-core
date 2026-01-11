@@ -1,0 +1,52 @@
+version: "3.9"
+
+# Docker Compose para despliegue en staging
+# No se usa en CI/CD, solo para despliegue manual en servidor de staging
+
+services:
+  db:
+    image: postgres:15
+    container_name: art_adornos_db_staging
+    environment:
+      POSTGRES_DB: ${DB_NAME:-art_adornos_staging}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data_staging:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - art_adornos_staging_net
+
+  web:
+    image: ${DOCKER_IMAGE:-freddyandreszambrano/art-adornos-core}:${VERSION:-develop}
+    container_name: art_adornos_web_staging
+    env_file: .env.staging
+    environment:
+      DEBUG: "True"
+      DB_HOST: db
+      DB_PORT: 5432
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - art_adornos_staging_net
+
+volumes:
+  postgres_data_staging:
+  static_volume:
+  media_volume:
+
+networks:
+  art_adornos_staging_net:
+    driver: bridge
