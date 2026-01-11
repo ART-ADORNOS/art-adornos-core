@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.resolve.outputs.environment }}
+
     steps:
-      - id: resolve
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve CI environment
+        id: resolve
         uses: ./.github/actions/resolve-ci-environment
 
   sonarqube:
