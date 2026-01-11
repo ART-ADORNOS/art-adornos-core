@@ -12,7 +12,7 @@ DOCKER_IMAGE   = freddyandreszambrano/art-adornos-core
 	docker-build docker-push prod-up prod-down staging-up staging-down \
 	gis-up gis-down gis-restart gis-logs \
 	secret_key version \
-	release-main release-develop
+	release-main release-develop last-tags
 
 
 # ======================================================
@@ -171,16 +171,17 @@ gis-logs:
 # 🚀 VERSIONING / RELEASE
 # ======================================================
 
-VERSION_FILE = VERSION
+# Mostrar últimas 5 tags
+last-tags:
+	@echo "📋 Últimos tags:"
+	@git tag --sort=-creatordate | head -n 5
 
 # Mostrar versión actual
 version:
-	@if [ -f $(VERSION_FILE) ]; then \
-		echo "📦 Current version: $$(cat $(VERSION_FILE))"; \
-	else \
-		echo "⚠️  No VERSION file found"; \
-	fi
 	@echo "🌿 Current branch: $$(git rev-parse --abbrev-ref HEAD)"
+	@echo ""
+	@echo "📋 Últimos 3 tags:"
+	@git tag --sort=-creatordate | head -n 3
 
 
 # ======================================================
@@ -197,44 +198,32 @@ release-main:
 	fi
 	@echo "✅ Rama correcta: main"
 	@echo ""
-	@python3 -c '\
-import sys; \
-version_file = "$(VERSION_FILE)"; \
-try: \
-    with open(version_file, "r") as f: \
-        current = f.read().strip(); \
-except FileNotFoundError: \
-    current = "1.0.0"; \
-    print("⚠️  VERSION no existe, inicializando en 1.0.0"); \
-if "-dev" in current: \
-    print(f"⚠️  Versión actual contiene -dev: {current}"); \
-    current = current.split("-dev")[0]; \
-    print(f"🔄 Limpiando a: {current}"); \
-print(f"📦 Versión actual: {current}"); \
-parts = current.split("."); \
-if len(parts) != 3: \
-    print(f"❌ Formato de versión inválido: {current}"); \
-    sys.exit(1); \
-parts[2] = str(int(parts[2]) + 1); \
-new_version = ".".join(parts); \
-print(f"🆕 Nueva versión: {new_version}"); \
-with open(version_file, "w") as f: \
-    f.write(new_version); \
-with open(".version_temp", "w") as f: \
-    f.write(new_version); \
-'
-	@new_version=$$(cat .version_temp); \
-	rm -f .version_temp; \
-	git add $(VERSION_FILE); \
-	git commit -m "🔖 chore(release): bump version to $$new_version"; \
-	git tag -a "v$$new_version" -m "Release v$$new_version"; \
+	@echo "📦 Buscando último tag de producción..."
+	@last_tag=$$(git tag -l "v*.*.*" --sort=-creatordate | grep -v "dev" | head -n 1); \
+	if [ -z "$$last_tag" ]; then \
+		new_tag="v1.0.0"; \
+		echo "⚠️  No hay tags previos, iniciando en: $$new_tag"; \
+	else \
+		echo "📌 Último tag: $$last_tag"; \
+		version=$$(echo $$last_tag | sed 's/v//'); \
+		major=$$(echo $$version | cut -d. -f1); \
+		minor=$$(echo $$version | cut -d. -f2); \
+		patch=$$(echo $$version | cut -d. -f3); \
+		new_patch=$$(($$patch + 1)); \
+		new_tag="v$$major.$$minor.$$new_patch"; \
+		echo "🆕 Nuevo tag: $$new_tag"; \
+	fi; \
 	echo ""; \
-	echo "✅ Versión actualizada a: $$new_version"; \
-	echo "🏷️  Tag creado: v$$new_version"; \
+	read -p "¿Continuar con el tag $$new_tag? (y/n): " confirm; \
+	if [ "$$confirm" != "y" ]; then \
+		echo "❌ Cancelado"; \
+		exit 1; \
+	fi; \
+	git tag -a "$$new_tag" -m "🔖 Release $$new_tag"; \
 	echo ""; \
-	echo "📤 Empujando cambios..."; \
-	git push origin main; \
-	git push origin "v$$new_version"; \
+	echo "✅ Tag creado: $$new_tag"; \
+	echo "🏷️  Empujando tag..."; \
+	git push origin "$$new_tag"; \
 	echo ""; \
 	echo "🎉 Release completado!"; \
 	echo "🚀 El workflow de CI/CD construirá y desplegará automáticamente"
@@ -254,44 +243,32 @@ release-develop:
 	fi
 	@echo "✅ Rama correcta: develop"
 	@echo ""
-	@python3 -c '\
-import sys; \
-version_file = "$(VERSION_FILE)"; \
-try: \
-    with open(version_file, "r") as f: \
-        current = f.read().strip(); \
-except FileNotFoundError: \
-    current = "1.0.0"; \
-    print("⚠️  VERSION no existe, inicializando en 1.0.0"); \
-if "-dev" in current: \
-    print(f"⚠️  Versión actual contiene -dev: {current}"); \
-    current = current.split("-dev")[0]; \
-    print(f"🔄 Limpiando a: {current}"); \
-print(f"📦 Versión base: {current}"); \
-parts = current.split("."); \
-if len(parts) != 3: \
-    print(f"❌ Formato de versión inválido: {current}"); \
-    sys.exit(1); \
-parts[2] = str(int(parts[2]) + 1); \
-new_version = ".".join(parts) + "-dev.1"; \
-print(f"🆕 Nueva versión staging: {new_version}"); \
-with open(version_file, "w") as f: \
-    f.write(new_version); \
-with open(".version_temp", "w") as f: \
-    f.write(new_version); \
-'
-	@new_version=$$(cat .version_temp); \
-	rm -f .version_temp; \
-	git add $(VERSION_FILE); \
-	git commit -m "🔖 chore(release): staging $$new_version"; \
-	git tag -a "v$$new_version" -m "Staging release v$$new_version"; \
+	@echo "📦 Buscando último tag de staging..."
+	@last_tag=$$(git tag -l "v*.*.*-dev.*" --sort=-creatordate | head -n 1); \
+	if [ -z "$$last_tag" ]; then \
+		new_tag="v1.0.0-dev.1"; \
+		echo "⚠️  No hay tags previos de staging, iniciando en: $$new_tag"; \
+	else \
+		echo "📌 Último tag: $$last_tag"; \
+		version=$$(echo $$last_tag | sed 's/v//' | sed 's/-dev.*//'); \
+		major=$$(echo $$version | cut -d. -f1); \
+		minor=$$(echo $$version | cut -d. -f2); \
+		patch=$$(echo $$version | cut -d. -f3); \
+		new_patch=$$(($$patch + 1)); \
+		new_tag="v$$major.$$minor.$$new_patch-dev.1"; \
+		echo "🆕 Nuevo tag: $$new_tag"; \
+	fi; \
 	echo ""; \
-	echo "✅ Versión actualizada a: $$new_version"; \
-	echo "🏷️  Tag creado: v$$new_version"; \
+	read -p "¿Continuar con el tag $$new_tag? (y/n): " confirm; \
+	if [ "$$confirm" != "y" ]; then \
+		echo "❌ Cancelado"; \
+		exit 1; \
+	fi; \
+	git tag -a "$$new_tag" -m "🔖 Staging release $$new_tag"; \
 	echo ""; \
-	echo "📤 Empujando cambios..."; \
-	git push origin develop; \
-	git push origin "v$$new_version"; \
+	echo "✅ Tag creado: $$new_tag"; \
+	echo "🏷️  Empujando tag..."; \
+	git push origin "$$new_tag"; \
 	echo ""; \
 	echo "🎉 Staging release completado!"; \
 	echo "🚀 El workflow de CI/CD construirá y desplegará automáticamente"
@@ -304,18 +281,24 @@ with open(".version_temp", "w") as f: \
 help:
 	@echo "🚀 Comandos de Release Disponibles:"
 	@echo ""
-	@echo "  make version              - Mostrar versión actual"
+	@echo "  make version              - Mostrar rama actual y últimos tags"
+	@echo "  make last-tags            - Mostrar últimos 5 tags"
 	@echo ""
 	@echo "  📦 PRODUCTION (desde main):"
 	@echo "  make release-main         - Crear release de producción"
-	@echo "                              Ejemplo: 1.0.0 -> 1.0.1 -> tag v1.0.1"
+	@echo "                              Ejemplo: v1.0.0 -> v1.0.1"
+	@echo "                              Busca último tag sin '-dev'"
 	@echo ""
 	@echo "  🧪 STAGING (desde develop):"
 	@echo "  make release-develop      - Crear release de staging"
-	@echo "                              Ejemplo: 1.0.0 -> 1.0.1-dev.1 -> tag v1.0.1-dev.1"
+	@echo "                              Ejemplo: v1.0.0-dev.1 -> v1.0.1-dev.1"
+	@echo "                              Busca último tag con '-dev'"
 	@echo ""
 	@echo "  🐳 DOCKER:"
 	@echo "  make dev-up               - Levantar entorno de desarrollo"
 	@echo "  make dev-down             - Detener entorno de desarrollo"
 	@echo "  make dev-logs             - Ver logs del entorno de desarrollo"
+	@echo ""
+	@echo "  💡 NOTA: Los releases crean tags automáticamente"
+	@echo "           No necesitas archivo VERSION, usa los tags de git"
 	@echo ""
