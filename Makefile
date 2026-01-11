@@ -146,39 +146,27 @@ check-main:
 
 # Increment PATCH version (x.y.Z)
 bump-patch:
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[2] = str(int(v[2]) + 1)
-	print(".".join(v))
-	EOF
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-	@echo "🔖 Patch version -> $$(cat $(VERSION_FILE))"
+	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v))"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): bump version to $$new_version"; \
+	echo "🔖 Patch version -> $$new_version"
 
 # Increment MINOR version (x.Y.0)
 bump-minor:
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[1] = str(int(v[1]) + 1)
-	v[2] = "0"
-	print(".".join(v))
-	EOF
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-	@echo "🔖 Minor version -> $$(cat $(VERSION_FILE))"
+	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[1]=str(int(v[1])+1); v[2]='0'; print('.'.join(v))"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): bump version to $$new_version"; \
+	echo "🔖 Minor version -> $$new_version"
 
 # Increment MAJOR version (X.0.0)
 bump-major:
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[0] = str(int(v[0]) + 1)
-	v[1] = "0"
-	v[2] = "0"
-	print(".".join(v))
-	EOF
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
-	@echo "🔖 Major version -> $$(cat $(VERSION_FILE))"
+	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[0]=str(int(v[0])+1); v[1]='0'; v[2]='0'; print('.'.join(v))"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): bump version to $$new_version"; \
+	echo "🔖 Major version -> $$new_version"
 
 # Create and push git tag
 tag:
@@ -190,21 +178,20 @@ tag:
 release: check-main bump-patch tag
 	@echo "🚀 Release v$$(cat $(VERSION_FILE)) completed successfully"
 
-
 release-dev:
 	@branch=$$(git rev-parse --abbrev-ref HEAD); \
 	if [ "$$branch" != "develop" ]; then \
 		echo "❌ Staging releases are only allowed from develop"; \
 		exit 1; \
 	fi
-
-	@python - <<EOF > $(VERSION_FILE)
-	v = "$(VERSION)".split(".")
-	v[2] = str(int(v[2]) + 1)
-	print(".".join(v) + "-dev.1")
-	EOF
-
-	@git add $(VERSION_FILE)
-	@git commit -m "chore(release): staging $$(cat $(VERSION_FILE))"
-	@git tag -a v$$(cat $(VERSION_FILE)) -m "Staging release v$$(cat $(VERSION_FILE))"
-	@git push origin develop --tags
+	@if [ ! -f $(VERSION_FILE) ]; then \
+		echo "1.0.0" > $(VERSION_FILE); \
+	fi
+	@current_version=$$(cat $(VERSION_FILE)); \
+	new_version=$$(python3 -c "v='$$current_version'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v)+'-dev.1')"); \
+	echo "$$new_version" > $(VERSION_FILE); \
+	git add $(VERSION_FILE); \
+	git commit -m "chore(release): staging $$new_version"; \
+	git tag -a v$$new_version -m "Staging release v$$new_version"; \
+	git push origin develop --tags; \
+	echo "🚀 Staging release v$$new_version completed"
