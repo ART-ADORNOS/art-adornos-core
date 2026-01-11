@@ -1,0 +1,20 @@
+name: Resolve CI Environment
+description: Decide if environment is production or develop
+
+outputs:
+  environment:
+    description: "Resolved environment"
+    value: ${{ steps.set-env.outputs.environment }}
+
+runs:
+  using: composite
+  steps:
+    - id: set-env
+      shell: bash
+      run: |
+        if [[ "${GITHUB_REF_NAME}" == "main" ]] || \
+           [[ "${GITHUB_EVENT_NAME}" == "pull_request" && "${GITHUB_BASE_REF}" == "main" ]]; then
+          echo "environment=production" >> $GITHUB_OUTPUT
+        else
+          echo "environment=develop" >> $GITHUB_OUTPUT
+        fi

@@ -2,24 +2,23 @@ name: SonarQube Analysis
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
 
 jobs:
-  sonarqube-production:
+  resolve-environment:
     runs-on: ubuntu-latest
-    environment: production
-    if: github.ref_name == 'main' || (github.event_name == 'pull_request' && github.base_ref == 'main')
+    outputs:
+      environment: ${{ steps.resolve.outputs.environment }}
+    steps:
+      - id: resolve
+        uses: ./.github/actions/resolve-ci-environment
 
-  sonarqube-develop:
+  sonarqube:
+    needs: resolve-environment
     runs-on: ubuntu-latest
-    environment: develop
-    if: github.ref_name != 'main' && !(github.event_name == 'pull_request' && github.base_ref == 'main')
+    environment: ${{ needs.resolve-environment.outputs.environment }}
 
     services:
       postgres:
@@ -67,7 +66,6 @@ jobs:
           echo "DB_HOST=localhost" >> $GITHUB_ENV
           echo "DB_PORT=${{ vars.DB_PORT || '5432' }}" >> $GITHUB_ENV
           echo "DEBUG=${{ vars.DEBUG }}" >> $GITHUB_ENV
-
 
       - name: Run tests with coverage
         run: |
