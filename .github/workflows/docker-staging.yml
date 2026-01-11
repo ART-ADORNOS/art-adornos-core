@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    uses: freddyandreszambrano/Platform-CI/.github/workflows/django-docker-image.yml@main
+    uses: freddyandreszambrano/Platform-CI/.github/workflows/django-docker-image.yml@v1.0.1
     with:
       docker_image: ${{ vars.DOCKER_IMAGE }}
       dockerfile: Dockerfile.production
