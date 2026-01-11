@@ -172,11 +172,14 @@ gis-logs:
 # ======================================================
 
 VERSION_FILE = VERSION
-VERSION      = $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0")
 
 # Mostrar versión actual
 version:
-	@echo "📦 Current version: $(VERSION)"
+	@if [ -f $(VERSION_FILE) ]; then \
+		echo "📦 Current version: $$(cat $(VERSION_FILE))"; \
+	else \
+		echo "⚠️  No VERSION file found"; \
+	fi
 	@echo "🌿 Current branch: $$(git rev-parse --abbrev-ref HEAD)"
 
 
@@ -184,7 +187,6 @@ version:
 # 🏭 PRODUCTION RELEASES (desde main)
 # ======================================================
 
-# Release PATCH para producción (1.0.0 -> 1.0.1)
 release-main:
 	@echo "🔍 Verificando rama..."
 	@branch=$$(git rev-parse --abbrev-ref HEAD); \
@@ -194,27 +196,35 @@ release-main:
 		exit 1; \
 	fi
 	@echo "✅ Rama correcta: main"
-
-	@echo "🔍 Verificando VERSION file..."
-	@if [ ! -f $(VERSION_FILE) ]; then \
-		echo "⚠️  VERSION no existe, inicializando en 1.0.0"; \
-		echo "1.0.0" > $(VERSION_FILE); \
-	fi
-
-	@current=$$(cat $(VERSION_FILE) | tr -d '[:space:]'); \
-	if echo "$$current" | grep -q "dev"; then \
-		echo "⚠️  Versión actual contiene '-dev': $$current"; \
-		echo "🔄 Limpiando para producción..."; \
-		clean_version=$$(echo "$$current" | sed 's/-dev.*//'); \
-		echo "$$clean_version" > $(VERSION_FILE); \
-		current=$$clean_version; \
-		echo "✅ Versión limpia: $$current"; \
-	fi
-
-	@echo "📦 Versión actual: $$current"
-	@new_version=$$(python3 -c "v='$$current'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v))"); \
-	echo "🆕 Nueva versión: $$new_version"; \
-	echo "$$new_version" > $(VERSION_FILE); \
+	@echo ""
+	@python3 -c '\
+import sys; \
+version_file = "$(VERSION_FILE)"; \
+try: \
+    with open(version_file, "r") as f: \
+        current = f.read().strip(); \
+except FileNotFoundError: \
+    current = "1.0.0"; \
+    print("⚠️  VERSION no existe, inicializando en 1.0.0"); \
+if "-dev" in current: \
+    print(f"⚠️  Versión actual contiene -dev: {current}"); \
+    current = current.split("-dev")[0]; \
+    print(f"🔄 Limpiando a: {current}"); \
+print(f"📦 Versión actual: {current}"); \
+parts = current.split("."); \
+if len(parts) != 3: \
+    print(f"❌ Formato de versión inválido: {current}"); \
+    sys.exit(1); \
+parts[2] = str(int(parts[2]) + 1); \
+new_version = ".".join(parts); \
+print(f"🆕 Nueva versión: {new_version}"); \
+with open(version_file, "w") as f: \
+    f.write(new_version); \
+with open(".version_temp", "w") as f: \
+    f.write(new_version); \
+'
+	@new_version=$$(cat .version_temp); \
+	rm -f .version_temp; \
 	git add $(VERSION_FILE); \
 	git commit -m "🔖 chore(release): bump version to $$new_version"; \
 	git tag -a "v$$new_version" -m "Release v$$new_version"; \
@@ -234,7 +244,6 @@ release-main:
 # 🧪 STAGING RELEASES (desde develop)
 # ======================================================
 
-# Release para staging/develop (1.0.0 -> 1.0.1-dev.1)
 release-develop:
 	@echo "🔍 Verificando rama..."
 	@branch=$$(git rev-parse --abbrev-ref HEAD); \
@@ -244,24 +253,35 @@ release-develop:
 		exit 1; \
 	fi
 	@echo "✅ Rama correcta: develop"
-
-	@echo "🔍 Verificando VERSION file..."
-	@if [ ! -f $(VERSION_FILE) ]; then \
-		echo "⚠️  VERSION no existe, inicializando en 1.0.0"; \
-		echo "1.0.0" > $(VERSION_FILE); \
-	fi
-
-	@current=$$(cat $(VERSION_FILE) | tr -d '[:space:]'); \
-	if echo "$$current" | grep -q "dev"; then \
-		echo "⚠️  Versión actual ya contiene '-dev': $$current"; \
-		echo "🔄 Limpiando sufijo -dev..."; \
-		current=$$(echo "$$current" | sed 's/-dev.*//'); \
-	fi
-
-	@echo "📦 Versión base: $$current"
-	@new_version=$$(python3 -c "v='$$current'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v)+'-dev.1')"); \
-	echo "🆕 Nueva versión staging: $$new_version"; \
-	echo "$$new_version" > $(VERSION_FILE); \
+	@echo ""
+	@python3 -c '\
+import sys; \
+version_file = "$(VERSION_FILE)"; \
+try: \
+    with open(version_file, "r") as f: \
+        current = f.read().strip(); \
+except FileNotFoundError: \
+    current = "1.0.0"; \
+    print("⚠️  VERSION no existe, inicializando en 1.0.0"); \
+if "-dev" in current: \
+    print(f"⚠️  Versión actual contiene -dev: {current}"); \
+    current = current.split("-dev")[0]; \
+    print(f"🔄 Limpiando a: {current}"); \
+print(f"📦 Versión base: {current}"); \
+parts = current.split("."); \
+if len(parts) != 3: \
+    print(f"❌ Formato de versión inválido: {current}"); \
+    sys.exit(1); \
+parts[2] = str(int(parts[2]) + 1); \
+new_version = ".".join(parts) + "-dev.1"; \
+print(f"🆕 Nueva versión staging: {new_version}"); \
+with open(version_file, "w") as f: \
+    f.write(new_version); \
+with open(".version_temp", "w") as f: \
+    f.write(new_version); \
+'
+	@new_version=$$(cat .version_temp); \
+	rm -f .version_temp; \
 	git add $(VERSION_FILE); \
 	git commit -m "🔖 chore(release): staging $$new_version"; \
 	git tag -a "v$$new_version" -m "Staging release v$$new_version"; \
