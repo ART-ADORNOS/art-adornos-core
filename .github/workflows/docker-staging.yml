@@ -1,0 +1,16 @@
+name: Docker Image — Staging
+
+on:
+  push:
+    tags:
+      - "v*-dev.*"
+
+jobs:
+  docker:
+    uses: freddyandreszambrano/Platform-CI/.github/workflows/django-docker-image.yml@main
+    with:
+      docker_image: ${{ vars.DOCKER_IMAGE }}
+      dockerfile: Dockerfile.production
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
