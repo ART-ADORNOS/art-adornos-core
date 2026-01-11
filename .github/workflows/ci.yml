@@ -50,12 +50,17 @@ jobs:
           pip install -r requirements/production.txt
 
       - name: Export env
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "SECRET_KEY=$SECRET_KEY" >> $GITHUB_ENV
           echo "DB_ENGINE=${{ vars.DB_ENGINE }}" >> $GITHUB_ENV
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
-          echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_NAME=$DB_NAME" >> $GITHUB_ENV
+          echo "DB_USER=$DB_USER" >> $GITHUB_ENV
+          echo "DB_PASSWORD=$DB_PASSWORD" >> $GITHUB_ENV
           echo "DB_HOST=localhost" >> $GITHUB_ENV
           echo "DB_PORT=${{ vars.DB_PORT || '5432' }}" >> $GITHUB_ENV
           echo "DEBUG=${{ vars.DEBUG }}" >> $GITHUB_ENV
