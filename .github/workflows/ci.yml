@@ -7,17 +7,23 @@ on:
     branches: [ main, develop ]
 
 jobs:
+  resolve-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.resolve.outputs.environment }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve CI environment
+        id: resolve
+        uses: ./.github/actions/resolve-ci-environment
+
   ci:
+    needs: resolve-environment
     runs-on: ubuntu-latest
-    environment: production
-    if: github.ref_name == 'main' || (github.event_name == 'pull_request' && github.base_ref == 'main')
-
-  ci-develop:
-    runs-on: ubuntu-latest
-    environment: develop
-    if: github.ref_name != 'main' && !(github.event_name == 'pull_request' && github.base_ref == 'main')
-
-    
+    environment: ${{ needs.resolve-environment.outputs.environment }}
 
     services:
       postgres:
@@ -35,9 +41,14 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Show resolved environment
+        run: echo "Running CI on ${{ needs.resolve-environment.outputs.environment }}"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -62,5 +73,8 @@ jobs:
           echo "DB_PORT=${{ vars.DB_PORT || '5432' }}" >> $GITHUB_ENV
           echo "DEBUG=${{ vars.DEBUG }}" >> $GITHUB_ENV
 
-      - run: python manage.py migrate
-      - run: python manage.py test
+      - name: Run migrations
+        run: python manage.py migrate
+
+      - name: Run tests
+        run: python manage.py test

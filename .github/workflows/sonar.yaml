@@ -2,24 +2,28 @@ name: SonarQube Analysis
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
 
 jobs:
-  sonarqube-production:
+  resolve-environment:
     runs-on: ubuntu-latest
-    environment: production
-    if: github.ref_name == 'main' || (github.event_name == 'pull_request' && github.base_ref == 'main')
+    outputs:
+      environment: ${{ steps.resolve.outputs.environment }}
 
-  sonarqube-develop:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve CI environment
+        id: resolve
+        uses: ./.github/actions/resolve-ci-environment
+
+  sonarqube:
+    needs: resolve-environment
     runs-on: ubuntu-latest
-    environment: develop
-    if: github.ref_name != 'main' && !(github.event_name == 'pull_request' && github.base_ref == 'main')
+    environment: ${{ needs.resolve-environment.outputs.environment }}
 
     services:
       postgres:
@@ -68,13 +72,12 @@ jobs:
           echo "DB_PORT=${{ vars.DB_PORT || '5432' }}" >> $GITHUB_ENV
           echo "DEBUG=${{ vars.DEBUG }}" >> $GITHUB_ENV
 
-
       - name: Run tests with coverage
         run: |
           coverage run --rcfile=.coveragerc manage.py test
           coverage xml -o coverage.xml
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
