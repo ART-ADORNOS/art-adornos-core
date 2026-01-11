@@ -1,0 +1,68 @@
+version: "3.9"
+
+# Docker Compose para despliegue en producción
+# No se usa en CI/CD, solo para despliegue manual en servidor
+
+services:
+  db:
+    image: postgres:15
+    container_name: art_adornos_db_prod
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - art_adornos_prod_net
+
+  web:
+    image: ${DOCKER_IMAGE:-freddyandreszambrano/art-adornos-core}:${VERSION:-latest}
+    container_name: art_adornos_web_prod
+    env_file: .env.production
+    environment:
+      DEBUG: "False"
+      DB_HOST: db
+      DB_PORT: 5432
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    networks:
+      - art_adornos_prod_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: art_adornos_nginx_prod
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+    restart: always
+    networks:
+      - art_adornos_prod_net
+
+volumes:
+  postgres_data_prod:
+  static_volume:
+  media_volume:
+
+networks:
+  art_adornos_prod_net:
+    driver: bridge
