@@ -111,3 +111,100 @@ gis-restart:
 
 gis-logs:
 	docker compose -f docker-compose.gis.yml -p rimay_gis logs -f
+
+# ======================================================
+# 🚀 VERSIONING / RELEASE (Git Flow + Docker)
+# ======================================================
+
+VERSION_FILE = VERSION
+VERSION      = $(shell cat $(VERSION_FILE) 2>/dev/null || echo "1.0.0")
+
+.PHONY: version init-version bump-patch bump-minor bump-major tag release release-dev check-main
+
+# Show current version
+version:
+	@echo "📦 Current version: $(VERSION)"
+
+# Initialize VERSION file if it does not exist
+init-version:
+	@if [ ! -f $(VERSION_FILE) ]; then \
+		echo "1.0.0" > $(VERSION_FILE); \
+		git add $(VERSION_FILE); \
+		git commit -m "chore: initialize version 1.0.0"; \
+		echo "✅ VERSION initialized to 1.0.0"; \
+	else \
+		echo "ℹ️ VERSION already exists ($(VERSION))"; \
+	fi
+
+# Ensure releases are only done from main branch
+check-main:
+	@branch=$$(git rev-parse --abbrev-ref HEAD); \
+	if [ "$$branch" != "main" ]; then \
+		echo "❌ Releases are only allowed from main branch (current: $$branch)"; \
+		exit 1; \
+	fi
+
+# Increment PATCH version (x.y.Z)
+bump-patch:
+	@python - <<EOF > $(VERSION_FILE)
+	v = "$(VERSION)".split(".")
+	v[2] = str(int(v[2]) + 1)
+	print(".".join(v))
+	EOF
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
+	@echo "🔖 Patch version -> $$(cat $(VERSION_FILE))"
+
+# Increment MINOR version (x.Y.0)
+bump-minor:
+	@python - <<EOF > $(VERSION_FILE)
+	v = "$(VERSION)".split(".")
+	v[1] = str(int(v[1]) + 1)
+	v[2] = "0"
+	print(".".join(v))
+	EOF
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
+	@echo "🔖 Minor version -> $$(cat $(VERSION_FILE))"
+
+# Increment MAJOR version (X.0.0)
+bump-major:
+	@python - <<EOF > $(VERSION_FILE)
+	v = "$(VERSION)".split(".")
+	v[0] = str(int(v[0]) + 1)
+	v[1] = "0"
+	v[2] = "0"
+	print(".".join(v))
+	EOF
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): bump version to $$(cat $(VERSION_FILE))"
+	@echo "🔖 Major version -> $$(cat $(VERSION_FILE))"
+
+# Create and push git tag
+tag:
+	@git tag -a v$(VERSION) -m "Release v$(VERSION)"
+	@git push origin v$(VERSION)
+	@echo "🏷️ Git tag v$(VERSION) created and pushed"
+
+# Full release flow
+release: check-main bump-patch tag
+	@echo "🚀 Release v$$(cat $(VERSION_FILE)) completed successfully"
+
+
+release-dev:
+	@branch=$$(git rev-parse --abbrev-ref HEAD); \
+	if [ "$$branch" != "develop" ]; then \
+		echo "❌ Staging releases are only allowed from develop"; \
+		exit 1; \
+	fi
+
+	@python - <<EOF > $(VERSION_FILE)
+	v = "$(VERSION)".split(".")
+	v[2] = str(int(v[2]) + 1)
+	print(".".join(v) + "-dev.1")
+	EOF
+
+	@git add $(VERSION_FILE)
+	@git commit -m "chore(release): staging $$(cat $(VERSION_FILE))"
+	@git tag -a v$$(cat $(VERSION_FILE)) -m "Staging release v$$(cat $(VERSION_FILE))"
+	@git push origin develop --tags
