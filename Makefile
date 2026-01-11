@@ -96,6 +96,81 @@ logs:
 
 
 # ======================================================
+# 🐳 DOCKER - DESARROLLO LOCAL
+# ======================================================
+
+dev-up:
+	docker-compose -f docker-compose.dev.yml up -d
+
+dev-down:
+	docker-compose -f docker-compose.dev.yml down
+
+dev-logs:
+	docker-compose -f docker-compose.dev.yml logs -f
+
+dev-restart:
+	docker-compose -f docker-compose.dev.yml restart
+
+dev-rebuild:
+	docker-compose -f docker-compose.dev.yml up -d --build
+
+dev-shell:
+	docker-compose -f docker-compose.dev.yml exec web bash
+
+dev-migrate:
+	docker-compose -f docker-compose.dev.yml exec web python manage.py migrate
+
+dev-makemigrations:
+	docker-compose -f docker-compose.dev.yml exec web python manage.py makemigrations
+
+dev-test:
+	docker-compose -f docker-compose.dev.yml exec web python manage.py test
+
+dev-clean:
+	docker-compose -f docker-compose.dev.yml down -v
+	docker system prune -f
+
+
+# ======================================================
+# 🐳 DOCKER - BUILD PARA CI/CD
+# ======================================================
+
+docker-build:
+	docker build -t $(DOCKER_IMAGE):$(VERSION) .
+
+docker-build-staging:
+	docker build --build-arg ENV=staging -t $(DOCKER_IMAGE):$(VERSION)-dev .
+
+docker-push:
+	docker push $(DOCKER_IMAGE):$(VERSION)
+
+docker-push-staging:
+	docker push $(DOCKER_IMAGE):$(VERSION)-dev
+
+
+# ======================================================
+# 🐳 DOCKER - DESPLIEGUE EN SERVIDOR
+# ======================================================
+
+prod-up:
+	docker-compose -f docker/production/docker-compose.yml up -d
+
+prod-down:
+	docker-compose -f docker/production/docker-compose.yml down
+
+prod-logs:
+	docker-compose -f docker/production/docker-compose.yml logs -f
+
+staging-up:
+	docker-compose -f docker/staging/docker-compose.yml up -d
+
+staging-down:
+	docker-compose -f docker/staging/docker-compose.yml down
+
+staging-logs:
+	docker-compose -f docker/staging/docker-compose.yml logs -f
+
+# ======================================================
 # 🗺️ GIS / DOCKER COMPOSE ESPECIAL
 # ======================================================
 
