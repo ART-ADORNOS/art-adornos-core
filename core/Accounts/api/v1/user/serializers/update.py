@@ -22,7 +22,5 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
         if password or confirm_password:
             if password != confirm_password:
-                raise serializers.ValidationError(
-                    {"password": "Las contraseñas no coinciden"}
-                )
+                raise serializers.ValidationError( {"non_field_errors": ["Las contraseñas no coinciden"]})
         return data
