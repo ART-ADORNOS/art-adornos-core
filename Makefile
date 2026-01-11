@@ -1,16 +1,18 @@
 REQ_DIR        = requirements
 PROD           = $(REQ_DIR)/production.txt
 DEV            = $(REQ_DIR)/development.txt
-DOCKER_IMAGE   = CodeCrafters/app
+DOCKER_IMAGE   = freddyandreszambrano/art-adornos-core
 
 .PHONY: \
 	install-prod install-dev \
 	test \
 	sync-dev sync-prod diff-dev diff-prod \
 	update_database reset-db psql \
-	docker-build docker-run up down logs \
+	dev-up dev-down dev-logs dev-restart dev-rebuild dev-shell dev-migrate dev-makemigrations dev-test dev-clean \
+	docker-build docker-push prod-up prod-down staging-up staging-down \
 	gis-up gis-down gis-restart gis-logs \
-	secret_key
+	secret_key version \
+	release-main release-develop last-tags
 
 
 # ======================================================
@@ -72,27 +74,7 @@ reset-db:
 	@echo "✨ Base de datos limpia y migraciones aplicadas."
 
 psql:
-	docker exec -it codecrafters_postgres psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
-
-
-# ======================================================
-# 🐳 DOCKER
-# ======================================================
-
-docker-build:
-	docker build -t $(DOCKER_IMAGE) .
-
-docker-run:
-	docker run -p 8000:8000 $(DOCKER_IMAGE)
-
-up:
-	docker-compose up -d
-
-down:
-	docker-compose down
-
-logs:
-	docker-compose logs -f
+	docker exec -it art_adornos_db_dev psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
 
 # ======================================================
@@ -132,20 +114,16 @@ dev-clean:
 
 
 # ======================================================
-# 🐳 DOCKER - BUILD PARA CI/CD
+# 🐳 DOCKER - BUILD Y PUSH (CI/CD)
 # ======================================================
 
 docker-build:
+	@echo "🐳 Building Docker image: $(DOCKER_IMAGE):$(VERSION)"
 	docker build -t $(DOCKER_IMAGE):$(VERSION) .
 
-docker-build-staging:
-	docker build --build-arg ENV=staging -t $(DOCKER_IMAGE):$(VERSION)-dev .
-
 docker-push:
+	@echo "📤 Pushing Docker image: $(DOCKER_IMAGE):$(VERSION)"
 	docker push $(DOCKER_IMAGE):$(VERSION)
-
-docker-push-staging:
-	docker push $(DOCKER_IMAGE):$(VERSION)-dev
 
 
 # ======================================================
@@ -170,6 +148,7 @@ staging-down:
 staging-logs:
 	docker-compose -f docker/staging/docker-compose.yml logs -f
 
+
 # ======================================================
 # 🗺️ GIS / DOCKER COMPOSE ESPECIAL
 # ======================================================
@@ -187,96 +166,139 @@ gis-restart:
 gis-logs:
 	docker compose -f docker-compose.gis.yml -p rimay_gis logs -f
 
+
 # ======================================================
-# 🚀 VERSIONING / RELEASE (Git Flow + Docker)
+# 🚀 VERSIONING / RELEASE
 # ======================================================
 
-VERSION_FILE = VERSION
-VERSION      = $(shell cat $(VERSION_FILE) 2>/dev/null || echo "1.0.0")
+# Mostrar últimas 5 tags
+last-tags:
+	@echo "📋 Últimos tags:"
+	@git tag --sort=-creatordate | head -n 5
 
-.PHONY: version init-version bump-patch bump-minor bump-major tag release release-dev check-main
-
-# Show current version
+# Mostrar versión actual
 version:
-	@echo "📦 Current version: $(VERSION)"
+	@echo "🌿 Current branch: $$(git rev-parse --abbrev-ref HEAD)"
+	@echo ""
+	@echo "📋 Últimos 3 tags:"
+	@git tag --sort=-creatordate | head -n 3
 
-# Initialize VERSION file if it does not exist
-init-version:
-	@if [ ! -f $(VERSION_FILE) ]; then \
-		echo "1.0.0" > $(VERSION_FILE); \
-		cat $(VERSION_FILE); \
-		git add $(VERSION_FILE); \
-		git commit -m "chore: initialize version 1.0.0"; \
-		echo "✅ VERSION initialized to 1.0.0"; \
-	else \
-		current=$$(cat $(VERSION_FILE) 2>/dev/null || echo "empty"); \
-		if [ -z "$$current" ] || [ "$$current" = "empty" ]; then \
-			echo "⚠️  VERSION exists but is empty, fixing..."; \
-			echo "1.0.0" > $(VERSION_FILE); \
-			git add $(VERSION_FILE); \
-			git commit -m "chore: fix empty VERSION file"; \
-			echo "✅ VERSION fixed to 1.0.0"; \
-		else \
-			echo "ℹ️  VERSION already exists ($$current)"; \
-		fi; \
-	fi
 
-# Ensure releases are only done from main branch
-check-main:
+# ======================================================
+# 🏭 PRODUCTION RELEASES (desde main)
+# ======================================================
+
+release-main:
+	@echo "🔍 Verificando rama..."
 	@branch=$$(git rev-parse --abbrev-ref HEAD); \
 	if [ "$$branch" != "main" ]; then \
-		echo "❌ Releases are only allowed from main branch (current: $$branch)"; \
+		echo "❌ Los releases de producción solo se pueden hacer desde 'main' (actual: $$branch)"; \
+		echo "💡 Para releases de staging usa: make release-develop"; \
 		exit 1; \
 	fi
+	@echo "✅ Rama correcta: main"
+	@echo ""
+	@echo "📦 Buscando último tag de producción..."
+	@last_tag=$$(git tag -l "v*.*.*" --sort=-creatordate | grep -v "dev" | head -n 1); \
+	if [ -z "$$last_tag" ]; then \
+		new_tag="v1.0.0"; \
+		echo "⚠️  No hay tags previos, iniciando en: $$new_tag"; \
+	else \
+		echo "📌 Último tag: $$last_tag"; \
+		version=$$(echo $$last_tag | sed 's/v//'); \
+		major=$$(echo $$version | cut -d. -f1); \
+		minor=$$(echo $$version | cut -d. -f2); \
+		patch=$$(echo $$version | cut -d. -f3); \
+		new_patch=$$(($$patch + 1)); \
+		new_tag="v$$major.$$minor.$$new_patch"; \
+		echo "🆕 Nuevo tag: $$new_tag"; \
+	fi; \
+	echo ""; \
+	read -p "¿Continuar con el tag $$new_tag? (y/n): " confirm; \
+	if [ "$$confirm" != "y" ]; then \
+		echo "❌ Cancelado"; \
+		exit 1; \
+	fi; \
+	git tag -a "$$new_tag" -m "🔖 Release $$new_tag"; \
+	echo ""; \
+	echo "✅ Tag creado: $$new_tag"; \
+	echo "🏷️  Empujando tag..."; \
+	git push origin "$$new_tag"; \
+	echo ""; \
+	echo "🎉 Release completado!"; \
+	echo "🚀 El workflow de CI/CD construirá y desplegará automáticamente"
 
-# Increment PATCH version (x.y.Z)
-bump-patch:
-	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v))"); \
-	echo "$$new_version" > $(VERSION_FILE); \
-	git add $(VERSION_FILE); \
-	git commit -m "chore(release): bump version to $$new_version"; \
-	echo "🔖 Patch version -> $$new_version"
 
-# Increment MINOR version (x.Y.0)
-bump-minor:
-	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[1]=str(int(v[1])+1); v[2]='0'; print('.'.join(v))"); \
-	echo "$$new_version" > $(VERSION_FILE); \
-	git add $(VERSION_FILE); \
-	git commit -m "chore(release): bump version to $$new_version"; \
-	echo "🔖 Minor version -> $$new_version"
+# ======================================================
+# 🧪 STAGING RELEASES (desde develop)
+# ======================================================
 
-# Increment MAJOR version (X.0.0)
-bump-major:
-	@new_version=$$(python3 -c "v='$(VERSION)'.split('.'); v[0]=str(int(v[0])+1); v[1]='0'; v[2]='0'; print('.'.join(v))"); \
-	echo "$$new_version" > $(VERSION_FILE); \
-	git add $(VERSION_FILE); \
-	git commit -m "chore(release): bump version to $$new_version"; \
-	echo "🔖 Major version -> $$new_version"
-
-# Create and push git tag
-tag:
-	@git tag -a v$(VERSION) -m "Release v$(VERSION)"
-	@git push origin v$(VERSION)
-	@echo "🏷️ Git tag v$(VERSION) created and pushed"
-
-# Full release flow
-release: check-main bump-patch tag
-	@echo "🚀 Release v$$(cat $(VERSION_FILE)) completed successfully"
-
-release-dev:
+release-develop:
+	@echo "🔍 Verificando rama..."
 	@branch=$$(git rev-parse --abbrev-ref HEAD); \
 	if [ "$$branch" != "develop" ]; then \
-		echo "❌ Staging releases are only allowed from develop"; \
+		echo "❌ Los releases de staging solo se pueden hacer desde 'develop' (actual: $$branch)"; \
+		echo "💡 Para releases de producción usa: make release-main"; \
 		exit 1; \
 	fi
-	@if [ ! -f $(VERSION_FILE) ]; then \
-		echo "1.0.0" > $(VERSION_FILE); \
-	fi
-	@current_version=$$(cat $(VERSION_FILE)); \
-	new_version=$$(python3 -c "v='$$current_version'.split('.'); v[2]=str(int(v[2])+1); print('.'.join(v)+'-dev.1')"); \
-	echo "$$new_version" > $(VERSION_FILE); \
-	git add $(VERSION_FILE); \
-	git commit -m "chore(release): staging $$new_version"; \
-	git tag -a v$$new_version -m "Staging release v$$new_version"; \
-	git push origin develop --tags; \
-	echo "🚀 Staging release v$$new_version completed"
+	@echo "✅ Rama correcta: develop"
+	@echo ""
+	@echo "📦 Buscando último tag de staging..."
+	@last_tag=$$(git tag -l "v*.*.*-dev.*" --sort=-creatordate | head -n 1); \
+	if [ -z "$$last_tag" ]; then \
+		new_tag="v1.0.0-dev.1"; \
+		echo "⚠️  No hay tags previos de staging, iniciando en: $$new_tag"; \
+	else \
+		echo "📌 Último tag: $$last_tag"; \
+		version=$$(echo $$last_tag | sed 's/v//' | sed 's/-dev.*//'); \
+		major=$$(echo $$version | cut -d. -f1); \
+		minor=$$(echo $$version | cut -d. -f2); \
+		patch=$$(echo $$version | cut -d. -f3); \
+		new_patch=$$(($$patch + 1)); \
+		new_tag="v$$major.$$minor.$$new_patch-dev.1"; \
+		echo "🆕 Nuevo tag: $$new_tag"; \
+	fi; \
+	echo ""; \
+	read -p "¿Continuar con el tag $$new_tag? (y/n): " confirm; \
+	if [ "$$confirm" != "y" ]; then \
+		echo "❌ Cancelado"; \
+		exit 1; \
+	fi; \
+	git tag -a "$$new_tag" -m "🔖 Staging release $$new_tag"; \
+	echo ""; \
+	echo "✅ Tag creado: $$new_tag"; \
+	echo "🏷️  Empujando tag..."; \
+	git push origin "$$new_tag"; \
+	echo ""; \
+	echo "🎉 Staging release completado!"; \
+	echo "🚀 El workflow de CI/CD construirá y desplegará automáticamente"
+
+
+# ======================================================
+# 📋 AYUDA
+# ======================================================
+
+help:
+	@echo "🚀 Comandos de Release Disponibles:"
+	@echo ""
+	@echo "  make version              - Mostrar rama actual y últimos tags"
+	@echo "  make last-tags            - Mostrar últimos 5 tags"
+	@echo ""
+	@echo "  📦 PRODUCTION (desde main):"
+	@echo "  make release-main         - Crear release de producción"
+	@echo "                              Ejemplo: v1.0.0 -> v1.0.1"
+	@echo "                              Busca último tag sin '-dev'"
+	@echo ""
+	@echo "  🧪 STAGING (desde develop):"
+	@echo "  make release-develop      - Crear release de staging"
+	@echo "                              Ejemplo: v1.0.0-dev.1 -> v1.0.1-dev.1"
+	@echo "                              Busca último tag con '-dev'"
+	@echo ""
+	@echo "  🐳 DOCKER:"
+	@echo "  make dev-up               - Levantar entorno de desarrollo"
+	@echo "  make dev-down             - Detener entorno de desarrollo"
+	@echo "  make dev-logs             - Ver logs del entorno de desarrollo"
+	@echo ""
+	@echo "  💡 NOTA: Los releases crean tags automáticamente"
+	@echo "           No necesitas archivo VERSION, usa los tags de git"
+	@echo ""
