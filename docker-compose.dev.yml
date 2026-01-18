@@ -35,32 +35,6 @@ services:
     networks:
       - art_adornos_net
 
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        ENV: development
-    container_name: art_adornos_web_dev
-    env_file: .env
-    environment:
-      DEBUG: "True"
-      DB_HOST: db
-      DB_PORT: 5432
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
-    ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: unless-stopped
-    networks:
-      - art_adornos_net
-
 volumes:
   postgres_data_dev:
   pgadmin_data:
