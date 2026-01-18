@@ -20,7 +20,7 @@ class ProductListAPIView(APIView):
     def get(self, request, startup_id):
         products = Product.objects.filter(start_up_id=startup_id)
         if not products.exists():
-            return Response({"error": Messages.PRODUCT_NOT_FOUND}, status=status.HTTP_404_NOT_FOUND)
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
         serializer = ProductInputSerializer(products, many=True, context={'request': request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
