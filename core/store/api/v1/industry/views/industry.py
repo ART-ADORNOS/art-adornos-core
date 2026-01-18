@@ -1,4 +1,5 @@
 import logging
+from typing import cast, Iterable, Tuple, Any
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -15,10 +16,14 @@ class IndustryListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        industries = Industry.to_api()
-        response_data = {"industries": industries, }
+        choices = getattr(Industry, "choices", ())
+        industries = [
+            {"value": key, "label": label}
+            for key, label in choices
+        ]
+        response = {"industries": industries}
 
-        return Response(response_data, status=HTTP_200_OK)
+        return Response(response, status=HTTP_200_OK)
 
 
 class UserIndustryAPIView(APIView):
